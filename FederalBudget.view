@@ -1,0 +1,956 @@
+<<<<<<<=view-json=
+{
+  "id":"FederalBudget",
+  "name":"FederalBudget",
+  "category":"Chart",
+  "default":{
+    "jsonClass":"View",
+    "elxType":"View",
+    "vtype":"bundle",
+    "state":"visible",
+    "isContainer":false,
+    "position":{
+      "jsonClass":"Position",
+      "elxType":"Position",
+      "height":"420",
+      "width":"670",
+      "zIndex":"auto"
+    },
+    "data":{
+      "jsonClass":"DataEmbedded",
+      "datasource":{
+        "jsonClass":"DataSource",
+        "name":"initData",
+        "stype":"Data",
+        "desc":"default data",
+        "schema":{
+          "jsonClass":"Schema",
+          "caseSensitive":false,
+          "columns":[{
+            "jsonClass":"SchemaColumn",
+            "name":"Item_PK",
+            "dtype":"String",
+            "attrs":[{
+              "jsonClass":"PrimaryKey",
+              "name":"PrimaryKey"
+            }]
+          },{
+            "jsonClass":"SchemaColumn",
+            "name":"Category",
+            "dtype":"String",
+            "attrs":[{
+              "jsonClass":"PrimaryKey",
+              "name":"PrimaryKey"
+            }]
+          },{
+            "jsonClass":"SchemaColumn",
+            "name":"Level1",
+            "dtype":"String",
+            "attrs":[]
+          },{
+            "jsonClass":"SchemaColumn",
+            "name":"Level2",
+            "dtype":"String",
+            "attrs":[]
+          },{
+            "jsonClass":"SchemaColumn",
+            "name":"Level3",
+            "dtype":"String",
+            "attrs":[]
+          },{
+            "jsonClass":"SchemaColumn",
+            "name":"Level4",
+            "dtype":"String",
+            "attrs":[]
+          },{
+            "jsonClass":"SchemaColumn",
+            "name":"Level5",
+            "dtype":"String",
+            "attrs":[]
+          },{
+            "jsonClass":"SchemaColumn",
+            "name":"Description",
+            "dtype":"String",
+            "attrs":[]
+          },{
+            "jsonClass":"SchemaColumn",
+            "name":"Federal",
+            "dtype":"Long",
+            "attrs":[]
+          },{
+            "jsonClass":"SchemaColumn",
+            "name":"State",
+            "dtype":"Long",
+            "attrs":[]
+          },{
+            "jsonClass":"SchemaColumn",
+            "name":"Local",
+            "dtype":"Long",
+            "attrs":[]
+          }]
+        },
+        "data":{
+          "jsonClass":"DataRecords",
+          "records":[{
+            "jsonClass":"Record",
+            "fields":[{
+              "jsonClass":"Field",
+              "value":"1"
+            },{
+              "jsonClass":"Field",
+              "value":"72011000"
+            },{
+              "jsonClass":"Field",
+              "value":"9015"
+            },{
+              "jsonClass":"Field",
+              "value":"72"
+            },{
+              "jsonClass":"Field",
+              "value":"01"
+            },{
+              "jsonClass":"Field",
+              "value":"10"
+            },{
+              "jsonClass":"Field",
+              "value":"00"
+            },{
+              "jsonClass":"Field",
+              "value":"HScode Desc"
+            },{
+              "jsonClass":"Field",
+              "value":"57.75"
+            },{
+              "jsonClass":"Field",
+              "value":"3.4"
+            },{
+              "jsonClass":"Field",
+              "value":"22"
+            }]
+          },{
+            "jsonClass":"Record",
+            "fields":[{
+              "jsonClass":"Field",
+              "value":"2"
+            },{
+              "jsonClass":"Field",
+              "value":"90011010"
+            },{
+              "jsonClass":"Field",
+              "value":"9018"
+            },{
+              "jsonClass":"Field",
+              "value":"90"
+            },{
+              "jsonClass":"Field",
+              "value":"01"
+            },{
+              "jsonClass":"Field",
+              "value":"10"
+            },{
+              "jsonClass":"Field",
+              "value":"10"
+            },{
+              "jsonClass":"Field",
+              "value":"HScode Desc"
+            },{
+              "jsonClass":"Field",
+              "value":"98.66"
+            },{
+              "jsonClass":"Field",
+              "value":"8"
+            },{
+              "jsonClass":"Field",
+              "value":"39"
+            }]
+          },{
+            "jsonClass":"Record",
+            "fields":[{
+              "jsonClass":"Field",
+              "value":"3"
+            },{
+              "jsonClass":"Field",
+              "value":"90171090"
+            },{
+              "jsonClass":"Field",
+              "value":"9018"
+            },{
+              "jsonClass":"Field",
+              "value":"90"
+            },{
+              "jsonClass":"Field",
+              "value":"17"
+            },{
+              "jsonClass":"Field",
+              "value":"10"
+            },{
+              "jsonClass":"Field",
+              "value":"90"
+            },{
+              "jsonClass":"Field",
+              "value":"HScode Desc"
+            },{
+              "jsonClass":"Field",
+              "value":"0"
+            },{
+              "jsonClass":"Field",
+              "value":"8"
+            },{
+              "jsonClass":"Field",
+              "value":"39"
+            }]
+          },{
+            "jsonClass":"Record",
+            "fields":[{
+              "jsonClass":"Field",
+              "value":"4"
+            },{
+              "jsonClass":"Field",
+              "value":"62011100"
+            },{
+              "jsonClass":"Field",
+              "value":"9011"
+            },{
+              "jsonClass":"Field",
+              "value":"62"
+            },{
+              "jsonClass":"Field",
+              "value":"01"
+            },{
+              "jsonClass":"Field",
+              "value":"11"
+            },{
+              "jsonClass":"Field",
+              "value":"00"
+            },{
+              "jsonClass":"Field",
+              "value":"HScode Desc"
+            },{
+              "jsonClass":"Field",
+              "value":"0"
+            },{
+              "jsonClass":"Field",
+              "value":"3"
+            },{
+              "jsonClass":"Field",
+              "value":"27"
+            }]
+          }]
+        }
+      },
+      "directive":""
+    },
+    "typeinfo":{
+      "jsonClass":"Bundle",
+      "type":"FederalBudget",
+      "data":{
+        "pkCol":"Item_PK",
+        "categoryCol":"Category",
+        "level1Col":"Level1",
+         "level2Col":"Level2",
+         "level3Col":"Level3",
+         "level4Col":"Level4",
+         "level5Col":"Level5",
+        "desCol":"Description",
+        "federalCol":"Federal",
+        "stateCol":"State",
+        "localCol":"Local"
+      },
+      "chart":{
+        "width":"500",
+        "height":"610","margin":{"b":"0","t":"30","l":"170","r":"20"}
+      
+      }
+    }
+  },
+  "includes":["/elx/lib/d3.v3.js","/elx/lib/federalBudget.js"],
+  "edit-section":[{
+    "id":"view",
+    "name":"View"
+  },{
+    "id":"data",
+    "name":"Data"
+  },{
+    "id":"FederalBudget",
+    "name":"FederalBudget"
+  }]
+}
+========
+<<<<<<<=edit-json=
+{
+  "jsonClass":"ViewSection",
+  "id":"FederalBudget",
+  "rows":[{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-height-label",
+      "type":"label",
+      "text":"Chart Height"
+    },{
+      "jsonClass":"Field",
+      "id":"typeinfo-chartHeight",
+      "type":"field",
+      "value":"${typeinfo.chartHeight}",
+      "readonly":false
+    }]
+  },{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-width-label",
+      "type":"label",
+      "text":"Chart Width"
+    },{
+      "jsonClass":"Field",
+      "id":"typeinfo-chartWidth",
+      "type":"field",
+      "value":"${typeinfo.chartWidth}",
+      "readonly":false
+    }]
+  },{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-pkCol-label",
+      "type":"label",
+      "text":"Primary Key Column"
+    },{
+      "jsonClass":"SchemaColumnSelect",
+      "id":"typeinfo-pkCol",
+      "type":"select-schema-column",
+      "value":"${typeinfo.pkCol}"
+    }]
+  },{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-categoryCol-label",
+      "type":"label",
+      "text":"Category Column"
+    },{
+      "jsonClass":"SchemaColumnSelect",
+      "id":"typeinfo-categoryCol",
+      "type":"select-schema-column",
+      "value":"${typeinfo.categoryCol}"
+    }]
+  },{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-level1Col-label",
+      "type":"label",
+      "text":"Level1 Column"
+    },{
+      "jsonClass":"SchemaColumnSelect",
+      "id":"typeinfo-level1Col",
+      "type":"select-schema-column",
+      "value":"${typeinfo.level1Col}"
+    }]
+  },{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-level2Col-label",
+      "type":"label",
+      "text":"Level2 Column"
+    },{
+      "jsonClass":"SchemaColumnSelect",
+      "id":"typeinfo-level2Col",
+      "type":"select-schema-column",
+      "value":"${typeinfo.level2Col}"
+    }]
+  },{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-level3Col-label",
+      "type":"label",
+      "text":"Level3 Column"
+    },{
+      "jsonClass":"SchemaColumnSelect",
+      "id":"typeinfo-level3Col",
+      "type":"select-schema-column",
+      "value":"${typeinfo.level3Col}"
+    }]
+  },{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-level4Col-label",
+      "type":"label",
+      "text":"Level4 Column"
+    },{
+      "jsonClass":"SchemaColumnSelect",
+      "id":"typeinfo-level4Col",
+      "type":"select-schema-column",
+      "value":"${typeinfo.level4Col}"
+    }]
+  },{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-level5Col-label",
+      "type":"label",
+      "text":"Level5 Column"
+    },{
+      "jsonClass":"SchemaColumnSelect",
+      "id":"typeinfo-level5Col",
+      "type":"select-schema-column",
+      "value":"${typeinfo.level5Col}"
+    }]
+  },{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-desCol-label",
+      "type":"label",
+      "text":"Description Column"
+    },{
+      "jsonClass":"SchemaColumnSelect",
+      "id":"typeinfo-desCol",
+      "type":"select-schema-column",
+      "value":"${typeinfo.desCol}"
+    }]
+  },{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-federalCol-label",
+      "type":"label",
+      "text":"Federal Column"
+    },{
+      "jsonClass":"SchemaColumnSelect",
+      "id":"typeinfo-federalCol",
+      "type":"select-schema-column",
+      "value":"${typeinfo.federalCol}"
+    }]
+  },{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-stateCol-label",
+      "type":"label",
+      "text":"State Column"
+    },{
+      "jsonClass":"SchemaColumnSelect",
+      "id":"typeinfo-stateCol",
+      "type":"select-schema-column",
+      "value":"${typeinfo.stateCol}"
+    }]
+  },{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-localCol-label",
+      "type":"label",
+      "text":"Local Column"
+    },{
+      "jsonClass":"SchemaColumnSelect",
+      "id":"typeinfo-localCol",
+      "type":"select-schema-column",
+      "value":"${typeinfo.localCol}"
+    }]
+  },{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-marginL-label",
+      "type":"label",
+      "text":"Left margin"
+    },{
+      "jsonClass":"Field",
+      "id":"typeinfo-marginL",
+      "type":"field",
+      "value":"${typeinfo.marginL}",
+      "readonly":false
+    }]
+  },{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-marginR-label",
+      "type":"label",
+      "text":"Right margin"
+    },{
+      "jsonClass":"Field",
+      "id":"typeinfo-marginR",
+      "type":"field",
+      "value":"${typeinfo.marginR}",
+      "readonly":false
+    }]
+  },{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-marginT-label",
+      "type":"label",
+      "text":"Top margin"
+    },{
+      "jsonClass":"Field",
+      "id":"typeinfo-marginT",
+      "type":"field",
+      "value":"${typeinfo.marginT}",
+      "readonly":false
+    }]
+  },{
+    "jsonClass":"Row",
+    "cols":[{
+      "jsonClass":"Label",
+      "id":"typeinfo-marginB-label",
+      "type":"label",
+      "text":"Bottom margin"
+    },{
+      "jsonClass":"Field",
+      "id":"typeinfo-marginB",
+      "type":"field",
+      "value":"${typeinfo.marginB}",
+      "readonly":false
+    }]
+  }]
+}
+========
+<<<<<<<=edit-js=
+elx.bundle.type.FederalBudget = {
+
+  	init : function(view) {
+		$("#typeinfo-chartHeight").val(view.typeinfo.chart.height);
+      	$("#typeinfo-chartWidth").val(view.typeinfo.chart.width);
+   
+      	$("#typeinfo-marginR").val(view.typeinfo.chart.margin.r);
+      	$("#typeinfo-marginL").val(view.typeinfo.chart.margin.l);
+      	$("#typeinfo-marginT").val(view.typeinfo.chart.margin.t);
+      	$("#typeinfo-marginB").val(view.typeinfo.chart.margin.b);
+	},
+
+	validate : function(view) {
+		return true;
+	},
+
+	save : function(view) {
+		var cHeight = $("#typeinfo-chartHeight").val();
+		view.typeinfo.chart.height = cHeight;
+      	var cWidth = $("#typeinfo-chartWidth").val();
+		view.typeinfo.chart.width = cWidth;
+           var pkCol = $("#typeinfo-pkCol").val();
+      	view.typeinfo.data.pkCol = pkCol;
+        var categoryCol = $("#typeinfo-categoryCol").val();
+      	view.typeinfo.data.categoryCol = categoryCol;
+      	var level1Col = $("#typeinfo-level1Col").val();
+      	view.typeinfo.data.level1Col = level1Col;
+        var level2Col = $("#typeinfo-level2Col").val();
+      	view.typeinfo.data.level2Col = level2Col;
+              var level3Col = $("#typeinfo-level3Col").val();
+      	view.typeinfo.data.level3Col = level3Col;
+         var level4Col = $("#typeinfo-level4Col").val();
+      	view.typeinfo.data.level4Col = level4Col;
+           var level5Col = $("#typeinfo-level5Col").val();
+      	view.typeinfo.data.level5Col = level5Col;
+         var desCol = $("#typeinfo-desCol").val();
+      	view.typeinfo.data.desCol = desCol;
+      
+      	var federalCol = $("#typeinfo-federalCol").val();
+      	view.typeinfo.data.federalCol = federalCol;
+        var stateCol = $("#typeinfo-stateCol").val();
+      	view.typeinfo.data.stateCol = stateCol;
+      	var localCol = $("#typeinfo-localCol").val();
+      	view.typeinfo.data.localCol = localCol;
+      
+      	var mLeft =$("#typeinfo-marginL").val();
+    	view.typeinfo.chart.margin.l=mLeft;
+      
+      	var mRight = $("#typeinfo-marginR").val();
+      	view.typeinfo.chart.margin.r=mRight;
+      
+      	var mBottom = $("#typeinfo-marginL").val();
+      	view.typeinfo.chart.margin.l=mBottom;
+      	var mTop = $("#typeinfo-marginT").val();
+      	view.typeinfo.chart.margin.t=mTop;
+    }
+	
+}
+========
+<<<<<<<=view-html=
+<style type='text/css'>
+
+    a:hover {
+        font-weight:bold;
+        color:#000000;
+    }
+  body {
+    overflow: auto;
+    margin: 0;
+    font-size: 14px;
+    font-family: "Helvetica Neue", Helvetica;
+}
+
+#chart, #header, #footer {
+    position: absolute;
+    top: 0;
+}
+
+#header, #footer {
+    z-index: 1;
+    display: block;
+    font-size: 36px;
+    font-weight: 300;
+    text-shadow: 0 1px 0 #fff;
+}
+
+#header.inverted, #footer.inverted {
+    color: #fff;
+    text-shadow: 0 1px 4px #000;
+}
+
+#header {
+    top: 80px;
+    left: 140px;
+    width: 1000px;
+}
+
+#footer {
+    top: 680px;
+    right: 140px;
+    text-align: right;
+}
+
+rect {
+    fill: none;
+    pointer-events: all;
+}
+
+pre {
+    font-size: 18px;
+}
+
+line {
+    stroke: #000;
+    stroke-width: 1.5px;
+}
+
+.string, .regexp {
+    color: #f39;
+}
+
+.keyword {
+    color: #00c;
+}
+
+.comment {
+    color: #777;
+    font-style: oblique;
+}
+
+.number {
+    color: #369;
+}
+
+.class, .special {
+    color: #1181B8;
+}
+
+a:link, a:visited {
+    color: #000;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #666;
+}
+
+.hint {
+    position: absolute;
+    right: 0;
+    width: 1280px;
+    font-size: 12px;
+    color: #999;
+}
+
+
+.node circle {
+    cursor: pointer;
+    stroke-width: 1.5px;
+}
+
+.node text {
+    font-size: 11px;
+}
+
+path.link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1.5px;
+}
+
+div.tooltip {
+    position: absolute;			/* reference for measurement */
+    text-align: left;
+    pointer-events: none;			/* 'none' tells the mouse to ignore the rectangle */
+    background: #FFFFEF;
+    width: 400px;
+    height: 165px;
+    padding: 10px;
+    border: 1px solid #D5D5D5;
+    font-family: arial,helvetica,sans-serif;
+    position: absolute;
+    font-size: 1.1em;
+    color: #333;
+    padding: 10px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.9);
+    color: #000;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    border:1px solid rgba(200,200,200,0.85);
+}
+
+div.tooltipTail {
+    position: absolute;
+    left:-7px;
+    top: 72px;
+    width: 7px;
+    height: 13px;
+    background: url("images/tail_white.png") 50% 0%;
+}
+
+div.toolTipBody {
+    position:absolute;
+    height:100px;
+    width:230px;
+}
+
+div.header {
+    text-transform: uppercase;
+    text-align: left;
+    font-size: 14px;
+    margin-bottom: 2px;
+    color:#666;
+    text-align:center;
+
+}
+
+div.header-rule{
+    height:1px;
+    margin:1px auto 3px;
+    margin-top:7px;
+    margin-bottom:7px;
+    background:#ddd;
+    width:125px;
+}
+
+div.header1{
+    text-transform: uppercase;
+    text-align: left;
+    font-size: 12px;
+    margin-bottom: 2px;
+    color:#333;
+    text-align:center;
+}
+
+div.header2{
+    color:#000;
+    /*   text-transform:uppercase;*/
+    font-size: 11px;
+    text-align:center;
+    font-style:italic;
+}
+
+div.header3 {
+    text-align: left;
+    font-size: 11px;
+    /*  width:170px;*/
+    text-align:center;
+}
+
+div.header4 {
+    /*  position:absolute;*/
+    text-align:center;
+    right:10px;
+    top:28px;
+    font-size: 16px;
+    /*  width:100px;*/
+    text-align:center;
+    overflow:hidden;
+    font-weight:bold;
+}
+
+/* Navigation */
+.nytg-navBar {
+    border-top: solid 1px #DDD;
+    padding: 15px 0 0;
+    margin: 0 10px;
+    z-index: 100;
+    position: absolute;
+    width: 950px;
+}
+
+
+.nytg-navigation {
+
+}
+.nytg-navigation li {
+    color: #999;
+    font-size: 14px;
+    cursor: pointer;
+    float: left;
+    padding: 10px 18px;
+    border-top: solid 1px #CCC;
+    border-bottom: solid 1px #CCC;
+    border-left: solid 1px #CCC;
+    background: #f9f9f9;
+    margin: 0 0;
+}
+
+.nytg-navigation li:first-of-type{
+    border-radius: 4px 0 0 4px;
+}
+.nytg-navigation li:last-of-type{
+
+    border-right: solid 1px #CCC;
+    border-radius: 0 4px 4px 0;
+}
+.nytg-navigation li.selected {
+    color: #000;
+    background: #e9e9e9;
+    border-color: #AAA;
+    box-shadow: inset 0px 0px 4px rgba(0,0,0,0.2);
+}
+
+.nytg-navigation li.selected {
+    color: #000;
+    background: #e9e9e9;
+    border-color: #AAA;
+    box-shadow: inset 0px 0px 4px rgba(0,0,0,0.2);
+}
+
+div.selected {
+    color: #000;
+    background: #e9e9e9;
+    border-color: #AAA;
+    box-shadow: inset 0px 0px 4px rgba(0,0,0,0.2);
+    padding-bottom:10px;
+}
+
+
+
+</style>
+	<div class="nytg-navBar" style="left:20px;">
+    <ul class="nytg-navigation clearfix" style="list-style-type:none">
+        <li id="federalButton" class="selected"></li>
+        <li id="stateButton"></li>
+        <li id="localButton"></li>
+    </ul>
+</div>
+		<div id="toolTip" class="tooltip" style="opacity:0;">
+          <div id="head" class="header"></div>
+          <div id="header1" class="header1"></div>
+          <div id="header2" class="header2"></div>
+          <div style="position:absolute; left:10px">
+          <div id="federalDiv" style="width:135px; left:0px; top:10px; position: absolute;" class="selected">
+          <div class="header3"><br></div>
+            <div class="header-rule"></div>
+            <div id="fedSpend" class="header4"></div>
+        </div>
+        <div id="stateDiv" style="width:125px; left:140px; top:10px; position: absolute;">
+            <div class="header3"><br>State Funds</div>
+            <div class="header-rule"></div>
+            <div id="stateSpend" class="header4"></div>
+        </div>
+        <div id="localDiv" style="width:125px; left:272px; top:10px; position: absolute;">
+            <div class="header3"><br>Local Funds</div>
+            <div class="header-rule"></div>
+            <div id="localSpend" class="header4"></div>
+        </div>
+    </div>
+    <div  class="tooltipTail"></div>
+</div>
+<div id='body'></div>
+
+	
+<div class='elx-script'>
+  var div =$("#${id}");
+   var cfgoptions = view.typeinfo.chart;
+	
+  var m = [cfgoptions.margin.b, cfgoptions.margin.l, cfgoptions.margin.t, cfgoptions.margin.r],
+            w = cfgoptions.width - m[1] - m[3],
+            h = cfgoptions.height - m[0] - m[2];
+            
+  
+
+  window.Fselect={spendField:"sum_Federal",actField:"sum_Federal",sumField: ["Federal","GovXFer","State","Local"], 
+  sourceField: ["Category","Level1","Level2","Level3","Level4","Level5","Description"]};
+  /*window.Fselect={spendField:"sum_"+view.typeinfo.data.federalCol,actField:"sum_"+view.typeinfo.data.federalCol,
+  sumField: ["Federal","State","Local"],
+  sourceField: ["Category","Level1","Level2","Level3","Level4","Level5","Description"]};
+  */
+    window.colors = ["#bd0026","#fecc5c", "#fd8d3c", "#f03b20", "#B02D5D",
+        "#9B2C67", "#982B9A", "#692DA7", "#5725AA", "#4823AF",
+        "#d7b5d8","#dd1c77","#5A0C7A","#5A0C7A"];
+
+  
+  
+ var rawdata=${code};
+   final_data=[];
+  
+  rawdata.forEach(function(d) 
+  {	
+  local_data={};
+
+  local_data={
+  
+  item_pk : d[view.typeinfo.data.pkCol],
+  Category: parseInt(d[view.typeinfo.data.categoryCol]),
+  Level1: d[view.typeinfo.data.level1Col],
+  Level2: d[view.typeinfo.data.level2Col],
+  Level3: d[view.typeinfo.data.level3Col],
+  Level4: d[view.typeinfo.data.level4Col],
+  Level5: d[view.typeinfo.data.level5Col],
+  Description: d[view.typeinfo.data.desCol],
+  Federal: parseFloat(d[view.typeinfo.data.federalCol]),
+  State: parseFloat(d[view.typeinfo.data.stateCol]),
+  Local: parseFloat(d[view.typeinfo.data.localCol])
+  				};
+  					
+  
+  
+  final_data.push(local_data);
+  });
+ 
+
+
+  
+var nest = d3.nest()
+                .key(function(d) { return d.Level1; })
+                .key(function(d) { return d.Level2; })
+                .key(function(d) { return d.Level3; })
+  				.key(function(d) { return d.Level4; })
+  				.key(function(d) { return d.Level5; })
+  				.entries(final_data);
+  	window.root = {};
+          window.root.values=nest;
+        window.root.x0 = h / 2;
+        window.root.y0 = 0;
+   window.retDes = function(d) { var ret = d.source_Description;
+		   
+		   ret =(String(ret).length > 25) ? String(ret).substr(0,22)  + "..." : ret;
+		   return ret;}
+  
+
+  
+d3select(w,h,m);
+  
+ 
+d3.select("#federalDiv").select(".header3").html(view.typeinfo.data.federalCol);
+  d3.select("#stateDiv").select(".header3").html(view.typeinfo.data.stateCol);
+  d3.select("#localDiv").select(".header3").html(view.typeinfo.data.localCol);
+ d3.select("#federalButton").html(view.typeinfo.data.federalCol);
+  d3.select("#stateButton").html(view.typeinfo.data.stateCol);
+  d3.select("#localButton").html(view.typeinfo.data.localCol);
+  
+  initialize();
+  setup();
+  window.alreadySummed=true;
+         togglesetup(); 
+        
+</div>
+========

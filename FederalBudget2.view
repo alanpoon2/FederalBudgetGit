@@ -1,0 +1,1189 @@
+<<<<<<<=view-json=
+{
+  "id":"FederalBudget2",
+  "name":"FederalBudget2",
+  "category":"Chart",
+  "default":{
+    "jsonClass":"View",
+    "elxType":"View",
+    "vtype":"bundle",
+    "state":"visible",
+    "isContainer":false,
+    "position":{
+      "jsonClass":"Position",
+      "elxType":"Position",
+      "height":"420",
+      "width":"670",
+      "zIndex":"auto"
+    },
+    "data":{
+      "jsonClass":"DataEmbedded",
+      "datasource":{
+        "jsonClass":"DataSource",
+        "name":"initData",
+        "stype":"Data",
+        "desc":"default data",
+        "schema":{
+          "jsonClass":"Schema",
+          "caseSensitive":false,
+          "columns":[{
+            "jsonClass":"SchemaColumn",
+            "name":"dateTime",
+            "dtype":"String",
+            "attrs":[{
+              "jsonClass":"PrimaryKey",
+              "name":"PrimaryKey"
+            }]
+          },{
+            "jsonClass":"SchemaColumn",
+            "name":"Department",
+            "dtype":"String",
+            "attrs":[]
+          },{
+            "jsonClass":"SchemaColumn",
+            "name":"Team",
+            "dtype":"String",
+            "attrs":[]
+          },{
+            "jsonClass":"SchemaColumn",
+            "name":"Employee",
+            "dtype":"String",
+            "attrs":[]
+          },{
+            "jsonClass":"SchemaColumn",
+            "name":"Salary",
+            "dtype":"Float",
+            "attrs":[]
+          },{
+            "jsonClass":"SchemaColumn",
+            "name":"Profit",
+            "dtype":"Float",
+            "attrs":[]
+          },{
+            "jsonClass":"SchemaColumn",
+            "name":"Sales Target",
+            "dtype":"Float",
+            "attrs":[]
+          }]
+        },
+        "data":{
+          "jsonClass":"DataRecords",
+          "records":[{
+            "jsonClass":"Record",
+            "fields":[{
+              "jsonClass":"Field",
+              "value":"2014-05-11"
+            },{
+              "jsonClass":"Field",
+              "value":"Sales"
+            },{
+              "jsonClass":"Field",
+              "value":"Team A"
+            },{
+              "jsonClass":"Field",
+              "value":"Employee A"
+            },{
+              "jsonClass":"Field",
+              "value":"2000"
+            },{
+              "jsonClass":"Field",
+              "value":"13000"
+            },{
+              "jsonClass":"Field",
+              "value":"9000"
+            }]
+          }]
+        }
+      },"hint":"directive-data-array",
+      "directive":""
+    },
+    "typeinfo":{
+      "jsonClass":"Bundle",
+      "type":"FederalBudget2",
+      "data":{
+	
+		"cToggleTypeCol":[{
+		"name":"Department"
+		}],
+		"nestKeyCol":[
+            {
+              "name":"Team",
+              "id":"|"
+            },
+			{
+              "name":"Employee",
+              "id":"|"
+            }
+          ],
+		    "operable":{
+            "values":[
+              {
+                "id":"Salary.1",
+                "name":"Salary",
+                "op":"sum"
+              }, {
+                "id":"Profit.2",
+                "name":"Profit",
+                "op":"sum"
+              }, {
+                "id":"Sales Target.3",
+                "name":"Sales Target",
+                "op":"sum"
+              }
+            ]
+          }
+		  },
+		"formatClassKey":"",
+		"formatClassCast":"",
+		"formatPrefixCast":"",
+		"nestArr":"Team,Employee",
+        "width":"500",
+        "height":"610",
+		"marginB":"0",
+		"marginT":"30",
+		"marginL":"170",
+		"marginR":"20"      
+      }
+		 },
+  "includes":["/elx/lib/d3.v3.js","/elx/lib/FederalBudget.js"],
+  "edit-section":[{
+    "id":"view",
+    "name":"View"
+  },{
+    "id":"data",
+    "name":"Data"
+  },{
+    "id":"FederalBudget2",
+    "name":"FederalBudget2"
+  }]
+}
+========
+<<<<<<<=edit-json=
+{
+   "jsonClass":"ViewSection",
+   "id":"FederalBudget2",
+   "groups":[
+      {
+         "jsonClass":"Group",
+         "label":"Chart",
+         "rows":[
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
+                     "id":"typeinfo-height-label",
+                     "type":"label",
+                     "text":"Chart Height"
+                  },
+                  {
+                     "jsonClass":"Field",
+                     "id":"typeinfo-height",
+                     "type":"field",
+                     "value":"${typeinfo.height}",
+                     "readonly":false
+                  }
+               ]
+            },
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
+                     "id":"typeinfo-width-label",
+                     "type":"label",
+                     "text":"Chart Width"
+                  },
+                  {
+                     "jsonClass":"Field",
+                     "id":"typeinfo-width",
+                     "type":"field",
+                     "value":"${typeinfo.width}",
+                     "readonly":false
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "jsonClass":"Group",
+         "label":"Data Grouping",
+         "rows":[
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
+                     "id":"typeinfo-dataGroupKey-label",
+                     "type":"label",
+                     "text":"Data Group"
+                  },
+                  {
+                     "jsonClass":"Select",
+                     "id":"typeinfo-dataGroupKey",
+                     "type":"select",
+                     "value":"${typeinfo.dataGroupKey}",
+                     "options":[
+                        {
+                           "jsonClass":"Option",
+                           "text":"default",
+                           "value":"default"
+                        },
+                        {
+                           "jsonClass":"Option",
+                           "text":"Time Period Options",
+                           "value":"timePeriodOptions"
+                        }
+                     ]
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "jsonClass":"Group",
+         "label":"Data",
+         "rows":[
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
+                     "id":"typeinfo-property-label",
+                     "type":"label",
+                     "text":"Keys"
+                  },
+                  {
+                     "jsonClass":"Div",
+                     "id":"typeinfo-property"
+                  }
+               ]
+            },
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
+                     "id":"typeinfo-data-operable-values-label",
+                     "type":"label",
+                     "text":"Column"
+                  },
+                  {
+                     "jsonClass":"Div",
+                     "id":"typeinfo-data-operable-values"
+                  }
+               ]
+            },
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
+                     "id":"typeinfo-nestArr-label",
+                     "type":"label",
+                     "text":"Nesting Keys"
+                  },
+                  {
+                     "jsonClass":"Field",
+                     "id":"typeinfo-nestArr",
+                     "type":"field",
+                     "value":"${typeinfo.nestArr}",
+                     "readonly":false
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "jsonClass":"Group",
+         "label":"Chart format",
+         "rows":[
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
+                     "id":"typeinfo-formatClassKey-label",
+                     "type":"label",
+                     "text":"Format Class key"
+                  },
+                  {
+                     "jsonClass":"Select",
+                     "id":"typeinfo-formatClassKey",
+                     "type":"select",
+                     "value":"${typeinfo.formatClassKey}",
+                     "options":[
+                        {
+                           "jsonClass":"Option",
+                           "text":"default",
+                           "value":"default"
+                        },
+                        {
+                           "jsonClass":"Option",
+                           "text":"Format class",
+                           "value":"formatClassCast"
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
+                     "id":"typeinfo-formatClassCast-label",
+                     "type":"label",
+                     "text":"Format Class"
+                  },
+                  {
+                     "jsonClass":"Field",
+                     "id":"typeinfo-formatClassCast",
+                     "type":"field",
+                     "value":"${typeinfo.formatClassCast}",
+                     "readonly":false
+                  }
+               ]
+            },
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
+                     "id":"typeinfo-formatPrefixCast-label",
+                     "type":"label",
+                     "text":"Format Prefix"
+                  },
+                  {
+                     "jsonClass":"Field",
+                     "id":"typeinfo-formatPrefixCast",
+                     "type":"field",
+                     "value":"${typeinfo.formatPrefixCast}",
+                     "readonly":false
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "jsonClass":"Group",
+         "label":"Margin",
+         "rows":[
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
+                     "id":"typeinfo-marginB-label",
+                     "type":"label",
+                     "text":"Bottom Margin"
+                  },
+                  {
+                     "jsonClass":"Field",
+                     "id":"typeinfo-marginB",
+                     "type":"field",
+                     "value":"${typeinfo.marginB}",
+                     "readonly":false
+                  }
+               ]
+            },
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
+                     "id":"typeinfo-marginT-label",
+                     "type":"label",
+                     "text":"Top Margin"
+                  },
+                  {
+                     "jsonClass":"Field",
+                     "id":"typeinfo-marginT",
+                     "type":"field",
+                     "value":"${typeinfo.marginT}",
+                     "readonly":false
+                  }
+               ]
+            },
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
+                     "id":"typeinfo-marginL-label",
+                     "type":"label",
+                     "text":"Left Margin"
+                  },
+                  {
+                     "jsonClass":"Field",
+                     "id":"typeinfo-marginL",
+                     "type":"field",
+                     "value":"${typeinfo.marginL}",
+                     "readonly":false
+                  }
+               ]
+            },
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
+                     "id":"typeinfo-marginR-label",
+                     "type":"label",
+                     "text":"Right Margin"
+                  },
+                  {
+                     "jsonClass":"Field",
+                     "id":"typeinfo-marginR",
+                     "type":"field",
+                     "value":"${typeinfo.marginR}",
+                     "readonly":false
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}
+========
+<<<<<<<=edit-js=
+elx.bundle.type.FederalBudget2 = {
+
+  	init : function(view) {
+	  var dataKey = elx.MultiKeyColumnSection.getKeyData(view,view.typeinfo.data.nestKeyCol);
+           var tableKey=  new elx.MultiKeyColumnSection("typeinfo-property-keys","typeinfo-property", view, dataKey);
+      $("#typeinfo-property-keys").data("table",tableKey);
+            var dataOps =  elx.utils.getElxChartOperablesData(view, view.typeinfo.data.operable.values);
+   		var tableOp = new elx.MultiChartValueColumnSection("typeinfo-data-operable-values-table",
+                                                        "typeinfo-data-operable-values", view, dataOps);
+		$("#typeinfo-data-operable-values-table").data("table",tableOp);
+	  elx.host.utils.initSectionGroups(view,$("#FederalBudget2-div"));
+	  $("#typeinfo-data-cToggleTypeCol").val(view.typeinfo.data.cToggleTypeCol[0].name);
+	},
+
+	validate : function(view) {
+		return true;
+	},
+
+	save : function(view) {
+		var dataTableOp = $("#typeinfo-data-operable-values-table").data("table");
+       var dataOp = dataTableOp.table.getData();
+          view.typeinfo.data.operable.values = 
+          elx.utils.buildElxChartOperablesData(view.typeinfo.data.operable.values,dataOp);
+      
+	   var dataTableKey = $("#typeinfo-property-keys").data("table");
+        var dataKey = dataTableKey.table.getData();
+        view.typeinfo.data.nestKeyCol = elx.MultiKeyColumnSection.buildKeyData(dataKey);
+ 
+		elx.host.utils.saveProperties(view.typeinfo);
+      
+           	var dToggleType = $("#typeinfo-data-cToggleTypeCol").val();
+		view.typeinfo.data.cToggleTypeCol[0].name = dToggleType;
+    }
+	
+}
+========
+<<<<<<<=view-html=
+<style type='text/css'>
+  a:hover{font-weight:700;color:#000}body{overflow:auto;margin:0;font-size:14px;font-family:"Helvetica Neue",Helvetica}#chart,#header,#footer{position:absolute;top:0}#header,#footer{z-index:1;display:block;font-size:36px;font-weight:300;text-shadow:0 1px 0 #fff}#header.inverted,#footer.inverted{color:#fff;text-shadow:0 1px 4px #000}#header{top:80px;left:140px;width:1000px}#footer{top:680px;right:140px;text-align:right}rect{fill:none;pointer-events:all}pre{font-size:18px}line{stroke:#000;stroke-width:1.5px}.string,.regexp{color:#f39}.keyword{color:#00c}.comment{color:#777;font-style:oblique}.number{color:#369}.class,.special{color:#1181B8}a:link,a:visited{color:#000;text-decoration:none}a:hover{color:#666}.hint{position:absolute;right:0;width:1280px;font-size:12px;color:#999}.node circle{cursor:pointer;stroke-width:1.5px}.node text{font-size:11px}path.link{fill:none;stroke:#ccc;stroke-width:1.5px}div.tooltip{position:absolute;text-align:left;pointer-events:none;background:#FFFFEF;width:400px;height:165px;padding:10px;border:1px solid #D5D5D5;font-family:arial,helvetica,sans-serif;position:absolute;font-size:1.1em;color:#333;padding:10px;border-radius:3px;background:rgba(255,255,255,0.9);color:#000;box-shadow:0 1px 5px rgba(0,0,0,0.4);-moz-box-shadow:0 1px 5px rgba(0,0,0,0.4);border:1px solid rgba(200,200,200,0.85)}div.tooltipTail{position:absolute;left:-7px;top:72px;width:7px;height:13px;background:url(images/tail_white.png) 50% 0}div.toolTipBody{position:absolute;height:100px;width:230px}div.header{text-transform:uppercase;text-align:left;font-size:14px;margin-bottom:2px;color:#666;text-align:center}div.header-rule{height:1px;margin:1px auto 3px;margin-top:7px;margin-bottom:7px;background:#ddd;width:125px}div.header1{text-transform:uppercase;text-align:left;font-size:12px;margin-bottom:2px;color:#333;text-align:center}div.header2{color:#000;font-size:11px;text-align:center;font-style:italic}div.header3{text-align:left;font-size:11px;text-align:center}div.header4{text-align:center;right:10px;top:28px;font-size:16px;text-align:center;overflow:hidden;font-weight:700}.nytg-navBar_${id}{border-top{border-top:solid 1px #DDD;padding:15px 0 0;margin:0 10px;z-index:100;position:absolute;width:950px}.nytg-navigation li{color:#999;font-size:14px;cursor:pointer;float:left;padding:10px 18px;border-top:solid 1px #CCC;border-bottom:solid 1px #CCC;border-left:solid 1px #CCC;background:#f9f9f9;margin:0}.nytg-navigation li:first-of-type{border-radius:4px 0 0 4px}.nytg-navigation li:last-of-type{border-right:solid 1px #CCC;border-radius:0 4px 4px 0}.nytg-navigation li.selected{color:#000;background:#e9e9e9;border-color:#AAA;box-shadow:inset 0 0 4px rgba(0,0,0,0.2);color:#000;background:#e9e9e9;border-color:#AAA;box-shadow:inset 0 0 4px rgba(0,0,0,0.2)}div.selected{color:#000;background:#e9e9e9;border-color:#AAA;box-shadow:inset 0 0 4px rgba(0,0,0,0.2);padding-bottom:10px}
+</style>
+	<div class="nytg-navBar_${id}" style="left:20px;">
+    <ul class="nytg-navigation clearfix" style="list-style-type:none">
+        <li id="federalButton" class="selected"></li>
+        <li id="stateButton"></li>
+        <li id="localButton"></li>
+    </ul>
+</div>
+		<div id="toolTip_${id}" class="tooltip" style="opacity:0;">
+          <div id="head" class="header"></div>
+          <div id="header1" class="header1"></div>
+          <div id="header2" class="header2"></div>
+          <div id="toolAppend" style="position:absolute; left:10px">
+      
+        </div>
+    </div>
+    <div  class="tooltipTail"></div>
+</div>
+<div id='body'></div>
+
+	
+<div class='elx-script'>
+  var div =$("#${id}");
+  var viewId=view.typeinfo.view.id;
+   var cfgoptions = view.typeinfo;
+	var f=view.typeinfo.data;
+  var m = [cfgoptions.marginB, cfgoptions.marginL, cfgoptions.marginT, cfgoptions.marginR],
+            w = cfgoptions.width - m[1] - m[3],
+            h = cfgoptions.height - m[0] - m[2];
+   var formatClassKey=cfgoptions.formatClassKey,
+   formatClassCast=cfgoptions.formatClassCast,
+   formatPrefixCast=cfgoptions.formatPrefixCast;
+   var dataGroupKey=cfgoptions.dataGroupKey;
+    var nestArr=(cfgoptions.nestArr).split(",");
+var cToggleType;
+window['federalBudget_'+viewId]={};
+   
+   var reduceCToggle,extendArr,arrToHex1,hexToModel1;
+   // get Data
+    if (view.data.jsonClass === "DataEmbedded"){ 
+  rawdata=[
+  ["Sales","John 1","2014-01-20","A","John",2000,30,52],
+  ["Sales","John 1","2014-01-19","A","John",2000,30,52],
+  ["Sales","John 1","2014-02-20","A","John",2000,30,52],
+  ["Sales","Gary 1","2014-02-20","A","Gary",3000,30,52],
+  ["Sales","Gary 1","2014-01-20","A","Gary",2500,90,41],
+  ["Sales","Jim 1","2014-01-20","B","Jim",2000,30,40],
+  ["Sales","Jim 1","2014-02-20","B","Jim",1790,30,40],
+  ["Sales","Tooi 1","2014-02-20","B","Tooi",4000,58,79],
+  ["Driver","Fope 1","2014-01-20","J","Fope",1000,90,0],
+  ["Driver","Fope 1","2014-01-19","J","Fope",1000,90,0],
+  ["Driver","Fope 1","2014-02-20","J","Fope",1000,90,0],
+  ["Driver","Goot 1","2014-02-20","J","Goot",1000,90,0],
+  ["Driver","Goot 1","2014-01-20","J","Goot",1000,90,0],
+  ["Driver","Bill 1","2014-01-20","K","Bill",1000,90,0],
+  ["Driver","Bill 1","2014-02-20","K","Bill",1000,90,0],
+  ["Driver","Bill 1","2014-02-20","K","Bill",1000,90,0]
+];
+ 
+  rawdata=reduceCToggle(rawdata,view);
+  rawdata=reduceCDescription(rawdata,view);
+  var extendedArr=rawdata;
+  var reduceCToggleArr=extendedArr;
+  } else { rawdata=${data};  var extendedArr=extendArr(rawdata,f,view); var reduceCToggleArr=reduceCToggle(extendedArr,view);}
+    console.log("rawdata",JSON.stringify(rawdata));
+ var data1 = arrToHex1(reduceCToggleArr, f, view);
+ var legendKey='lastGroupby_op';
+ var formatLegendCast="";
+  var data2 = hexToModel1(data1, legendKey,formatLegendCast,view);
+
+  
+  var data2=[{'category':'2014-Jan','groupby1':'A','groupby2':'John','model':'Salary','yAxis':1,'value':4000},
+  {'category':'2014-Jan','groupby1':'A','groupby2':'John','model':'Profit','yAxis':2,'value':60}
+  {'category':'2014-Feb','groupby1':'A','groupby2':'John','model':'Salary','yAxis':1,'value':2000},
+  {'category':'2014-Jan','groupby1':'A','groupby2':'Gary','model':'Salary','yAxis':1,'value':3000}
+  ];
+  
+  //this is supposed to be in your addSubPeriodOptions fn (*comment to be removed)
+  dataGroupUsed(modelData, tCol,subPeriodSelect_val);
+  //function aggre Value data2 by category,all the groupby, model
+
+  
+  var modelYAxisMap=getArr(f.operable,'id',view);
+  modelYAxisMap=_.map(modelYAxisMap,function(d) {
+	var obj={};
+		var propertyName=d.split('.')[1];
+		obj[propertyName]=d.split(".")[0];
+		return obj;});
+  
+    var formatClass={'1':{'cToggleAccept':'All', //salary
+		'formatValue':function(val) {return ' '+d3.round(prefixClass['1']('Size').scale(val),2)+prefixClass['1']('Size').symbol;}
+		}, '2':{'cToggleAccept':'All',     //
+		'formatValue':function(val) {return ' '+d3.round(prefixClass['2']('Size').scale(val),2)+prefixClass['2']('Size').symbol;}
+		}, '3':{'cToggleAccept':'Sales',     //
+		'formatValue':function(val) {return ' '+d3.round(prefixClass['3']('Size').scale(val),2)+prefixClass['3']('Size').symbol;}
+		}
+		};
+  //Append to ToolTip
+  var ToolTipContainer=[];
+  
+  //if cToggleType matches with formatClass' cToggleAccept then append the model into ToolTipContainer
+  if (formatClassKey=='formatClassCast') {
+  for (var propertyName in formatValue) {
+	if (formatClass[propertyName]['cToggleAccept']=='All' || formatClass[propertyName]['cToggleAccept']==cToggleType) {
+	ToolTipContainer.push(modelYAxisMap[propertyName]);
+	  }
+	  }
+  } else {
+	for (var propertyName in modelYAxisMap) {
+	ToolTipContainer.push(modelYAxisMap[propertyName];
+	}
+	}
+	_.each(ToolTipContainer,function(d,i){
+		var toolTipSel=d3.select('#toolTip_${id} #toolAppend').append("div").attr("id",'toolDiv_${id}_'+(i+1))
+									.style({'width':'135px','left':'0px', 'top':'10px', 'position': 'absolute'});
+		if (i==0) toolTipSel.attr("class",'selected');
+		toolTipSel.append("div").attr("class","header3").append("br").html(d);
+		toolTipSel.append("div").attr("class","header-rule");
+		toolTipSel.append("div").attr("id",'toolSpend_${id}_'+(i+1)).attr("class","header4");
+		
+		var navigButton=d3.select('#nytg-navBar_${id} .nytg-navigation clearfix').append("li").attr("id",'navigButton_'+(i+1));
+		if (i==0) navigButton.attr("class",'selected');
+		});
+		
+  //Nesting Keys-> nestArr=['Team','Employee']
+  var nest=d3.nest();
+  _.each(nestArr,function(d,i){
+	  nest=nest.key(function(k,u) {
+	  return k['groupby'+(i+1)];
+	  });
+  });
+  var finalNest=nest.entries(data3);
+  
+  
+  window.Fselect={spendField:"sum_Federal",actField:"sum_Federal",sumField: ["Federal","GovXFer","State","Local"], 
+  sourceField: ["Category","Level1","Level2","Level3","Level4","Level5","Description"]};
+  /*window.Fselect={spendField:"sum_"+view.typeinfo.data.federalCol,actField:"sum_"+view.typeinfo.data.federalCol,
+  sumField: ["Federal","State","Local"],
+  sourceField: ["Category","Level1","Level2","Level3","Level4","Level5","Description"]};
+  */
+    window.colors = ["#bd0026","#fecc5c", "#fd8d3c", "#f03b20", "#B02D5D",
+        "#9B2C67", "#982B9A", "#692DA7", "#5725AA", "#4823AF",
+        "#d7b5d8","#dd1c77","#5A0C7A","#5A0C7A"];
+
+  
+  
+ var rawdata=${code};
+   final_data=[];
+  
+  rawdata.forEach(function(d) 
+  {	
+  local_data={};
+
+  local_data={
+  
+  item_pk : d[view.typeinfo.data.pkCol],
+  Category: parseInt(d[view.typeinfo.data.categoryCol]),
+  Level1: d[view.typeinfo.data.level1Col],
+  Level2: d[view.typeinfo.data.level2Col],
+  Level3: d[view.typeinfo.data.level3Col],
+  Level4: d[view.typeinfo.data.level4Col],
+  Level5: d[view.typeinfo.data.level5Col],
+  Description: d[view.typeinfo.data.desCol],
+  Federal: parseFloat(d[view.typeinfo.data.federalCol]),
+  State: parseFloat(d[view.typeinfo.data.stateCol]),
+  Local: parseFloat(d[view.typeinfo.data.localCol])
+  				};
+  					
+  
+  
+  final_data.push(local_data);
+  });
+ 
+
+
+  
+var nest = d3.nest()
+                .key(function(d) { return d.Level1; })
+                .key(function(d) { return d.Level2; })
+                .key(function(d) { return d.Level3; })
+  				.key(function(d) { return d.Level4; })
+  				.key(function(d) { return d.Level5; })
+  				.entries(final_data);
+  	window.root = {};
+          window.root.values=nest;
+        window.root.x0 = h / 2;
+        window.root.y0 = 0;
+   window.retDes = function(d) { var ret = d.source_Description;
+		   
+		   ret =(String(ret).length > 25) ? String(ret).substr(0,22)  + "..." : ret;
+		   return ret;}
+  
+
+  
+d3select(w,h,m,viewId);
+  
+ 
+d3.select("#federalDiv").select(".header3").html(view.typeinfo.data.federalCol);
+  d3.select("#stateDiv").select(".header3").html(view.typeinfo.data.stateCol);
+  d3.select("#localDiv").select(".header3").html(view.typeinfo.data.localCol);
+ d3.select("#federalButton").html(view.typeinfo.data.federalCol);
+  d3.select("#stateButton").html(view.typeinfo.data.stateCol);
+  d3.select("#localButton").html(view.typeinfo.data.localCol);
+  
+  initialize();
+  setup();
+  window.alreadySummed=true;
+         togglesetup(); 
+   function debugFn(){
+     extendArr=function(data,f,view){
+			//used when you want to use the same columns in operables
+		//obtain uniq columnNames
+		var colNameMap={};
+		var uniqColName=[];
+		var fieldsArr=getArr(f,'name',view);
+		  //if(view.typeinfo.cToggleKey=='default') fieldsArr=_.rest(fieldsArr);
+		var n=0;  //n is the index of unextended Arr
+		for(var i=0;i< _.size(fieldsArr);i++){
+		var colAsProperty =fieldsArr[i];
+
+		//Obtaining colNameMap
+		if (_.size(uniqColName)==0) {
+		uniqColName.push(colAsProperty);
+		colNameMap[colAsProperty]=i;
+		n=n+1;
+		} else {
+			var colAsPropertyArr=[colAsProperty];
+			var intersectArr=_.intersection(colAsPropertyArr,uniqColName);
+			if (_.size(intersectArr)==0){
+				uniqColName.push(colAsProperty);
+				colNameMap[colAsProperty]=i;
+				n=n+1;
+				}
+			}
+		}
+
+		//using colNameMap to extendArr
+		var extendedArr=[];
+		_.each(data ,function(k,l){
+		//eg of k:[asd,34,34]
+		var localArr=[];
+			_.each(fieldsArr,function(o,p){
+			var indexToChoose=colNameMap[o];
+			localArr.push(k[indexToChoose]);
+			});
+			extendedArr.push(localArr);
+		});
+		return extendedArr;
+	
+	};
+	   reduceCToggle = function(data,view) { //remove the first element of all entries if cToggleKey is default
+	var newData=[];
+	  if(view.typeinfo.cToggleKey=='default') {
+	  _.each(data,function(d){
+	  newData.push(_.rest(d));
+	  });
+	  return newData;
+	  } else return data;
+  
+  };
+  	   reduceCDescription  = function(data,view) { //remove the first element of all entries if cToggleKey is default
+	var newData=[];
+	  if(view.typeinfo.cDescription=='default') {
+	  _.each(data,function(d){
+	  newData.push(_.rest(d));
+	  });
+	  
+	  return newData;
+	  } else if (view.typeinfo.cDescription=='cDescriptionClassCast'){
+	  
+	  } 
+	  else return data;
+  
+  };
+	arrToHex1 = function(data, f,view){
+	  var keyLength = f.keys.length;
+      var nameArr = getArr(f, 'name',view);
+      var opArr = getArr(f, 'op',view);
+      var idArr = getArr(f, 'id',view);
+	      
+  
+	         var propertiesArr = [];
+  if(view.typeinfo.cToggleKey =='cToggleEnabled'){ //cToggle Toggle the chart based on eikon filter
+  //Console.log a existing cToggleType
+  var cToggleTypeMaj=[];
+  _.each(data,function(d) { cToggleTypeMaj.push(d[0]);});
+  var cToggleTypeUniq=_.uniq(cToggleTypeMaj);
+	var cToggleCount=  _.countBy(cToggleTypeMaj,function(types) {
+	  var Ttype;
+		_.each(cToggleTypeUniq,function(m){
+		if (types == m) Ttype=m;
+		});
+		return Ttype;
+	  });
+	  console.info("cToggleCount Type",cToggleCount);
+	  // initialize cToggleType
+	  
+		for (var propertyName in cToggleCount) {
+		
+		cToggleType= (typeof cToggleType=='undefined')? propertyName:(cToggleCount[cToggleType] >cToggleCount[propertyName]) ? cToggleType:propertyName;
+		}
+  var keyArr = _.first(nameArr, keyLength+1);
+      var colArr = _.last(nameArr, nameArr.length - (keyLength+1));
+      var nameArr = _.map(colArr, function(num, i) {
+          return opArr[i] + "(" + num + ")";
+      });
+	   nameArr = keyArr.concat(nameArr);
+      var keyLArr = d3.range(0, keyLength+1); //plus 1 because of cToggle
+	    keyLArr.forEach(function(d, i) {
+          var obj = (i == 0) ? '#{cToggle}': (i == 1)?'#{xaxis}' : '#{groupby' + (i-1) + '}';
+          propertiesArr.push(obj);
+      })
+  } else if(view.typeinfo.cToggleKey =='default')
+   {
+		nameArr=_.rest(nameArr); //remove the first element which is the cToggleType
+		var keyArr = _.first(nameArr, keyLength);
+         var colArr = _.last(nameArr, nameArr.length - keyLength);
+		 console.log("keyArr: ",keyArr,"  , colArr",colArr);
+      var nameArr = _.map(colArr, function(num, i) {
+          return opArr[i] + "(" + num + ")";
+      });
+	   nameArr = keyArr.concat(nameArr);
+    var keyLArr = d3.range(0, keyLength); 
+	    keyLArr.forEach(function(d, i) {
+          var obj = (i == 0) ?'#{xaxis}' : '#{groupby' + i + '}';
+          propertiesArr.push(obj);
+      })
+   }
+      
+      idArr.forEach(function(d, i) {
+          propertiesArr.push("#[" + d + "]");
+      })
+  
+      var combineArr = [];
+      propertiesArr.forEach(function(d, i) {
+          var obj = nameArr[i] + d;
+          combineArr.push(obj);
+      })
+
+      var globalArr = [];
+      data.forEach(function(d, i) {
+          var localObj = _.object(combineArr, d);
+          globalArr.push(localObj);
+      })
+      return globalArr;
+  
+  };
+hexToModel1 = function(data, legendKey,formatLegendCast,view) {
+    var ReadArray, columnNameArray, model_keyArray, objKey;
+    ReadArray = [];
+  
+    objKey = Object.keys(data[0]);
+	model_keyArray = [];
+    columnNameArray = [];
+	var keyArray=[];
+  //legendFormating
+  var formatLegend; //formatLegend should be a class containing the Legend format for each model 
+  if (formatLegendCast==="" && legendKey==="formatLegend")
+   console.info("Enter formatLegend");
+   if (legendKey==="formatLegend" ) {
+  console.info("proceed");
+    eval(formatLegendCast);} 
+     if (view.typeinfo.data.fields.operable.values[0].id==="columnInducedGroupby.L1" 
+  && formatLegendCast==="")
+  {
+  
+  formatLegend={'columnInducedGroupby.L1': function(dataZero) {   return dataZero.columnNameWithoutOp;   } };
+  }
+  
+  //-end legendFormating
+    objKey.forEach(function(key) {
+        var columnNameObj, model_keyObj;
+		if ( (key.contains("|")==false) &&(key.contains("#{")==false)) {
+			keyArray.push(key);
+			} else {
+            return;
+        }
+      
+		
+    });
+	console.log("inside keyArray",JSON.stringify(keyArray));
+    data.forEach(function(d, i) {
+        var Category, ColumnName, GroupNameArr, Model, ReadObj, Value, lastGroupby, propertyName;
+        ReadObj = {};
+        Value = void 0;
+        ColumnName = void 0;
+        Category = void 0;
+        Model = void 0;
+        lastGroupby = void 0;
+        GroupNameArr = [];
+        for (propertyName in d) {
+            if (propertyName.contains("xaxis") === true) {
+                Category = d[propertyName];
+            }
+            if (propertyName.contains("groupby") === true) {
+                lastGroupby = d[propertyName];
+                GroupNameArr.push(lastGroupby);
+            }
+        }
+  		var dataZero=[];
+          keyArray.forEach(function(modelKey,n) {
+            var allGroupby, cName, lastGroupby_op, model_keyObj, model_keyObjArr, model_yAxisObj, objPush;
+            for (propertyName in d) {
+                if (propertyName.contains(modelKey) === true) {
+                    model_keyObj = propertyName.replace(/.*\[|\]/g, "");
+                    model_keyObjArr = model_keyObj.split(".");
+                    model_yAxisObj = (model_keyObjArr.length > 1 ? model_keyObjArr[1] : "L1");
+                    cName = propertyName.replace(/\#.*/, "");
+                  // for taking string in brackets
+                  var regExp = /\(([^)]+)\)/;
+				  var matches=regExp.exec(cName);
+                  columnNameWithoutOp=matches[1];
+                  opName=cName.split("(")[0];
+                  //-end
+                    objPush = {
+                        model: model_keyObjArr[0],
+                        yAxis: model_yAxisObj,
+                        columnName: cName,
+  						columnNameWithoutOp:columnNameWithoutOp,
+  						opName:opName,
+                        value: d[propertyName],
+                        category: Category
+                    };
+                    GroupNameArr.forEach(function(d, m) {
+  					    propertyName = "groupby" + (m + 1);
+                        objPush[propertyName] = d;
+                    });
+  					if (legendKey === "lastGroupby_op") {
+                        lastGroupby_op = lastGroupby + "_" + cName;
+                        objPush["legendKey"] = lastGroupby_op;
+                        ReadArray.push(objPush);
+                    } else if (legendKey === "allGroupby") {
+                        allGroupby = GroupNameArr.join("_");
+                        objPush["legendKey"] = allGroupby;
+                        ReadArray.push(objPush);
+                    } else if (legendKey == "op(ColumnName)") {
+                        objPush["legendKey"] = cName;
+                        ReadArray.push(objPush);
+                      } else if (legendKey=="formatLegend"){
+					  if (i==0) console.log("objPush for Legend",JSON.stringify(objPush));
+                          objPush["legendKey"] = formatLegend[model_keyObj](objPush);
+  						ReadArray.push(objPush);
+                      }
+    						else if (legendKey == "ColumnName") {
+                        var regExp = /\(([^)]+)\)/;
+                        var matches = regExp.exec(cName);
+                        objPush["legendKey"] = matches[1];
+                        ReadArray.push(objPush);
+                    }
+                }
+            }
+        });
+    }); 
+    return ReadArray; 
+};
+//--Data Grouping Tab
+    addDataGroupFn = function(modelData, tCol, dataGroupKey, dataGroupHex, viewId) {
+		console.log("dataGroupKey",dataGroupKey);
+        if (dataGroupKey === 'timePeriodOptions') {
+			
+            var dataGroupContent = d3.select(dataGroupHex);
+            dataGroupContent.append("td")
+                .append("select").attr("id", 'periodSelect_' + viewId);
+            dataGroupContent.append("td").append("select").attr("id", 'subPeriodSelect_' + viewId)
+                .attr("title", 'Basic example')
+                .attr("multiple", "multiple")
+                .attr("size", 5);
+			
+            var tDomainDate = setTDomain1(modelData, tCol);
+            var periodSelect_hex = '#periodSelect_' + viewId;
+			console.log("front periodSelect_el",$(periodSelect_hex));
+            var subPeriodSelect_hex = '#subPeriodSelect_' + viewId
+            addSubPeriodOptions(modelData, tDomainDate, tCol, 'month', subPeriodSelect_hex);
+            periodSelect_el = $(periodSelect_hex).multiselect({
+                selectedList: 1,
+                multiple: false,
+                click: function(event, ui) {
+                    periodSelect_val = [ui.value];
+                    //clear options in subPeriodSelect
+                    $(subPeriodSelect_hex).empty();
+                    //add options in subPeriodSelects
+                       	updateSubPeriodOptions(modelData,tDomainDate,tCol,subPeriodSelect_hex);
+                },
+				minWidth:100
+
+            });
+			console.log("periodSelect_el",periodSelect_el);
+            addPeriodOptions(periodSelect_el);
+	
+        } else {
+	
+		$(periodSelect_hex).empty();
+		$(subPeriodSelect_hex).empty();
+		chartPreGen(modelData);
+		
+		}
+    };
+	groupByFn = function(data, groupByArr) {
+		var aggreData, nest;
+		nest = d3.nest();
+		aggreData = [];
+		_.each(groupByArr, function(m, n) {
+		nest.key(function(d) {
+		return d[m];
+		});
+		});
+		var result=[];
+		nest.rollup(function(d) {
+		var sampleObj=_.clone(d[0]);
+		var sumValue=d3.sum(d, function(g) {return g.value; });
+		sampleObj['value']=sumValue;
+		result.push(sampleObj);
+		}).entries(data);
+		return result;
+	};
+
+	 dataGroupUsed = function(modelData, tCol,subPeriodSelect_val) {
+        var periodFilterClass = {
+            'month': function(date) {
+                var monthFormat = d3.time.format("%b");
+                return monthFormat(date);
+            },
+            'year': function(date) {
+                console.log("now is year", date.getFullYear());
+                return date.getFullYear();
+
+            },
+            'quarter': function(date) {
+                return 'Q' + getQuarter(date);
+            }
+        };
+		var dataGroupCategoryClass={
+		     'month': function(date) {
+                var monthFormat = d3.time.format("%Y-%b");
+                return monthFormat(date);
+            },
+            'year': function(date) {
+                console.log("now is year", date.getFullYear());
+                return date.getFullYear();
+
+            },
+            'quarter': function(date) {
+                return date.getFullYear()+'-Q' + getQuarter(date);
+            }
+		};
+        var filteredData = [];
+        var subPeriodData = _.map(modelData, function(num, key) {
+            var sampleObj = _.clone(num);
+            var toColSubPeriodVal = periodFilterClass[periodSelect_val](new Date(sampleObj[tCol]));
+            sampleObj['tColSubPeriod'] = ($.isNumeric(toColSubPeriodVal)) ? toColSubPeriodVal.toString() : toColSubPeriodVal;
+			var dataGroupCategoryVal=dataGroupCategoryClass[periodSelect_val](new Date(sampleObj[tCol]));
+			sampleObj['category'] =($.isNumeric(dataGroupCategoryVal)) ? dataGroupCategoryVal.toString() : dataGroupCategoryVal;
+            return sampleObj;
+        });
+        _.each(subPeriodSelect_val, function(m) {
+            filteredData = _.union(filteredData, _.where(subPeriodData, {
+                'tColSubPeriod': m
+            }));
+        });
+      // group the data by category and aggregate the 'value' column
+		var groupCount=0;
+	for (var property in filteredData[0]) {
+	if (_.str.include(property,'groupby')) groupCount++;
+	}
+		var groupbyRange=_.map(_.range(1,groupCount+1),function(m){ return 'groupby'+m;});
+		var groupByArr=['model','category','columnName'];
+		var groupByArr=_.union(groupByArr,groupbyRange);
+		
+		var aggregateData=groupByFn(filteredData,groupByArr);
+		console.log('aggregateData',JSON.stringify(aggregateData));
+		return aggregateData;
+    };
+	  addPeriodOptions = function(periodSelect_el) {
+        _.each(['month', 'year', 'quarter'], function(m) {
+            var opt = $('&lt;option /&gt;', {
+                value: m,
+                text: m
+
+            });
+            opt.appendTo(periodSelect_el);
+        });
+		console.log("add Period",periodSelect_el);
+        periodSelect_el.multiselect('refresh');
+    };
+    updateSubPeriodOptions = function(modelData, tDomainDate, tCol, subPeriodSelect_hex) {
+        var updatesubPeriodSelect_el = $(subPeriodSelect_hex);
+        var subPeriodArr = dataGroupAvailClass[periodSelect_val](tDomainDate[0], tDomainDate[1]);
+        _.each(subPeriodArr, function(m) {
+
+            var opt = $('&lt;option /&gt;', {
+                value: ($.isNumeric(m)) ? m.toString() : m,
+                text: m,
+                selected: 'selected'
+            });
+            opt.appendTo(updatesubPeriodSelect_el);
+        });
+		console.log("updatesubPeriodSelect_el",updatesubPeriodSelect_el);
+        updatesubPeriodSelect_el.multiselect('refresh');
+    };
+    addSubPeriodOptions = function(modelData, tDomainDate, tCol,periodSelect_val, subPeriodSelect_hex) {
+        subPeriodSelect_el = $(subPeriodSelect_hex).multiselect({
+
+            selectedText: function(numChecked, numTotal, checkedItems) {
+			console.log("help");
+                subPeriodSelect_val = $.map(checkedItems, function(checkbox) {
+                    return checkbox.value;
+                });
+                console.log("subPeriodSelect_val _sel", subPeriodSelect_val);
+                
+                var groupedData = dataGroupUsed(modelData, tCol,subPeriodSelect_val); //data filtered by subPeriodselected_val
+				 groupedData=valueOperating(groupedData,valueOperationKey,formatValueOperationCast,cToggleType);
+				
+				 if (_.size(groupedData)==0) groupedData =[{model:'column',category:'2012-06-20',yAxis:'L1'}];
+				chartPreGen(groupedData);
+                console.log('groupedData_selected', JSON.stringify(groupedData));
+
+                return subPeriodSelect_val.join(", ");
+            },
+
+            uncheckAll: function() {
+                subPeriodSelect_val = [];
+               var groupedData = dataGroupUsed(modelData, tCol,subPeriodSelect_val);
+			   groupedData =valueOperating(groupedData,valueOperationKey,formatValueOperationCast,cToggleType);
+			   if (_.size(groupedData)==0) groupedData =[{model:'column',category:'2012-06-20',yAxis:'L1'}];
+			   chartPreGen(groupedData);
+                console.log('groupedData_unchecked', JSON.stringify(groupedData));
+
+            },minWidth:400
+
+        });
+        var subPeriodArr = dataGroupAvailClass[periodSelect_val](tDomainDate[0], tDomainDate[1]);
+        console.log("subPeriodArr", subPeriodArr);
+        subPeriodSelect_val = subPeriodArr;
+        _.each(subPeriodArr, function(m) {
+
+            var opt = $('&lt;option /&gt;', {
+                value: ($.isNumeric(m)) ? m.toString() : m,
+                text: m,
+                selected: 'selected'
+            });
+            opt.appendTo(subPeriodSelect_el);
+        });
+		console.log("subPeriodSelect_el",subPeriodSelect_el);
+        subPeriodSelect_el.multiselect('refresh');
+    };
+    dataGroupAvailClass = { //return the available options in each type of dataGroup as an array
+        'month': function(minDate, maxDate) {
+            var monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            var mDiff = monthDiff(minDate, maxDate);
+            if (mDiff < 12) {
+                var newMonthName = [];
+                var minDateIndex = minDate.getMonth();
+                _.each(_.range(minDateIndex, minDateIndex + mDiff), function(m) {
+                    var listed = m % 12;
+                    newMonthName.push(monthName[listed]);
+                });
+            }
+            return monthName;
+        },
+        'year': function(minDate, maxDate) {
+            return _.range(minDate.getFullYear(), maxDate.getFullYear() + 1);
+        },
+        'quarter': function(minDate, maxDate) {
+            var quarterArr = [];
+            var qMin = getQuarter(minDate);
+            var qDiff = quarterDiff(minDate, maxDate);
+            if (qDiff < 4) {
+                _.each(_.range(qMin, qMin + qDiff + 1), function(m) {
+                    quarterArr.push('Q' + m);
+                });
+            }
+            return  ['Q1', 'Q2', 'Q3', 'Q4'];
+        }
+
+    };
+	//--end Data Grouping Tab
+	}   
+	//helper function
+	function monthDiff(firstDate, secondDate) {
+    var months;
+    months = (secondDate.getFullYear() - firstDate.getFullYear()) * 12;
+    months -= firstDate.getMonth();
+    months += secondDate.getMonth();
+    return months <= 0 ? 0 : months;
+}
+	
+function getQuarter(d) {
+  d = d || new Date();
+  var m = Math.floor(d.getMonth()/3) + 1;
+  return m > 4? m - 4 : m;
+}
+	function quarterDiff(firstDate,secondDate){
+	var mDiff=monthDiff(firstDate,secondDate);
+	var qDiff=(mDiff>=12) ? 4:getQuarter(secondDate)-getQuarter(firstDate);
+	return qDiff;
+	}
+	function yearDiff(firstDate,secondDate){
+	return secondDate.getFullYear()-firstDate.getFullYear();
+	}
+</div>
+========

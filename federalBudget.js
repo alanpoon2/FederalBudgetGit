@@ -1,33 +1,95 @@
-!function(){
-
-    /*      window.root = {};
-	window.FSelect={spendField:"sum_Federal",actField:"sum_Federal",sumField: ["Federal","GovXFer","State","Local"], sourceFields: ["Category","Level1","Level2","Level3","Level4"]};
-
-
-    window.colors = ["#bd0026","#fecc5c", "#fd8d3c", "#f03b20", "#B02D5D",
-        "#9B2C67", "#982B9A", "#692DA7", "#5725AA", "#4823AF",
-        "#d7b5d8","#dd1c77","#5A0C7A","#5A0C7A"];
-
-	*/
-
-d3select =function(w,h,m){  
-
-		window.toolTip = d3.select(document.getElementById("toolTip"));
-				window.header = d3.select(document.getElementById("head"));
-		window.header1 = d3.select(document.getElementById("header1"));
-		window.header2 = d3.select(document.getElementById("header2"));
-				window.federalButton=d3.select(document.getElementById("federalButton"));
-		window.stateButton=d3.select(document.getElementById("stateButton"));
-		window.localButton=d3.select(document.getElementById("localButton"));
-		    window.federalDiv=d3.select(document.getElementById("federalDiv"));
-    window.stateDiv=d3.select(document.getElementById("stateDiv"));
-    window.localDiv=d3.select(document.getElementById("localDiv"));
+function federalBudgetChart(){
+	//configurable chart options
+	var height = 450,
+		width = 620,
+		margin=[0,30,170,20],
+		prefixClass={'1':d3.formatPrefix(1000),'2':d3.formatPrefix(1),'3':d3.formatPrefix(1)};
+	var formatClass={'1':{'cToggleAccept':'All', //salary
+		'formatValue':function(val) {return ' '+d3.round(prefixClass['1']('Size').scale(val),2)+prefixClass['1']('Size').symbol;},
+		'aggreValueByNest':'%Y-%b'
+		}, '2':{'cToggleAccept':'All',     //
+		'formatValue':function(val) {return ' '+d3.round(prefixClass['2']('Size').scale(val),2)+prefixClass['2']('Size').symbol;},
+		'aggreValueByNest':'%Y-%b-%e'
+		}, '3':{'cToggleAccept':'Sales',     //
+		'formatValue':function(val) {return ' '+d3.round(prefixClass['3']('Size').scale(val),2)+prefixClass['3']('Size').symbol;},
+		'aggreValueByNest':'%Y-%b-%e'
+		}
+		},
+		viewId='preview',
+		dataHolder={};
 	
-    window.fedSpend = d3.select(document.getElementById("fedSpend"));
+		function chart(selection) {
+	
+		// normally there is only one selection for a chart canvas
+		// all data (as array) is passed to the chart to render streams
+		selection.each(function(data) {
+			console.info("init data:");
+			console.info(data);			
+					
+			// Create the SVG container
+			svg = d3.select("#"+viewId).append("svg")
+				.attr("width", width)
+				.attr("height", height);
+			 treeChart = svg.append("svg:g");
+			 defs = svg.append("defs");
+			debugFn();
+		filterInitation(defs);
+		JsonProcess(treemap,treeChart,height,width,headerHeight,headerColor,color,insertLineBreakContent,xscale,yscale,formatValue,transitionDuration,viewId,insertToolTipContent);
+	
+			});
+	}		
+	
+	chart.height = function(value) {
+		if (!arguments.length) return height;
+		height = value;
+		return chart;
+	};
+	
+	chart.width = function(value) {
+		if (!arguments.length) return width;
+		width = value;
+		return chart;
+	};
+	chart.margin = function(value) {
+		if (!arguments.length) return margin;
+		margin = value;
+		return chart;
+	};
+	chart.prefixClass = function(value) {
+		if (!arguments.length) return prefixClass;
+		prefixClass = value;
+		return chart;
+	};
+	chart.formatClass = function(value) {
+		if (!arguments.length) return formatClass;
+		formatClass = value;
+		return chart;
+	};
+	chart.dataHolder = function(value) {
+		if (!arguments.length) return dataHolder;
+		dataHolder = value;
+		return chart;
+	};
 
-    window.stateSpend = d3.select(document.getElementById("stateSpend"));
+	function debugFn(){
+	d3select =function(w,h,m,viewId){  
+		window['federalBudget_'+viewId]['toolTip']=d3.select("#toolTip_"+viewId);
+		window['federalBudget_'+viewId]['header']=d3.select("#toolTip_"+viewId+" head");
+		window['federalBudget_'+viewId]['header1'] = d3.select("#toolTip_"+viewId+" header1");
+		window['federalBudget_'+viewId]['header2'] = d3.select("#toolTip_"+viewId+" header2");
+		window['federalBudget_'+viewId]['ToolTipContainer_Div']=[];
+		window['federalBudget_'+viewId]['ToolTipContainer_But']=[];
+		window['federalBudget_'+viewId]['ToolTipContainer_Spend']=[];
+		
+		_.each(window['federalBudget_'+viewId]['ToolTipContainer'],function(d,i){
+			var pushObjDiv=d3.select("#toolTip_"+viewId+' #toolAppend'+' toolDiv_'+viewId+'_'+(i+1));
+		window['federalBudget_'+viewId]['ToolTipContainer'].push(pushObjDiv);
+		var pushObjBut=d3.select("#navigButton_"+(i+1));
+		window['federalBudget_'+viewId]['ToolTipContainer_But'].push(pushObjBut);
+		var pushObjSpend=d3.select("#toolSpend_"+viewId+'_'+(i+1));
+		window['federalBudget_'+viewId]['ToolTipContainer_Spend'].push(pushObjSpend);
+		})
 
-    window.localSpend = d3.select(document.getElementById("localSpend"));
 	    tree = d3.layout.tree();
 
           tree.children(function (d) { return d.values; });
@@ -44,9 +106,8 @@ d3select =function(w,h,m){
 			
 		  
 	
-}
-
-togglesetup = function(){
+};
+	togglesetup = function(){
 	window.root.values.forEach(toggleAll);
          toggle(window.root.values[2]);
      window.stateButton.on("click",function (d) {
@@ -87,11 +148,8 @@ togglesetup = function(){
         });
         update(window.root);
 
-}
-  
-  
-  
-  	initialize=function(){
+};
+	initialize=function(){
   window.level1Max={};
     window.level2Max={};
    window.level3Max={};
@@ -116,7 +174,7 @@ togglesetup = function(){
 				window.level5Max["sum_" + window.Fselect.sumField[i]]=0;
             }
             sumNodes(window.root.children);
-        }
+        };
 
          setup = function() {
 
@@ -139,19 +197,34 @@ togglesetup = function(){
             window.level5Radius=d3.scale.sqrt()
                     .domain([0, window.level5Max[window.Fselect.spendField]])
                     .range([1,40]);
-        }
+        };
+}	
 		
-		    function toggleAll(d) {
-            if (d.values && d.values.actuals) {
-                d.values.actuals.forEach(toggleAll);
-                toggle(d);
-            }
-            else if (d.values) {
-                d.values.forEach(toggleAll);
-                toggle(d);
-            }
-        }
-		    function setSourceFields(child,parent) {
+}
+
+    /*      window.root = {};
+	window.FSelect={spendField:"sum_Federal",actField:"sum_Federal",sumField: ["Federal","GovXFer","State","Local"], sourceFields: ["Category","Level1","Level2","Level3","Level4"]};
+
+
+    window.colors = ["#bd0026","#fecc5c", "#fd8d3c", "#f03b20", "#B02D5D",
+        "#9B2C67", "#982B9A", "#692DA7", "#5725AA", "#4823AF",
+        "#d7b5d8","#dd1c77","#5A0C7A","#5A0C7A"];
+
+	*/
+
+
+		
+	function toggleAll(d) {
+	if (d.values && d.values.actuals) {
+		d.values.actuals.forEach(toggleAll);
+		toggle(d);
+	}
+	else if (d.values) {
+		d.values.forEach(toggleAll);
+		toggle(d);
+	}
+}
+	function setSourceFields(child,parent) {
         if (parent) {
 		
             for (var i=0; i < window.Fselect.sourceField.length; i++) {
@@ -543,7 +616,7 @@ togglesetup = function(){
             d.children = d._children;
             d._children = null;
         }
-    }}();
+    }
 
 
 

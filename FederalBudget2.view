@@ -520,7 +520,7 @@ elx.bundle.type.FederalBudget2 = {
    formatPrefixCast=cfgoptions.formatPrefixCast;
    var dataGroupKey=cfgoptions.dataGroupKey;
     var nestArr=(cfgoptions.nestArr).split(",");
-var cToggleType;
+var initializedCMap={};
 window['federalBudget_'+viewId]={};
    
    var reduceCToggle,extendArr,arrToHex1,hexToModel1;
@@ -545,13 +545,11 @@ window['federalBudget_'+viewId]={};
   ["Driver","Bill 1","2014-02-20","K","Bill",1000,90,0]
 ];
  
-  rawdata=reduceCToggle(rawdata,view);
-  rawdata=reduceCDescription(rawdata,view);
   var extendedArr=rawdata;
   var reduceCToggleArr=extendedArr;
-  } else { rawdata=${data};  var extendedArr=extendArr(rawdata,f,view); var reduceCToggleArr=reduceCToggle(extendedArr,view);}
+  } else { rawdata=${data};  var extendedArr=extendArr(rawdata,f,view);}
     console.log("rawdata",JSON.stringify(rawdata));
- var data1 = arrToHex1(reduceCToggleArr, f, view);
+ var data1 = arrToHex1(extendedArr, f, view);
  var legendKey='lastGroupby_op';
  var formatLegendCast="";
   var data2 = hexToModel1(data1, legendKey,formatLegendCast,view);
@@ -736,31 +734,90 @@ d3.select("#federalDiv").select(".header3").html(view.typeinfo.data.federalCol);
 		return extendedArr;
 	
 	};
-	   reduceCToggle = function(data,view) { //remove the first element of all entries if cToggleKey is default
-	var newData=[];
-	  if(view.typeinfo.cToggleKey=='default') {
-	  _.each(data,function(d){
-	  newData.push(_.rest(d));
+
+  	 
+  arrToHex1 = function(data, f,view){
+	  var keyLength = f.keys.length;
+      var nameArr = getArr(f, 'name',view);
+      var opArr = getArr(f, 'op',view);
+      var idArr = getArr(f, 'id',view);
+	  var cFieldsObj={'cToggle':{cKey:'cToggleKey',cKeyField:view.typeinfo.cToggleKey,cDataField:view.typeinfo.data.cToggleTypeCol[0].name,
+			cType:'majority'
+	  },
+	  'cDescription':{cKey:'cDescriptionKey',cKeyField:view.typeinfo.cDescriptionKey, cDataField:view.typeinfo.data.cDescriptionCol[0].name,
+	  cType:'uniqToAnotherField'
+	  }};
+  
+	         var propertiesArr = processCFields(keyLength,nameArr,opArr,idArr,cFieldsObj);
+			 console.log("typeof view.typeinfo.data.cToggleTypeCol[0].name",view.typeinfo.data.cToggleTypeCol[0].name);
+	//need to write a function to know how to infer a array of [cToggle,cDescription]
+
+
+	
+  if(view.typeinfo.cToggleKey =='cToggleEnabled' &&  view.typeinfo.data.fields.cToggleTypeCol[0].name!=null){ //cToggle Toggle the chart based on eikon filter
+  //Console.log a existing cToggleType
+  var cToggleTypeMaj=[];
+  _.each(data,function(d) { cToggleTypeMaj.push(d[0]);});
+  var cToggleTypeUniq=_.uniq(cToggleTypeMaj);
+	var cToggleCount=  _.countBy(cToggleTypeMaj,function(types) {
+	  var Ttype;
+		_.each(cToggleTypeUniq,function(m){
+		if (types == m) Ttype=m;
+		});
+		return Ttype;
 	  });
-	  return newData;
-	  } else return data;
+	  console.info("cToggleCount Type",cToggleCount);
+	  // initialize cToggleType
+	  
+		for (var propertyName in cToggleCount) {
+		
+		cToggleType= (typeof cToggleType=='undefined')? propertyName:(cToggleCount[cToggleType] >cToggleCount[propertyName]) ? cToggleType:propertyName;
+		}
+  var keyArr = _.first(nameArr, keyLength+1);
+      var colArr = _.last(nameArr, nameArr.length - (keyLength+1));
+      var nameArr = _.map(colArr, function(num, i) {
+          return opArr[i] + "(" + num + ")";
+      });
+	   nameArr = keyArr.concat(nameArr);
+      var keyLArr = d3.range(0, keyLength+1); //plus 1 because of cToggle
+	    keyLArr.forEach(function(d, i) {
+          var obj = (i == 0) ? '#{cToggle}': (i == 1)?'#{xaxis}' : '#{groupby' + (i-1) + '}';
+          propertiesArr.push(obj);
+      })
+  } else if(view.typeinfo.cToggleKey =='default' ||  view.typeinfo.data.fields.cToggleTypeCol[0].name==null)
+   {
+		var keyArr = _.first(nameArr, keyLength);
+         var colArr = _.last(nameArr, nameArr.length - keyLength);
+		 console.log("keyArr: ",keyArr,"  , colArr",colArr);
+      var nameArr = _.map(colArr, function(num, i) {
+          return opArr[i] + "(" + num + ")";
+      });
+	   nameArr = keyArr.concat(nameArr);
+    var keyLArr = d3.range(0, keyLength); 
+	    keyLArr.forEach(function(d, i) {
+          var obj = (i == 0) ?'#{xaxis}' : '#{groupby' + i + '}';
+          propertiesArr.push(obj);
+      })
+   }
+      
+      idArr.forEach(function(d, i) {
+          propertiesArr.push("#[" + d + "]");
+      })
+  
+      var combineArr = [];
+      propertiesArr.forEach(function(d, i) {
+          var obj = nameArr[i] + d;
+          combineArr.push(obj);
+      })
+
+      var globalArr = [];
+      data.forEach(function(d, i) {
+          var localObj = _.object(combineArr, d);
+          globalArr.push(localObj);
+      })
+      return globalArr;
   
   };
-  	   reduceCDescription  = function(data,view) { //remove the first element of all entries if cToggleKey is default
-	var newData=[];
-	  if(view.typeinfo.cDescription=='default') {
-	  _.each(data,function(d){
-	  newData.push(_.rest(d));
-	  });
-	  
-	  return newData;
-	  } else if (view.typeinfo.cDescription=='cDescriptionClassCast'){
-	  
-	  } 
-	  else return data;
-  
-  };
-	arrToHex1 = function(data, f,view){
 	  var keyLength = f.keys.length;
       var nameArr = getArr(f, 'name',view);
       var opArr = getArr(f, 'op',view);
@@ -833,6 +890,59 @@ d3.select("#federalDiv").select(".header3").html(view.typeinfo.data.federalCol);
       return globalArr;
   
   };
+  
+  	processCFields= function (keyLength,nameArr,opArr,idArr,cFieldsObj) {
+	var numCFieldObj=0;
+	var cFieldClass={};
+	for (var propertyName in cFieldsObj){
+		if (cFieldsObj[propertyName]['cKeyField']==cFieldsObj[propertyName]['cKey'] && cFieldsObj[propertyName]['cDataField']!=null ) {
+		cFieldClass[numCFieldObj]='#{'+propertyName+'}';
+		numCFieldObj++;
+		}
+	}
+	cFieldClass[numCFieldObj]='#{xaxis}';
+	  var keyArr = _.first(nameArr, keyLength+numCFieldObj);
+      var colArr = _.last(nameArr, nameArr.length - (keyLength+numCFieldObj));
+      var nameArr = _.map(colArr, function(num, i) {
+          return opArr[i] + "(" + num + ")";
+      });
+	   nameArr = keyArr.concat(nameArr);
+      var keyLArr = d3.range(0, keyLength+numCFieldObj);
+	  var propertiesArr=[];
+	    keyLArr.forEach(function(d, i) {
+		var obj=(typeof cFieldClass[i]!='undefined') ? cFieldClass[i] :  '#{groupby' + (i-1) + '}';
+            propertiesArr.push(obj);
+      })
+	  var cTypeClassOutput={
+	'majority': function (data,cfieldsObjName,positionIndex){
+		var cMaj=[];
+		_.each(data,function(d) {
+		cMaj.push(d[positionIndex]);});
+		var cUniq=_.uniq(cMaj);
+		var cToggleCount=  _.countBy(cMaj,function(types) {
+			var Ttype;
+			_.each(cUniq,function(m){
+			if (types == m) Ttype=m;
+			});
+			return Ttype;
+		  });
+		console.info("cToggleCount Type",cToggleCount);
+		for (var propertyName in cToggleCount) {
+			initializedCMap[cfieldsObjName]= (typeof initializedCMap['cToggleType']=='undefined')? 
+			propertyName:(initializedCMap[cfieldsObjName][cToggleType] >initializedCMap[cfieldsObjName][propertyName]) ? initializedCMap[cfieldsObjName]:propertyName;
+			}
+		
+			},
+	'uniqToAnotherField': function(data,cfieldsObjName,positionIndex){
+	
+	}
+	};
+	  	for (var propertyName in cFieldsObj){
+	
+	
+	}
+	  return propertiesArr;
+	};
 hexToModel1 = function(data, legendKey,formatLegendCast,view) {
     var ReadArray, columnNameArray, model_keyArray, objKey;
     ReadArray = [];

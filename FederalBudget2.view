@@ -105,7 +105,7 @@
 		"cToggleTypeCol":[{
 		"name":"Department"
 		}],
-		"nestKeyCol":[
+		"keys":[
             {
               "name":"Team",
               "id":"|"
@@ -134,6 +134,8 @@
           }
 		  },
 		"formatClassKey":"",
+		"cToggleKey":"cToggleEnabled",
+		"cDescriptionKey":"cDescriptionEnabled",
 		"formatClassCast":"",
 		"formatPrefixCast":"",
 		"nestArr":"Team,Employee",
@@ -362,6 +364,64 @@
                      "readonly":false
                   }
                ]
+            },
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
+                     "id":"typeinfo-cToggleKey-label",
+                     "type":"label",
+                     "text":"C Toggle Key"
+                  },
+                  {
+                     "jsonClass":"Select",
+                     "id":"typeinfo-cToggleKey",
+                     "type":"select",
+                     "value":"${typeinfo.cToggleKey}",
+                     "options":[
+                        {
+                           "jsonClass":"Option",
+                           "text":"default",
+                           "value":"default"
+                        },
+                        {
+                           "jsonClass":"Option",
+                           "text":"enabled",
+                           "value":"cToggleEnabled"
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
+                     "id":"typeinfo-cDescriptionKey-label",
+                     "type":"label",
+                     "text":"C Description Key"
+                  },
+                  {
+                     "jsonClass":"Select",
+                     "id":"typeinfo-cDescriptionKey",
+                     "type":"select",
+                     "value":"${typeinfo.cDescriptionKey}",
+                     "options":[
+                        {
+                           "jsonClass":"Option",
+                           "text":"default",
+                           "value":"default"
+                        },
+                        {
+                           "jsonClass":"Option",
+                           "text":"enabled",
+                           "value":"cDescriptionEnabled"
+                        }
+                     ]
+                  }
+               ]
             }
          ]
       },
@@ -450,7 +510,7 @@
 elx.bundle.type.FederalBudget2 = {
 
   	init : function(view) {
-	  var dataKey = elx.MultiKeyColumnSection.getKeyData(view,view.typeinfo.data.nestKeyCol);
+	  var dataKey = elx.MultiKeyColumnSection.getKeyData(view,view.typeinfo.data.keys);
            var tableKey=  new elx.MultiKeyColumnSection("typeinfo-property-keys","typeinfo-property", view, dataKey);
       $("#typeinfo-property-keys").data("table",tableKey);
             var dataOps =  elx.utils.getElxChartOperablesData(view, view.typeinfo.data.operable.values);
@@ -473,7 +533,7 @@ elx.bundle.type.FederalBudget2 = {
       
 	   var dataTableKey = $("#typeinfo-property-keys").data("table");
         var dataKey = dataTableKey.table.getData();
-        view.typeinfo.data.nestKeyCol = elx.MultiKeyColumnSection.buildKeyData(dataKey);
+        view.typeinfo.data.keys = elx.MultiKeyColumnSection.buildKeyData(dataKey);
  
 		elx.host.utils.saveProperties(view.typeinfo);
       
@@ -519,7 +579,7 @@ elx.bundle.type.FederalBudget2 = {
    formatClassCast=cfgoptions.formatClassCast,
    formatPrefixCast=cfgoptions.formatPrefixCast;
    var dataGroupKey=cfgoptions.dataGroupKey;
-    var nestArr=(cfgoptions.nestArr).split(",");
+    var nestArr=(cfgoptions.nestArr!=null)?(cfgoptions.nestArr).split(","):autoDetectNestArr();
 var initializedCMap={};
 window['federalBudget_'+viewId]={};
    
@@ -741,10 +801,10 @@ d3.select("#federalDiv").select(".header3").html(view.typeinfo.data.federalCol);
       var nameArr = getArr(f, 'name',view);
       var opArr = getArr(f, 'op',view);
       var idArr = getArr(f, 'id',view);
-	  var cFieldsObj={'cToggle':{cKey:'cToggleKey',cKeyField:view.typeinfo.cToggleKey,cDataField:view.typeinfo.data.cToggleTypeCol[0].name,
+	  var cFieldsObj={'cToggle':{cKey:'cToggleEnabled',cKeyField:view.typeinfo.cToggleKey,cDataField:view.typeinfo.data.cToggleTypeCol[0].name,
 			cType:'majority'
 	  },
-	  'cDescription':{cKey:'cDescriptionKey',cKeyField:view.typeinfo.cDescriptionKey, cDataField:view.typeinfo.data.cDescriptionCol[0].name,
+	  'cDescription':{cKey:'cDescriptionEnabled',cKeyField:view.typeinfo.cDescriptionKey, cDataField:view.typeinfo.data.cDescriptionCol[0].name,
 	  cType:'uniqToAnotherField'
 	  }};
   
@@ -929,6 +989,12 @@ hexToModel1 = function(data, legendKey,formatLegendCast,view) {
     }); 
     return ReadArray; 
 };
+//--Enhanced Logic for UI to make chart smarter
+autoDetectNestArr=function(f,cfgoptions){
+
+};
+
+//--End,Enhanced Logic for UI to make chart smarter
 //--Data Grouping Tab
     addDataGroupFn = function(modelData, tCol, dataGroupKey, dataGroupHex, viewId) {
 		console.log("dataGroupKey",dataGroupKey);

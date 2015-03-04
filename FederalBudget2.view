@@ -1021,9 +1021,9 @@ initializeToolTipandNavBar=function(f,view,nestArr,groupCount){
 
 		//Add window Fselect object to source Field in the js file
 		var fSelectNameArr=_.map(nestArr,function(d) { return 'sum_'+d;}); // add 'sum_' infront
-	 window['federalBudget_'+viewId]['Fselect']['spendField']=fSelectNameArr[0];
-	 window['federalBudget_'+viewId]['Fselect']['actField']=fSelectNameArr[0];
-	  window['federalBudget_'+viewId]['Fselect']['sumField']=nestArr;
+		 window['federalBudget_'+viewId]['Fselect']['spendField']=fSelectNameArr[0];
+		 window['federalBudget_'+viewId]['Fselect']['actField']=fSelectNameArr[0];
+		  window['federalBudget_'+viewId]['Fselect']['sumField']=nestArr;
 
 };
 

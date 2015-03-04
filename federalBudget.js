@@ -77,17 +77,17 @@ function federalBudgetChart(){
 		window['federalBudget_'+viewId]['header']=d3.select("#toolTip_"+viewId+" head");
 		window['federalBudget_'+viewId]['header1'] = d3.select("#toolTip_"+viewId+" header1");
 		window['federalBudget_'+viewId]['header2'] = d3.select("#toolTip_"+viewId+" header2");
-		window['federalBudget_'+viewId]['ToolTipContainer_Div']=[];
-		window['federalBudget_'+viewId]['ToolTipContainer_But']=[];
-		window['federalBudget_'+viewId]['ToolTipContainer_Spend']=[];
+		window['federalBudget_'+viewId]['ToolTipContainer_Div']={};
+		window['federalBudget_'+viewId]['ToolTipContainer_But']={};
+		window['federalBudget_'+viewId]['ToolTipContainer_Spend']={};
 		
 		_.each(window['federalBudget_'+viewId]['ToolTipContainer'],function(d,i){
 			var pushObjDiv=d3.select("#toolTip_"+viewId+' #toolAppend'+' toolDiv_'+viewId+'_'+(i+1));
-		window['federalBudget_'+viewId]['ToolTipContainer'].push(pushObjDiv);
+		window['federalBudget_'+viewId]['ToolTipContainer_Div'][d]=pushObjDiv;
 		var pushObjBut=d3.select("#navigButton_"+(i+1));
-		window['federalBudget_'+viewId]['ToolTipContainer_But'].push(pushObjBut);
+		window['federalBudget_'+viewId]['ToolTipContainer_But'][d]=pushObjBut;
 		var pushObjSpend=d3.select("#toolSpend_"+viewId+'_'+(i+1));
-		window['federalBudget_'+viewId]['ToolTipContainer_Spend'].push(pushObjSpend);
+		window['federalBudget_'+viewId]['ToolTipContainer_Spend'][d]=pushObjSpend;
 		})
 
 	    tree = d3.layout.tree();
@@ -107,46 +107,28 @@ function federalBudgetChart(){
 		  
 	
 };
-	togglesetup = function(){
-	window.root.values.forEach(toggleAll);
-         toggle(window.root.values[2]);
-     window.stateButton.on("click",function (d) {
-            window.stateButton.attr("class","selected")
-            window.federalButton.attr("class",null);
-            window.localButton.attr("class",null);
-            window.stateDiv.attr("class","selected")
-            window.federalDiv.attr("class",null);
-            window.localDiv.attr("class",null);
-            window.Fselect.spendField="sum_State";
-            window.Fselect.actField="sum_State";
-            setup();
-            update(window.root);
+	togglesetup = function(viewId){
+	window['federalBudget_'+viewId].root.values.forEach(toggleAll);
+         toggle(window['federalBudget_'+viewId].root.values[2]);
 	
-        });
-        window.localButton.on("click",function (d) {
-            window.localButton.attr("class","selected")
-            window.stateButton.attr("class",null);
-            window.federalButton.attr("class",null);
-            window.localDiv.attr("class","selected")
-            window.federalDiv.attr("class",null);
-            window.stateDiv.attr("class",null);
-            window.Fselect.spendField="sum_Local";
-            window.Fselect.actField="sum_Local";
-            setup();
-            update(window.root);
-        });
-        window.federalButton.on("click",function (d) {
-            window.federalButton.attr("class","selected")
-            window.stateButton.attr("class",null);
-            window.localButton.attr("class",null);
-            window.federalDiv.attr("class","selected")
-            window.stateDiv.attr("class",null);
-            window.localDiv.attr("class",null);
-            window.Fselect.spendField="sum_Federal";
-            setup();
-            update(window.root);
-        });
-        update(window.root);
+		for (var propertyName in window['federalBudget_'+viewId]['ToolTipContainer_But']) {
+		
+	var localButtonArr=_.keys(window['federalBudget_'+viewId]['ToolTipContainer_But']);
+	var restlocalButtonArr=_.reject(localButtonArr, function(num){ return num==propertyName; });
+		window['federalBudget_'+viewId]['ToolTipContainer_But'][propertyName].on("click",function(d) {
+		window['federalBudget_'+viewId]['ToolTipContainer_But'][propertyName].attr("class","selected");
+		window['federalBudget_'+viewId]['ToolTipContainer_Div'][propertyName].attr("class","selected");
+		window['federalBudget_'+viewId]['Fselect']['spendField']='sum_'+propertyName;
+		window['federalBudget_'+viewId]['Fselect']['actField']='sum_'+propertyName;
+		_.each(restlocalButtonArr,function(m){
+		window['federalBudget_'+viewId]['ToolTipContainer_But'][m].attr("class",null);
+		window['federalBudget_'+viewId]['ToolTipContainer_Div'][m].attr("class",null);
+		});
+		setup();
+		update(window['federalBudget_'+viewId]['root']);
+		});
+	}
+    
 
 };
 	initialize=function(){

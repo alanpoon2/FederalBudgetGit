@@ -846,24 +846,24 @@ div.selected {
           <div id="header1" class="header1"></div>
           <div id="header2" class="header2"></div>
           <div style="position:absolute; left:10px">
-          <div id="federalDiv" style="width:135px; left:0px; top:10px; position: absolute;" class="selected">
-          <div class="header3"><br></div>
-            <div class="header-rule"></div>
-            <div id="fedSpend" class="header4"></div>
-        </div>
-        <div id="stateDiv" style="width:125px; left:140px; top:10px; position: absolute;">
-            <div class="header3"><br>State Funds</div>
-            <div class="header-rule"></div>
-            <div id="stateSpend" class="header4"></div>
-        </div>
-        <div id="localDiv" style="width:125px; left:272px; top:10px; position: absolute;">
-            <div class="header3"><br>Local Funds</div>
-            <div class="header-rule"></div>
-            <div id="localSpend" class="header4"></div>
-        </div>
-    </div>
-    <div  class="tooltipTail"></div>
-</div>
+				<div id="federalDiv" style="width:135px; left:0px; top:10px; position: absolute;" class="selected">
+					<div class="header3"><br></div>
+					<div class="header-rule"></div>
+					<div id="fedSpend" class="header4"></div>
+				</div>
+				<div id="stateDiv" style="width:125px; left:140px; top:10px; position: absolute;">
+					<div class="header3"><br>State Funds</div>
+					<div class="header-rule"></div>
+					<div id="stateSpend" class="header4"></div>
+				</div>
+				<div id="localDiv" style="width:125px; left:272px; top:10px; position: absolute;">
+					<div class="header3"><br>Local Funds</div>
+					<div class="header-rule"></div>
+					<div id="localSpend" class="header4"></div>
+				</div>
+			</div>
+		   <div  class="tooltipTail"></div>
+		</div>
 <div id='body'></div>
 
 	

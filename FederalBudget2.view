@@ -51,6 +51,11 @@
             "attrs":[]
           },{
             "jsonClass":"SchemaColumn",
+            "name":"Employee Description",
+            "dtype":"String",
+            "attrs":[]
+          },{
+            "jsonClass":"SchemaColumn",
             "name":"Salary",
             "dtype":"Float",
             "attrs":[]
@@ -84,6 +89,9 @@
               "value":"Employee A"
             },{
               "jsonClass":"Field",
+              "value":"Employee A Description"
+            },{
+              "jsonClass":"Field",
               "value":"2000"
             },{
               "jsonClass":"Field",
@@ -104,6 +112,9 @@
 	
 		"cToggleTypeCol":[{
 		"name":"Department"
+		}],
+		"cDescriptionCol":[{
+		"name":"Employee Description"
 		}],
 		"keys":[
             {
@@ -206,42 +217,7 @@
                ]
             }
          ]
-      },
-      {
-         "jsonClass":"Group",
-         "label":"Data Grouping",
-         "rows":[
-            {
-               "jsonClass":"Row",
-               "cols":[
-                  {
-                     "jsonClass":"Label",
-                     "id":"typeinfo-dataGroupKey-label",
-                     "type":"label",
-                     "text":"Data Group"
-                  },
-                  {
-                     "jsonClass":"Select",
-                     "id":"typeinfo-dataGroupKey",
-                     "type":"select",
-                     "value":"${typeinfo.dataGroupKey}",
-                     "options":[
-                        {
-                           "jsonClass":"Option",
-                           "text":"default",
-                           "value":"default"
-                        },
-                        {
-                           "jsonClass":"Option",
-                           "text":"Time Period Options",
-                           "value":"timePeriodOptions"
-                        }
-                     ]
-                  }
-               ]
-            }
-         ]
-      },
+      },      
       {
          "jsonClass":"Group",
          "label":"Data",
@@ -399,6 +375,23 @@
                "cols":[
                   {
                      "jsonClass":"Label",
+                     "id":"typeinfo-cToggleType-label",
+                     "type":"label",
+                     "text":"C Toggle Type"
+                  },
+                  {
+                     "jsonClass":"SchemaColumnSelect",
+                     "id":"typeinfo-data-cToggleTypeCol[0].name",
+                     "type":"select-schema-column",
+                     "value":"${typeinfo.data.cToggleTypeCol[0].name}"
+                  }
+               ]
+            },
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
                      "id":"typeinfo-cDescriptionKey-label",
                      "type":"label",
                      "text":"C Description Key"
@@ -420,6 +413,23 @@
                            "value":"cDescriptionEnabled"
                         }
                      ]
+                  }
+               ]
+            },
+            {
+               "jsonClass":"Row",
+               "cols":[
+                  {
+                     "jsonClass":"Label",
+                     "id":"typeinfo-cDescription-label",
+                     "type":"label",
+                     "text":"C Toggle Type"
+                  },
+                  {
+                     "jsonClass":"SchemaColumnSelect",
+                     "id":"typeinfo-data-cDescriptionCol[0].name",
+                     "type":"select-schema-column",
+                     "value":"${typeinfo.data.cDescriptionCol[0].name}"
                   }
                ]
             }
@@ -547,7 +557,7 @@ elx.bundle.type.FederalBudget2 = {
 <style type='text/css'>
   a:hover{font-weight:700;color:#000}#body_${id}{overflow:auto;margin:0;font-size:14px;font-family:"Helvetica Neue",Helvetica}#chart,#header,#footer{position:absolute;top:0}#header,#footer{z-index:1;display:block;font-size:36px;font-weight:300;text-shadow:0 1px 0 #fff}#header.inverted,#footer.inverted{color:#fff;text-shadow:0 1px 4px #000}#header{top:80px;left:140px;width:1000px}#footer{top:680px;right:140px;text-align:right}rect{fill:none;pointer-events:all}pre{font-size:18px}line{stroke:#000;stroke-width:1.5px}.string,.regexp{color:#f39}.keyword{color:#00c}.comment{color:#777;font-style:oblique}.number{color:#369}.class,.special{color:#1181B8}a:link,a:visited{color:#000;text-decoration:none}a:hover{color:#666}.hint{position:absolute;right:0;width:1280px;font-size:12px;color:#999}.node circle{cursor:pointer;stroke-width:1.5px}.node text{font-size:11px}path.link{fill:none;stroke:#ccc;stroke-width:1.5px}div.tooltip{position:absolute;text-align:left;pointer-events:none;background:#FFFFEF;width:400px;height:165px;padding:10px;border:1px solid #D5D5D5;font-family:arial,helvetica,sans-serif;position:absolute;font-size:1.1em;color:#333;padding:10px;border-radius:3px;background:rgba(255,255,255,0.9);color:#000;box-shadow:0 1px 5px rgba(0,0,0,0.4);-moz-box-shadow:0 1px 5px rgba(0,0,0,0.4);border:1px solid rgba(200,200,200,0.85)}div.tooltipTail{position:absolute;left:-7px;top:72px;width:7px;height:13px;background:url(images/tail_white.png) 50% 0}div.toolTipBody{position:absolute;height:100px;width:230px}div.header{text-transform:uppercase;text-align:left;font-size:14px;margin-bottom:2px;color:#666;text-align:center}div.header-rule{height:1px;margin:1px auto 3px;margin-top:7px;margin-bottom:7px;background:#ddd;width:125px}div.header1{text-transform:uppercase;text-align:left;font-size:12px;margin-bottom:2px;color:#333;text-align:center}div.header2{color:#000;font-size:11px;text-align:center;font-style:italic}div.header3{text-align:left;font-size:11px;text-align:center}div.header4{text-align:center;right:10px;top:28px;font-size:16px;text-align:center;overflow:hidden;font-weight:700}.nytg-navBar_${id}{border-top{border-top:solid 1px #DDD;padding:15px 0 0;margin:0 10px;z-index:100;position:absolute;width:950px}.nytg-navigation li{color:#999;font-size:14px;cursor:pointer;float:left;padding:10px 18px;border-top:solid 1px #CCC;border-bottom:solid 1px #CCC;border-left:solid 1px #CCC;background:#f9f9f9;margin:0}.nytg-navigation li:first-of-type{border-radius:4px 0 0 4px}.nytg-navigation li:last-of-type{border-right:solid 1px #CCC;border-radius:0 4px 4px 0}.nytg-navigation li.selected{color:#000;background:#e9e9e9;border-color:#AAA;box-shadow:inset 0 0 4px rgba(0,0,0,0.2);color:#000;background:#e9e9e9;border-color:#AAA;box-shadow:inset 0 0 4px rgba(0,0,0,0.2)}div.selected{color:#000;background:#e9e9e9;border-color:#AAA;box-shadow:inset 0 0 4px rgba(0,0,0,0.2);padding-bottom:10px}
 </style>
-	<div class="nytg-navBar_${id}" style="left:20px;">
+	<div class="nytg-NavBar_${id}" style="left:20px;">
     <ul class="nytg-navigation clearfix" style="list-style-type:none">
         <li id="federalButton" class="selected"></li>
         <li id="stateButton"></li>
@@ -559,11 +569,10 @@ elx.bundle.type.FederalBudget2 = {
           <div id="header1" class="header1"></div>
           <div id="header2" class="header2"></div>
           <div id="toolAppend" style="position:absolute; left:10px">
-      
-        </div>
-    </div>
-    <div  class="tooltipTail"></div>
-</div>
+          
+		  </div>
+		  <div  class="tooltipTail"></div>
+		</div>
 <div id='body_${id}'></div>
 
 	
@@ -582,8 +591,18 @@ elx.bundle.type.FederalBudget2 = {
    var formatClass;
    eval(formatClassCast);
    }
-   var dataGroupKey=cfgoptions.dataGroupKey;
-    var nestArr=(cfgoptions.nestArr!=null)?(cfgoptions.nestArr).split(","):autoDetectNestArr();
+     var formatClass={'1':{'cToggleAccept':'All', //salary
+		'formatValueByCategory':function(arr) {return sum(arr);},
+		'formatValueOutlook':function(val) {return ' '+d3.round(prefixClass['1']('Size').scale(val),2)+prefixClass['1']('Size').symbol;}
+		}, '2':{'cToggleAccept':'All',     //
+		'formatValueByCategory':function(arr) {return sum(arr);},
+		'formatOutlook':function(val) {return ' '+d3.round(prefixClass['2']('Size').scale(val),2)+prefixClass['2']('Size').symbol;}
+		}, '3':{'cToggleAccept':'Sales',     //
+		'formatValueByCategory':function(arr) {return sum(arr);},
+		'formatOutlook':function(val) {return ' '+d3.round(prefixClass['3']('Size').scale(val),2)+prefixClass['3']('Size').symbol;}
+		}
+		};
+    var nestArr=(cfgoptions.nestArr!=null)?(cfgoptions.nestArr).split(","):autoDetectNestArr(f,view);
 var initializedCMap={};
 window['federalBudget_'+viewId]={};
    
@@ -617,82 +636,14 @@ window['federalBudget_'+viewId]={};
  var legendKey='lastGroupby_op';
  var formatLegendCast="";
   var data2 = hexToModel1(data1, legendKey,formatLegendCast,view);
+  var groupCount=0;
+chartPreGen(modelData,groupCount);
+  initializeToolTipandNavBar(f,view,nestArr,groupCount);
+	
 
-  
-  var data2=[{'category':'2014-Jan','groupby1':'A','groupby2':'John','model':'Salary','yAxis':1,'value':4000},
-  {'category':'2014-Jan','groupby1':'A','groupby2':'John','model':'Profit','yAxis':2,'value':60},
-  {'category':'2014-Feb','groupby1':'A','groupby2':'John','model':'Salary','yAxis':1,'value':2000},
-  {'category':'2014-Jan','groupby1':'A','groupby2':'Gary','model':'Salary','yAxis':1,'value':3000}
-  ];
-  
-  
-   addDataGroupFn(data3, 'category', dataGroupKey, '#dataGroup_' + viewId, viewId);
-
-
-  
-  var modelYAxisMap=getArr(f.operable,'id',view);
-  modelYAxisMap=_.map(modelYAxisMap,function(d) {
-	var obj={};
-		var propertyName=d.split('.')[1];
-		obj[propertyName]=d.split(".")[0];
-		return obj;});
-  
-    var formatClass={'1':{'cToggleAccept':'All', //salary
-		'formatValueByCategory':function(arr) {return sum(arr);},
-		'formatValueOutlook':function(val) {return ' '+d3.round(prefixClass['1']('Size').scale(val),2)+prefixClass['1']('Size').symbol;}
-		}, '2':{'cToggleAccept':'All',     //
-		'formatValueByCategory':function(arr) {return sum(arr);},
-		'formatOutlook':function(val) {return ' '+d3.round(prefixClass['2']('Size').scale(val),2)+prefixClass['2']('Size').symbol;}
-		}, '3':{'cToggleAccept':'Sales',     //
-		'formatValueByCategory':function(arr) {return sum(arr);},
-		'formatOutlook':function(val) {return ' '+d3.round(prefixClass['3']('Size').scale(val),2)+prefixClass['3']('Size').symbol;}
-		}
-		};
-  //Append to ToolTip
-  var ToolTipContainer=[];
-  
-  //if cToggleType matches with formatClass' cToggleAccept then append the model into ToolTipContainer
-  if (formatClassKey=='formatClassCast') {
-  for (var propertyName in formatValue) {
-	if (formatClass[propertyName]['cToggleAccept']=='All' || formatClass[propertyName]['cToggleAccept']==cToggleType) {
-	ToolTipContainer.push(modelYAxisMap[propertyName]);
-	  }
-	  }
-  } else {
-	for (var propertyName in modelYAxisMap) {
-	ToolTipContainer.push(modelYAxisMap[propertyName];
-	}
-	}
-	_.each(ToolTipContainer,function(d,i){
-		var toolTipSel=d3.select('#toolTip_${id} #toolAppend').append("div").attr("id",'toolDiv_${id}_'+(i+1))
-									.style({'width':'135px','left':'0px', 'top':'10px', 'position': 'absolute'});
-		if (i==0) toolTipSel.attr("class",'selected');
-		toolTipSel.append("div").attr("class","header3").append("br").html(d);
-		toolTipSel.append("div").attr("class","header-rule");
-		toolTipSel.append("div").attr("id",'toolSpend_${id}_'+(i+1)).attr("class","header4");
-		
-		var navigButton=d3.select('#nytg-navBar_${id} .nytg-navigation clearfix').append("li").attr("id",'navigButton_'+(i+1));
-		if (i==0) navigButton.attr("class",'selected');
-		});
-		
-  window.Fselect={spendField:"sum_Federal",actField:"sum_Federal",sumField: ["Federal","GovXFer","State","Local"], 
-  sourceField: ["Category","Level1","Level2","Level3","Level4","Level5","Description"]};
-  /*window.Fselect={spendField:"sum_"+view.typeinfo.data.federalCol,actField:"sum_"+view.typeinfo.data.federalCol,
-  sumField: ["Federal","State","Local"],
-  sourceField: ["Category","Level1","Level2","Level3","Level4","Level5","Description"]};
-  */
-
-
-  
 d3select(w,h,m,viewId);
   
  
-d3.select("#federalDiv").select(".header3").html(view.typeinfo.data.federalCol);
-  d3.select("#stateDiv").select(".header3").html(view.typeinfo.data.stateCol);
-  d3.select("#localDiv").select(".header3").html(view.typeinfo.data.localCol);
- d3.select("#federalButton").html(view.typeinfo.data.federalCol);
-  d3.select("#stateButton").html(view.typeinfo.data.stateCol);
-  d3.select("#localButton").html(view.typeinfo.data.localCol);
   
   initialize();
   setup();
@@ -958,53 +909,16 @@ hexToModel1 = function(data, legendKey,formatLegendCast,view) {
 		return hexData;
 	};
 //--Enhanced Logic for UI to make chart smarter
-autoDetectNestArr=function(f,cfgoptions){
-
+autoDetectNestArr=function(f,view){
+	var nameArr=getArr(f.operable.values,'name',view);
+	nameArr= _.map(nameArr,function(d) {
+	return (_.str.include(d,'.')) ? d.split('.')[1]:d;
+	});
+	return nameArr;
 };
 
 //--End,Enhanced Logic for UI to make chart smarter
-//--Data Grouping Tab
-    addDataGroupFn = function(modelData, tCol, dataGroupKey, dataGroupHex, viewId) {
-		console.log("dataGroupKey",dataGroupKey);
-        if (dataGroupKey === 'timePeriodOptions') {
-			
-            var dataGroupContent = d3.select(dataGroupHex);
-            dataGroupContent.append("td")
-                .append("select").attr("id", 'periodSelect_' + viewId);
-            dataGroupContent.append("td").append("select").attr("id", 'subPeriodSelect_' + viewId)
-                .attr("title", 'Basic example')
-                .attr("multiple", "multiple")
-                .attr("size", 5);
-			
-            var tDomainDate = setTDomain1(modelData, tCol);
-            var periodSelect_hex = '#periodSelect_' + viewId;
-			console.log("front periodSelect_el",$(periodSelect_hex));
-            var subPeriodSelect_hex = '#subPeriodSelect_' + viewId
-            addSubPeriodOptions(modelData, tDomainDate, tCol, 'month', subPeriodSelect_hex);
-            periodSelect_el = $(periodSelect_hex).multiselect({
-                selectedList: 1,
-                multiple: false,
-                click: function(event, ui) {
-                    periodSelect_val = [ui.value];
-                    //clear options in subPeriodSelect
-                    $(subPeriodSelect_hex).empty();
-                    //add options in subPeriodSelects
-                       	updateSubPeriodOptions(modelData,tDomainDate,tCol,subPeriodSelect_hex);
-                },
-				minWidth:100
 
-            });
-			console.log("periodSelect_el",periodSelect_el);
-            addPeriodOptions(periodSelect_el);
-	
-        } else {
-	
-		$(periodSelect_hex).empty();
-		$(subPeriodSelect_hex).empty();
-		chartPreGen(modelData);
-		
-		}
-    };
 	groupByFn = function(data, groupByArr,formatClass) {
 		var aggreData, nest;
 		nest = d3.nest();
@@ -1030,186 +944,89 @@ autoDetectNestArr=function(f,cfgoptions){
 		return result;
 	};
 
-	 dataGroupUsed = function(modelData, tCol,subPeriodSelect_val) {
-        var periodFilterClass = {
-            'month': function(date) {
-                var monthFormat = d3.time.format("%b");
-                return monthFormat(date);
-            },
-            'year': function(date) {
-                console.log("now is year", date.getFullYear());
-                return date.getFullYear();
-
-            },
-            'quarter': function(date) {
-                return 'Q' + getQuarter(date);
-            }
-        };
-		var dataGroupCategoryClass={
-		     'month': function(date) {
-                var monthFormat = d3.time.format("%Y-%b");
-                return monthFormat(date);
-            },
-            'year': function(date) {
-                console.log("now is year", date.getFullYear());
-                return date.getFullYear();
-
-            },
-            'quarter': function(date) {
-                return date.getFullYear()+'-Q' + getQuarter(date);
-            }
-		};
-        var filteredData = [];
-        var subPeriodData = _.map(modelData, function(num, key) {
-            var sampleObj = _.clone(num);
-            var toColSubPeriodVal = periodFilterClass[periodSelect_val](new Date(sampleObj[tCol]));
-            sampleObj['tColSubPeriod'] = ($.isNumeric(toColSubPeriodVal)) ? toColSubPeriodVal.toString() : toColSubPeriodVal;
-			var dataGroupCategoryVal=dataGroupCategoryClass[periodSelect_val](new Date(sampleObj[tCol]));
-			sampleObj['category'] =($.isNumeric(dataGroupCategoryVal)) ? dataGroupCategoryVal.toString() : dataGroupCategoryVal;
-            return sampleObj;
-        });
-        _.each(subPeriodSelect_val, function(m) {
-            filteredData = _.union(filteredData, _.where(subPeriodData, {
-                'tColSubPeriod': m
-            }));
-        });
-      // group the data by category and aggregate the 'value' column
-		var groupCount=0;
-	for (var property in filteredData[0]) {
+	
+	//$$$
+	chartPreGen=function(modelData,groupCount){
+	//clear the UI and chart
+	$('#body_${id}').empty();
+	
+	for (var property in modelData[0]) {
 	if (_.str.include(property,'groupby')) groupCount++;
 	}
 		groupbyRange=_.map(_.range(1,groupCount+1),function(m){ return 'groupby'+m;});
 		var groupByArr=['model','category','columnName'];
 		var groupByArr=_.union(groupByArr,groupbyRange);
 		
-		var aggregateData=groupByFn(filteredData,groupByArr);
+		var aggregateData=groupByFn(modelData,groupByArr);
 		var modelToHexData=modelToHex(aggregateData,groupByArr);
-		console.log('aggregateData',JSON.stringify(aggregateData));
-		return modelToHexData;
-    };
-	  addPeriodOptions = function(periodSelect_el) {
-        _.each(['month', 'year', 'quarter'], function(m) {
-            var opt = $('&lt;option /&gt;', {
-                value: m,
-                text: m
-
-            });
-            opt.appendTo(periodSelect_el);
-        });
-		console.log("add Period",periodSelect_el);
-        periodSelect_el.multiselect('refresh');
-    };
-    updateSubPeriodOptions = function(modelData, tDomainDate, tCol, subPeriodSelect_hex) {
-        var updatesubPeriodSelect_el = $(subPeriodSelect_hex);
-        var subPeriodArr = dataGroupAvailClass[periodSelect_val](tDomainDate[0], tDomainDate[1]);
-        _.each(subPeriodArr, function(m) {
-
-            var opt = $('&lt;option /&gt;', {
-                value: ($.isNumeric(m)) ? m.toString() : m,
-                text: m,
-                selected: 'selected'
-            });
-            opt.appendTo(updatesubPeriodSelect_el);
-        });
-		console.log("updatesubPeriodSelect_el",updatesubPeriodSelect_el);
-        updatesubPeriodSelect_el.multiselect('refresh');
-    };
-    addSubPeriodOptions = function(modelData, tDomainDate, tCol,periodSelect_val, subPeriodSelect_hex) {
-        subPeriodSelect_el = $(subPeriodSelect_hex).multiselect({
-
-            selectedText: function(numChecked, numTotal, checkedItems) {
-			console.log("help");
-                subPeriodSelect_val = $.map(checkedItems, function(checkbox) {
-                    return checkbox.value;
-                });
-                console.log("subPeriodSelect_val _sel", subPeriodSelect_val);
-                var groupbyRange;
-                var groupedData = dataGroupUsed(modelData, tCol,subPeriodSelect_val); //data filtered by subPeriodselected_val
-				 groupedData=valueOperating(groupedData,valueOperationKey,formatValueOperationCast,cToggleType);
-				
-				 if (_.size(groupedData)==0) groupedData =[{model:'column',category:'2012-06-20',yAxis:'L1'}];
-				chartPreGen(groupedData,groupbyRange);
-                console.log('groupedData_selected', JSON.stringify(groupedData));
-
-                return subPeriodSelect_val.join(", ");
-            },
-
-            uncheckAll: function() {
-                subPeriodSelect_val = [];
-				var groupbyRange;
-               var groupedData = dataGroupUsed(modelData, tCol,subPeriodSelect_val);
-			   groupedData =valueOperating(groupedData,valueOperationKey,formatValueOperationCast,cToggleType);
-			   if (_.size(groupedData)==0) groupedData =[{model:'column',category:'2012-06-20',yAxis:'L1'}];
-			   chartPreGen(groupedData,groupbyRange);
-                console.log('groupedData_unchecked', JSON.stringify(groupedData));
-
-            },minWidth:400
-
-        });
-        var subPeriodArr = dataGroupAvailClass[periodSelect_val](tDomainDate[0], tDomainDate[1]);
-        console.log("subPeriodArr", subPeriodArr);
-        subPeriodSelect_val = subPeriodArr;
-        _.each(subPeriodArr, function(m) {
-
-            var opt = $('&lt;option /&gt;', {
-                value: ($.isNumeric(m)) ? m.toString() : m,
-                text: m,
-                selected: 'selected'
-            });
-            opt.appendTo(subPeriodSelect_el);
-        });
-		console.log("subPeriodSelect_el",subPeriodSelect_el);
-        subPeriodSelect_el.multiselect('refresh');
-    };
-    dataGroupAvailClass = { //return the available options in each type of dataGroup as an array
-        'month': function(minDate, maxDate) {
-            var monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            var mDiff = monthDiff(minDate, maxDate);
-            if (mDiff < 12) {
-                var newMonthName = [];
-                var minDateIndex = minDate.getMonth();
-                _.each(_.range(minDateIndex, minDateIndex + mDiff), function(m) {
-                    var listed = m % 12;
-                    newMonthName.push(monthName[listed]);
-                });
-            }
-            return monthName;
-        },
-        'year': function(minDate, maxDate) {
-            return _.range(minDate.getFullYear(), maxDate.getFullYear() + 1);
-        },
-        'quarter': function(minDate, maxDate) {
-            var quarterArr = [];
-            var qMin = getQuarter(minDate);
-            var qDiff = quarterDiff(minDate, maxDate);
-            if (qDiff < 4) {
-                _.each(_.range(qMin, qMin + qDiff + 1), function(m) {
-                    quarterArr.push('Q' + m);
-                });
-            }
-            return  ['Q1', 'Q2', 'Q3', 'Q4'];
-        }
-
-    };
-	//--end Data Grouping Tab
+	var nest;
+	_.each(groupbyRange,function(m,n){
+	nest.key(function(d,i){
+	return d[m];
+	});
+	});
+	window['federalBudget_'+viewId]['root']={};
+	window['federalBudget_'+viewId]['root']['values']=nest.entries(modelToHexData);
 	
-	//$$$
-	chartPreGen=function(modelData,periodSelect_val){
-	//clear the UI and chart
-	$('#body_${id}').empty();
-	var hexData=modelToHex(modelData);
 	    window['federalBudget_'+viewId]['color'] = ["#bd0026","#fecc5c", "#fd8d3c", "#f03b20", "#B02D5D",
         "#9B2C67", "#982B9A", "#692DA7", "#5725AA", "#4823AF",
         "#d7b5d8","#dd1c77","#5A0C7A","#5A0C7A"];
-	window['federalBudget_'+viewId]['root']={};
-	window['federalBudget_'+viewId]['root']['values']=nest;
+	
 	window['federalBudget_'+viewId]['root']['x0']=h/2;
 	window['federalBudget_'+viewId]['root']['y0']=0;
     window['federalBudget_'+viewId]['retDes']=function(d) { var ret = d.source_Description;
 		ret =(String(ret).length > 25) ? String(ret).substr(0,22)  + "..." : ret;
 		   return ret;};
+	  window['federalBudget_'+viewId]['Fselect']={};
+	 window['federalBudget_'+viewId]['Fselect']['sourceField']=_.union(['category','description'],groupbyRange);
+	
 	};
-	}   
+initializeToolTipandNavBar=function(f,view,nestArr,groupCount){
+		var modelYAxisMap=getArr(f.operable,'id',view);
+	  modelYAxisMap=_.map(modelYAxisMap,function(d) {
+		var obj={};
+			var propertyName=d.split('.')[1];
+			obj[propertyName]=d.split(".")[0];
+			return obj;});
+	  
+	 
+	  //Append to ToolTip
+	  var ToolTipContainer=[];
+	  
+	  //if cToggleType matches with formatClass' cToggleAccept then append the model into ToolTipContainer
+	  if (formatClassKey=='formatClassCast') {
+	  for (var propertyName in formatValue) {
+		if (formatClass[propertyName]['cToggleAccept']=='All' || formatClass[propertyName]['cToggleAccept']==cToggleType) {
+		ToolTipContainer.push(modelYAxisMap[propertyName]);
+		  }
+		  }
+	  } else {
+		for (var propertyName in modelYAxisMap) {
+		ToolTipContainer.push(modelYAxisMap[propertyName];
+		}
+		}
+		_.each(ToolTipContainer,function(d,i){
+			var toolTipSel=d3.select('#toolTip_${id} #toolAppend').append("div").attr("id",'toolDiv_${id}_'+(i+1))
+										.style({'width':'135px','left':'0px', 'top':'10px', 'position': 'absolute'});
+			if (i==0) toolTipSel.attr("class",'selected');
+			toolTipSel.append("div").attr("class","header3").append("br").html(d);
+			toolTipSel.append("div").attr("class","header-rule");
+			toolTipSel.append("div").attr("id",'toolSpend_${id}_'+(i+1)).attr("class","header4");
+			
+		//Append To NavigButton
+			var navigButton=d3.select('#nytg-NavBar_${id} .nytg-navigation clearfix').append("li").attr("id",'navigButton_'+(i+1))
+								.html(d);
+			if (i==0) navigButton.attr("class",'selected');
+			});
+
+		//Add window Fselect object to source Field in the js file
+		var fSelectNameArr=_.map(nestArr,function(d) { return 'sum_'+d;}); // add 'sum_' infront
+	 window['federalBudget_'+viewId]['Fselect']['spendField']=fSelectNameArr[0];
+	 window['federalBudget_'+viewId]['Fselect']['actField']=fSelectNameArr[0];
+	  window['federalBudget_'+viewId]['Fselect']['sumField']=nestArr;
+
+};
+
 	//helper function
 	function monthDiff(firstDate, secondDate) {
     var months;
@@ -1232,5 +1049,21 @@ function getQuarter(d) {
 	function yearDiff(firstDate,secondDate){
 	return secondDate.getFullYear()-firstDate.getFullYear();
 	}
+	  function getArr(obj, k,view) {   //used on view.typeinfo to get an array of property value of the propertyName 'name'
+      var objects = [];
+      for (var i in obj) {
+          if (!obj.hasOwnProperty(i)) continue;
+          if (typeof obj[i] == 'object') {
+              objects = objects.concat(getArr(obj[i], k,view));
+          } else if (i.contains(k) == true) {
+              if (k == "name") {
+                  objects.push(cutTableName(obj[i],view));
+              } else
+                  objects.push(obj[i]);
+          }
+      }
+      return objects;
+  }
+
 </div>
 ========

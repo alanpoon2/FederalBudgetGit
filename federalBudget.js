@@ -97,7 +97,7 @@ function federalBudgetChart(){
 		window.diagonal = d3.svg.diagonal()
             .projection(function(d) { return [d.y, d.x]; });  
 			
-		  window.vis = d3.select("#body").append("svg:svg")
+		  window.vis = d3.select("#body_"+viewId).append("svg:svg")
             .attr("width", w + m[1] + m[3])
             .attr("height", h + m[0] + m[2])
             .append("svg:g")

@@ -103,7 +103,7 @@
           }]
         }
       },"hint":"directive-data-array",
-      "directive":""
+      "directive":"ZnVuY3Rpb24gZGF0YSgpew0KdmFyIGNUb2dnbGVUeXBlPXZpZXcudHlwZWluZm8uZGF0YS5jVG9nZ2xlVHlwZUNvbDsNCnZhciBjRGVzY3JpcHRpb249dmlldy50eXBlaW5mby5kYXRhLmNEZXNjcmlwdGlvbkNvbDsNCiAgICB2YXIgdD12aWV3LnR5cGVpbmZvLmRhdGEub3BlcmFibGUudmFsdWVzOw0KICAJdmFyIGs9dmlldy50eXBlaW5mby5kYXRhLmtleXM7DQoNCiAgdmFyIGNvbHVtbnM9W107IHZhciBvcGVyYXRpb25zPVtdOyB2YXIga2V5cz1bXTsNCiBpZihjVG9nZ2xlVHlwZVswXS5uYW1lICE9bnVsbCAmJiB2aWV3LnR5cGVpbmZvLmNUb2dnbGVLZXkhPSdkZWZhdWx0JykNCiB7a2V5cy5wdXNoKGNUb2dnbGVUeXBlWzBdLm5hbWUpO30NCiAgaWYoY0Rlc2NyaXB0aW9uWzBdLm5hbWUgIT1udWxsICYmIHZpZXcudHlwZWluZm8uY0Rlc2NyaXB0aW9uS2V5IT0nZGVmYXVsdCcpDQoge2tleXMucHVzaChjRGVzY3JpcHRpb25bMF0ubmFtZSk7fQ0KICB0LmZvckVhY2goZnVuY3Rpb24oZCxpKSB7DQogIGNvbHVtbnMucHVzaChkLm5hbWUpOw0KICAgIG9wZXJhdGlvbnMucHVzaChkLm9wKTsNCiAgfSkNCiAgay5mb3JFYWNoKGZ1bmN0aW9uKGQsaSkgew0KICAgIGtleXMucHVzaChkLm5hbWUpO30pDQogICByZXR1cm4gcm93cy5ncm91cEJ5KGtleXMsY29sdW1ucywgb3BlcmF0aW9ucyk7DQp9DQpkYXRhKCk7"
     },
     "typeinfo":{
       "jsonClass":"Bundle",
@@ -655,6 +655,7 @@ elx.bundle.type.FederalBudget2 = {
      var extendedArr = extendArr(rawdata, f, view);
  }
  console.log("rawdata", JSON.stringify(rawdata));
+ //need ** to write a function to deal with Description Column
  var data1 = arrToHex1(extendedArr, f, view);
  var legendKey = 'lastGroupby_op';
  var formatLegendCast = "";

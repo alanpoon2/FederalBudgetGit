@@ -819,19 +819,49 @@ elx.bundle.type.FederalBudget2 = {
 
                  },
                  'uniqToAnotherField': function(data, cfieldsObjName, positionIndex,groupCount,cFieldsObjSize, initializedCMap) {
-					//By default, eg. The 'description' is tagged to the last groupBy key
-					var groupByRange=_.map(_.range(1, groupCount + 1), function(m) { return 'groupby' + m;
-					});
+					
 					//positionIndex is the positionIndex is position of the cfield in JSON-array
-					var smallJSON=_.map(data,function(d,i) {//JSON with only two fields
-						var obj={};
+					var uniqDescription=[];
+					var uniqMap={};
+					_.each(data,function(d,i) {//JSON with only two fields
+						var pegIndex= cFieldsObjSize+groupCount-1;
+						
+						if(i==0) {uniqDescription.push(d[positionIndex]);			
+						var pegName=d[pegIndex];
+						var desName=d[positionIndex];
+						uniqMap[pegName]=desName;
+						}
+						else if (_.size(_.intersection(uniqDescription,[d[positionIndex]]))== 0){
+						uniqDescription.push(d[positionIndex]);
+						var pegName=d[pegIndex];
+						var desName=d[positionIndex];
+						uniqMap[pegName]=desName;
+						}
 						});
+						initializedCMap[cfieldsObjName]=uniqMap;
                  },
 				 'cMapNotDefined': function(data, cfieldsObjName, positionIndex,groupCount,cFieldsObjSize, initializedCMap) {
-				 
+				 initializedCMap[cfieldsObjName]=null;
 				 },
 				 'equalsToAnotherField':function(data, cfieldsObjName, positionIndex,groupCount,cFieldsObjSize, initializedCMap) {
-				 
+				var uniqDescription=[];
+					var uniqMap={};
+					_.each(data,function(d,i) {//JSON with only two fields
+						var pegIndex= cFieldsObjSize+groupCount-1;
+						
+						if(i==0) {uniqDescription.push(d[positionIndex]);			
+						var pegName=d[pegIndex];
+						var desName=d[pegIndex];
+						uniqMap[pegName]=desName;
+						}
+						else if (_.size(_.intersection(uniqDescription,[d[positionIndex]]))== 0){
+						uniqDescription.push(d[positionIndex]);
+						var pegName=d[pegIndex];
+						var desName=d[pegIndex];
+						uniqMap[pegName]=desName;
+						}
+						});
+						initializedCMap[cfieldsObjName]=uniqMap;
 				 },
              };
          hexToModel1 = function(data, legendKey, formatLegendCast, view) {

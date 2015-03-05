@@ -94,17 +94,15 @@ function federalBudgetChart(){
 
           tree.children(function (d) { return d.values; });
           tree.size([h, w]);
-		window.diagonal = d3.svg.diagonal()
-            .projection(function(d) { return [d.y, d.x]; });  
-			
-		  window.vis = d3.select("#body_"+viewId).append("svg:svg")
+		  window['federalBudget_'+viewId]['diagonal']=d3.svg.diagonal()
+            .projection(function(d) { return [d.y, d.x]; }); 
+		
+			window['federalBudget_'+viewId]['vis']=d3.select("#body_"+viewId).append("svg:svg")
             .attr("width", w + m[1] + m[3])
             .attr("height", h + m[0] + m[2])
             .append("svg:g")
             .attr("transform", "translate(" + m[3] + "," + m[0] + ")");	 
-		
-			
-		  
+			  
 	
 };
 	togglesetup = function(viewId){
@@ -131,68 +129,40 @@ function federalBudgetChart(){
     
 
 };
-	initialize=function(){
-  window.level1Max={};
-    window.level2Max={};
-   window.level3Max={};
-    window.level4Max={};
-	window.level5Max={};
-	    window.level1Radius;
-    window.level2Radius;
-    window.level3Radius;
-    window.level4Radius;
-	window.level5Radius;
-    window.alreadySummed=false;
-	window.data_i=0;
-	          var nodes = tree.nodes(window.root).reverse();
+	initialize=function(groupCount){
+	var groupbyRange=_.map(_.range(1,groupCount+1),function(m){ return 'groupby'+m;});
+	_.each(groupbyRange,function(d,i){
+	window['federalBudget_'+viewId][d+'_Max']={};
+	window['federalBudget_'+viewId][d+'_Radius']={};
+	});
+	window['federalBudget_'+viewId]['alreadySummed']=false;
+	window['federalBudget_'+viewId]['data_i']=0;
+	
+	          var nodes = tree.nodes(window['federalBudget_'+viewId].root).reverse();
 
         tree.children(function (d){ return d.children;});
 
-            for (var i=0; i < window.Fselect.sumField.length; i++) {
-                window.level1Max["sum_" + window.Fselect.sumField[i]]=0;
-                window.level2Max["sum_" + window.Fselect.sumField[i]]=0;
-                window.level3Max["sum_" + window.Fselect.sumField[i]]=0;
-                window.level4Max["sum_" + window.Fselect.sumField[i]]=0;
-				window.level5Max["sum_" + window.Fselect.sumField[i]]=0;
+            for (var i=0; i < window['federalBudget_'+viewId].Fselect.sumField.length; i++) {
+    			_.each(groupbyRange,function(d,i){
+				window['federalBudget_'+viewId][d+'_Max']['sum_'+window['federalBudget_'+viewId].Fselect.sumField[i]]=0;
+				});
             }
-            sumNodes(window.root.children);
+            sumNodes(window['federalBudget_'+viewId].root.children);
         };
 
-         setup = function() {
-
-            window.level1Radius=d3.scale.sqrt()
-                    .domain([0, window.level1Max[window.Fselect.spendField]])
+         setup = function(groupCount) {
+			var groupbyRange=_.map(_.range(1,groupCount+1),function(m){ return 'groupby'+m;});
+			_.each(groupbyRange,function(d,i){
+			window['federalBudget_'+viewId][d+'_Radius']=d3.scale.sqrt()
+                    .domain([0, window['federalBudget_'+viewId][d+'_Max'][window['federalBudget_'+viewId].Fselect.spendField]])
                     .range([1,50]);
-
-            window.level2Radius=d3.scale.sqrt()
-                    .domain([0, window.level2Max[window.Fselect.spendField]])
-                    .range([1,50]);
-
-            window.level3Radius=d3.scale.sqrt()
-                    .domain([0, window.level3Max[window.Fselect.spendField]])
-                    .range([1,50]);
-
-            window.level4Radius=d3.scale.sqrt()
-                    .domain([0, window.level4Max[window.Fselect.spendField]])
-                    .range([1,50]);
-
-            window.level5Radius=d3.scale.sqrt()
-                    .domain([0, window.level5Max[window.Fselect.spendField]])
-                    .range([1,40]);
+					
+			});
+ 
         };
 }	
 		
 }
-
-    /*      window.root = {};
-	window.FSelect={spendField:"sum_Federal",actField:"sum_Federal",sumField: ["Federal","GovXFer","State","Local"], sourceFields: ["Category","Level1","Level2","Level3","Level4"]};
-
-
-    window.colors = ["#bd0026","#fecc5c", "#fd8d3c", "#f03b20", "#B02D5D",
-        "#9B2C67", "#982B9A", "#692DA7", "#5725AA", "#4823AF",
-        "#d7b5d8","#dd1c77","#5A0C7A","#5A0C7A"];
-
-	*/
 
 
 		
@@ -209,8 +179,8 @@ function federalBudgetChart(){
 	function setSourceFields(child,parent) {
         if (parent) {
 		
-            for (var i=0; i < window.Fselect.sourceField.length; i++) {
-                var sourceField=window.Fselect.sourceField[i];
+            for (var i=0; i < window['federalBudget_'+viewId].Fselect.sourceField.length; i++) {
+                var sourceField=window['federalBudget_'+viewId].Fselect.sourceField[i];
 				
                 if (child[sourceField] != undefined) {
                     child["source_" + sourceField] = child[sourceField];
@@ -223,48 +193,34 @@ function federalBudgetChart(){
     }
 	
 	
-    function sumNodes(nodes)  {
+    function sumNodes(nodes,groupCount)  {
         for (var y=0; y < nodes.length; y++) {
             var node=nodes[y];
             if (node.children) {
                 sumNodes(node.children);
                 for (var z=0; z < node.children.length; z++) {
                     var child=node.children[z];
-                    for (var i=0; i < window.Fselect.sumField.length; i++) {
-                        if (isNaN(node["sum_" + window.Fselect.sumField[i]])) node["sum_" + window.Fselect.sumField[i]]=0;
-                        node["sum_" + window.Fselect.sumField[i]]+=Number(child["sum_" + window.Fselect.sumField[i]]);
+                    for (var i=0; i < window['federalBudget_'+viewId].Fselect.sumField.length; i++) {
+                        if (isNaN(node["sum_" + window['federalBudget_'+viewId].Fselect.sumField[i]])) node["sum_" + window['federalBudget_'+viewId].Fselect.sumField[i]]=0;
+                        node["sum_" + window['federalBudget_'+viewId].Fselect.sumField[i]]+=Number(child["sum_" + window['federalBudget_'+viewId].Fselect.sumField[i]]);
 
                         //Set scales;
-
-                      //  console.log("sum_" + window.Fselect.sumField[i] + " " + node["sum_"+window.Fselect.sumField[i]]);
-
-                        if ((node.parent)) {
-                            if (node.depth==1) {
-                                window.level1Max["sum_" + window.Fselect.sumField[i]]=Math.max(window.level1Max["sum_" + window.Fselect.sumField[i]],Number(node["sum_" + window.Fselect.sumField[i]]));
-                            }
-                            else if (node.depth==2) {
-                                window.level2Max["sum_" + window.Fselect.sumField[i]]=Math.max(window.level2Max["sum_" + window.Fselect.sumField[i]],Number(node["sum_" + window.Fselect.sumField[i]]));
-                            }
-                            else if (node.depth==3) {
-                                window.level3Max["sum_" + window.Fselect.sumField[i]]=Math.max(window.level3Max["sum_" + window.Fselect.sumField[i]],Number(node["sum_" + window.Fselect.sumField[i]]));
-                            }
-                            else if (node.depth==4) {
-                                window.level4Max["sum_" + window.Fselect.sumField[i]]=Math.max(window.level4Max["sum_" + window.Fselect.sumField[i]],Number(node["sum_" + window.Fselect.sumField[i]]));
-                            }
-							else if (node.depth==5) {
-                                window.level5Max["sum_" + window.Fselect.sumField[i]]=Math.max(window.level5Max["sum_" + window.Fselect.sumField[i]],Number(node["sum_" + window.Fselect.sumField[i]]));
-                            }
-                            setSourceFields(node,node.parent);
-                        }
-
+						if((node.parent)){
+						for (var i=1;i<=groupCount;i++){
+							if(node.depth==i){
+							   window['federalBudget_'+viewId][d+'_Max']["sum_" + window['federalBudget_'+viewId].Fselect.sumField[i]]=Math.max(window['federalBudget_'+viewId][d+'_Max']["sum_" + window.Fselect.sumField[i]],Number(node["sum_" + window['federalBudget_'+viewId].Fselect.sumField[i]]));
+							}
+						}
+						setSourceFields(node,node.parent);
+						}
                     }
                 }
             }
             else {
-                for (var i=0; i < window.Fselect.sumField.length; i++) {
-                    node["sum_"+window.Fselect.sumField[i]]=Number(node[window.Fselect.sumField[i]]);
-                    if (isNaN(node["sum_"+window.Fselect.sumField[i]])) {
-                        node["sum_"+window.Fselect.sumField[i]] = 0;
+                for (var i=0; i < window['federalBudget_'+viewId].Fselect.sumField.length; i++) {
+                    node["sum_"+window['federalBudget_'+viewId].Fselect.sumField[i]]=Number(node[window['federalBudget_'+viewId].Fselect.sumField[i]]);
+                    if (isNaN(node["sum_"+window['federalBudget_'+viewId].Fselect.sumField[i]])) {
+                        node["sum_"+window['federalBudget_'+viewId].Fselect.sumField[i]] = 0;
                     }
                 }
             }
@@ -273,11 +229,11 @@ function federalBudgetChart(){
 
     }
 	
-    function update(source) {
+    function update(source,groupCount) {
 
         var duration = d3.event && d3.event.altKey ? 5000 : 500;
 
-        var nodes = tree.nodes(window.root).reverse();
+        var nodes = tree.nodes(window['federalBudget_'+viewId].root).reverse();
 
         var depthCounter=0;
 
@@ -287,7 +243,7 @@ function federalBudgetChart(){
             d.numChildren=(d.children) ? d.children.length : 0;
 
             if (d.depth==1) {
-                d.linkColor=window.colors[(depthCounter % (window.colors.length-1))];
+                d.linkColor=window['federalBudget_'+viewId].colors[(depthCounter % (window['federalBudget_'+viewId].colors.length-1))];
                 depthCounter++;
             }
 
@@ -308,8 +264,8 @@ function federalBudgetChart(){
         });
 
         // Update the nodes…
-        var node = window.vis.selectAll("g.node")
-                .data(nodes, function(d) { return d.id || (d.id = ++window.data_i); });
+        var node = window['federalBudget_'+viewId].vis.selectAll("g.node")
+                .data(nodes, function(d) { return d.id || (d.id = ++window['federalBudget_'+viewId].data_i); });
 		
         // Enter any new nodes at the parent's previous position.
         var nodeEnter = node.enter().append("svg:g")

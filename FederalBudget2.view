@@ -649,9 +649,7 @@ elx.bundle.type.FederalBudget2 = {
      var extendedArr = rawdata;
      var reduceCToggleArr = extendedArr;
  } else {
-     rawdata = $ {
-         data
-     };
+     rawdata = ${data};
      var extendedArr = extendArr(rawdata, f, view);
  }
  console.log("rawdata", JSON.stringify(rawdata));
@@ -660,7 +658,8 @@ elx.bundle.type.FederalBudget2 = {
  var legendKey = 'lastGroupby_op';
  var formatLegendCast = "";
 
-  var reduceCToggle, extendArr, arrToHex1, hexToModel1;
+ var cTypeClassOutput;
+  var  extendArr, arrToHex1, hexToModel1,processCFields,modelToHex,groupByFn,chartPreGen,initializeToolTipandNavBar;
  debugFn();
  var data2 = hexToModel1(data1, legendKey, formatLegendCast, view);
  var groupCount = 0;
@@ -673,7 +672,7 @@ elx.bundle.type.FederalBudget2 = {
 
  initialize(groupCount);
  setup(groupCount);
- window.alreadySummed = true;
+ window['federalBudget_'+viewId].alreadySummed = true;
  togglesetup(view, groupCount);
 
  function debugFn() {
@@ -729,17 +728,20 @@ elx.bundle.type.FederalBudget2 = {
                      cKey: 'cToggleEnabled',
                      cKeyField: view.typeinfo.cToggleKey,
                      cDataField: view.typeinfo.data.cToggleTypeCol[0].name,
-                     cType: 'majority'
+                     cType: 'majority',
+					 cDefault: cTypeClassOutput['cMapNotDefined'](data, cfieldsObjName, numCFieldObj,groupCount,cFieldsObjSize, initializedCMap)
+						//cDefault is the function to execute with cKey is 'default'
                  },
                  'cDescription': {
                      cKey: 'cDescriptionEnabled',
                      cKeyField: view.typeinfo.cDescriptionKey,
                      cDataField: view.typeinfo.data.cDescriptionCol[0].name,
-                     cType: 'uniqToAnotherField'
+                     cType: 'uniqToAnotherField',
+					 cDefault: cTypeClassOutput['equalsToAnotherField'](data, cfieldsObjName, numCFieldObj,groupCount,cFieldsObjSize, initializedCMap)
                  }
              };
-
-             var propertiesArr = processCFields(keyLength, nameArr, opArr, idArr, cFieldsObj, initializedCMap);
+			
+             var propertiesArr = processCFields(data,keyLength, nameArr, opArr, idArr, cFieldsObj, initializedCMap,view);
 
              idArr.forEach(function(d, i) {
                  propertiesArr.push("#[" + d + "]");
@@ -760,16 +762,22 @@ elx.bundle.type.FederalBudget2 = {
 
          };
 
-         processCFields = function(keyLength, nameArr, opArr, idArr, cFieldsObj, initializedCMap) {
+         processCFields = function(data,keyLength, nameArr, opArr, idArr, cFieldsObj, initializedCMap,view) {
              var numCFieldObj = 0;
              var cFieldClass = {};
+			 var groupCount=_.size(getArr(view.typeinfo.data.keys,'name',view));
+			 var cFieldsObjSize=_.size(_.keys(cFieldsObj));
              for (var propertyName in cFieldsObj) {
                  if (cFieldsObj[propertyName]['cKeyField'] == cFieldsObj[propertyName]['cKey'] && cFieldsObj[propertyName]['cDataField'] != null) {
                      cFieldClass[numCFieldObj] = '#{' + propertyName + '}';
-                     numCFieldObj++;
+                     
                      //initializing cMap if need be.
-                     cTypeClassOutput[cFieldsObj[propertyName]['cType']](data, cfieldsObjName, positionIndex, initializedCMap);
+                     cTypeClassOutput[cFieldsObj[propertyName]['cType']](data, cfieldsObjName, numCFieldObj,groupCount,cFieldsObjSize, initializedCMap);
+					 numCFieldObj++;
                  }
+				 else {
+				 cTypeClassOutput[cFieldsObj[propertyName]['cDefault']](data, cfieldsObjName, numCFieldObj,groupCount,cFieldsObjSize, initializedCMap);
+				 }
              }
              cFieldClass[numCFieldObj] = '#{xaxis}';
              var keyArr = _.first(nameArr, keyLength + numCFieldObj);
@@ -784,8 +792,12 @@ elx.bundle.type.FederalBudget2 = {
                  var obj = (typeof cFieldClass[i] != 'undefined') ? cFieldClass[i] : '#{groupby' + (i - 1) + '}';
                  propertiesArr.push(obj);
              })
-             var cTypeClassOutput = {
-                 'majority': function(data, cfieldsObjName, positionIndex, initializedCMap) {
+
+
+             return propertiesArr;
+         };
+		  cTypeClassOutput = {
+                 'majority': function(data, cfieldsObjName, positionIndex,groupCount,cFieldsObjSize, initializedCMap) {
                      var cMaj = [];
                      _.each(data, function(d) {
                          cMaj.push(d[positionIndex]);
@@ -798,6 +810,7 @@ elx.bundle.type.FederalBudget2 = {
                          });
                          return Ttype;
                      });
+					
                      console.info("cToggleCount Type", cToggleCount);
                      for (var propertyName in cToggleCount) {
                          initializedCMap[cfieldsObjName] = (typeof initializedCMap['cToggleType'] == 'undefined') ?
@@ -805,13 +818,22 @@ elx.bundle.type.FederalBudget2 = {
                      }
 
                  },
-                 'uniqToAnotherField': function(data, cfieldsObjName, positionIndex, initializedCMap) {
-
-                 }
+                 'uniqToAnotherField': function(data, cfieldsObjName, positionIndex,groupCount,cFieldsObjSize, initializedCMap) {
+					//By default, eg. The 'description' is tagged to the last groupBy key
+					var groupByRange=_.map(_.range(1, groupCount + 1), function(m) { return 'groupby' + m;
+					});
+					//positionIndex is the positionIndex is position of the cfield in JSON-array
+					var smallJSON=_.map(data,function(d,i) {//JSON with only two fields
+						var obj={};
+						});
+                 },
+				 'cMapNotDefined': function(data, cfieldsObjName, positionIndex,groupCount,cFieldsObjSize, initializedCMap) {
+				 
+				 },
+				 'equalsToAnotherField':function(data, cfieldsObjName, positionIndex,groupCount,cFieldsObjSize, initializedCMap) {
+				 
+				 },
              };
-
-             return propertiesArr;
-         };
          hexToModel1 = function(data, legendKey, formatLegendCast, view) {
              var ReadArray, columnNameArray, model_keyArray, objKey;
              ReadArray = [];

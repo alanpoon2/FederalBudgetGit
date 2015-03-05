@@ -577,493 +577,541 @@ elx.bundle.type.FederalBudget2 = {
 
 	
 <div class='elx-script'>
-  var div =$("#${id}");
-  var viewId=view.typeinfo.view.id;
-   var cfgoptions = view.typeinfo;
-	var f=view.typeinfo.data;
-  var m = [cfgoptions.marginB, cfgoptions.marginL, cfgoptions.marginT, cfgoptions.marginR],
-            w = cfgoptions.width - m[1] - m[3],
-            h = cfgoptions.height - m[0] - m[2];
-   var formatClassKey=cfgoptions.formatClassKey,
-   formatClassCast=cfgoptions.formatClassCast,
-   formatPrefixCast=cfgoptions.formatPrefixCast;
-   if(formatClassKey=='formatClassCast') {
-   var formatClass;
-   eval(formatClassCast);
-   }
-     var formatClass={'1':{'cToggleAccept':'All', //salary
-		'formatValueByCategory':function(arr) {return sum(arr);},
-		'formatValueOutlook':function(val) {return ' '+d3.round(prefixClass['1']('Size').scale(val),2)+prefixClass['1']('Size').symbol;}
-		}, '2':{'cToggleAccept':'All',     //
-		'formatValueByCategory':function(arr) {return sum(arr);},
-		'formatOutlook':function(val) {return ' '+d3.round(prefixClass['2']('Size').scale(val),2)+prefixClass['2']('Size').symbol;}
-		}, '3':{'cToggleAccept':'Sales',     //
-		'formatValueByCategory':function(arr) {return sum(arr);},
-		'formatOutlook':function(val) {return ' '+d3.round(prefixClass['3']('Size').scale(val),2)+prefixClass['3']('Size').symbol;}
-		}
-		};
-    var nestArr=(cfgoptions.nestArr!=null)?(cfgoptions.nestArr).split(","):autoDetectNestArr(f,view);
-var initializedCMap={};
-window['federalBudget_'+viewId]={};
-   
-   var reduceCToggle,extendArr,arrToHex1,hexToModel1;
-   // get Data
-    if (view.data.jsonClass === "DataEmbedded"){ 
-  rawdata=[
-  ["Sales","John 1","2014-01-20","A","John",2000,30,52],
-  ["Sales","John 1","2014-01-19","A","John",2000,30,52],
-  ["Sales","John 1","2014-02-20","A","John",2000,30,52],
-  ["Sales","Gary 1","2014-02-20","A","Gary",3000,30,52],
-  ["Sales","Gary 1","2014-01-20","A","Gary",2500,90,41],
-  ["Sales","Jim 1","2014-01-20","B","Jim",2000,30,40],
-  ["Sales","Jim 1","2014-02-20","B","Jim",1790,30,40],
-  ["Sales","Tooi 1","2014-02-20","B","Tooi",4000,58,79],
-  ["Driver","Fope 1","2014-01-20","J","Fope",1000,90,0],
-  ["Driver","Fope 1","2014-01-19","J","Fope",1000,90,0],
-  ["Driver","Fope 1","2014-02-20","J","Fope",1000,90,0],
-  ["Driver","Goot 1","2014-02-20","J","Goot",1000,90,0],
-  ["Driver","Goot 1","2014-01-20","J","Goot",1000,90,0],
-  ["Driver","Bill 1","2014-01-20","K","Bill",1000,90,0],
-  ["Driver","Bill 1","2014-02-20","K","Bill",1000,90,0],
-  ["Driver","Bill 1","2014-02-20","K","Bill",1000,90,0]
-];
- 
-  var extendedArr=rawdata;
-  var reduceCToggleArr=extendedArr;
-  } else { rawdata=${data};  var extendedArr=extendArr(rawdata,f,view);}
-    console.log("rawdata",JSON.stringify(rawdata));
+ var div = $("#${id}");
+ var viewId = view.typeinfo.view.id;
+ var cfgoptions = view.typeinfo;
+ var f = view.typeinfo.data;
+ var m = [cfgoptions.marginB, cfgoptions.marginL, cfgoptions.marginT, cfgoptions.marginR],
+     w = cfgoptions.width - m[1] - m[3],
+     h = cfgoptions.height - m[0] - m[2];
+ var formatClassKey = cfgoptions.formatClassKey,
+     formatClassCast = cfgoptions.formatClassCast,
+     formatPrefixCast = cfgoptions.formatPrefixCast;
+ if (formatClassKey == 'formatClassCast') {
+     var formatClass;
+     eval(formatClassCast);
+ }
+ var formatClass = {
+     '1': {
+         'cToggleAccept': 'All', //salary
+         'formatValueByCategory': function(arr) {
+             return sum(arr);
+         },
+         'formatValueOutlook': function(val) {
+             return ' ' + d3.round(prefixClass['1']('Size').scale(val), 2) + prefixClass['1']('Size').symbol;
+         }
+     },
+     '2': {
+         'cToggleAccept': 'All', //
+         'formatValueByCategory': function(arr) {
+             return sum(arr);
+         },
+         'formatOutlook': function(val) {
+             return ' ' + d3.round(prefixClass['2']('Size').scale(val), 2) + prefixClass['2']('Size').symbol;
+         }
+     },
+     '3': {
+         'cToggleAccept': 'Sales', //
+         'formatValueByCategory': function(arr) {
+             return sum(arr);
+         },
+         'formatOutlook': function(val) {
+             return ' ' + d3.round(prefixClass['3']('Size').scale(val), 2) + prefixClass['3']('Size').symbol;
+         }
+     }
+ };
+ var nestArr = (cfgoptions.nestArr != null) ? (cfgoptions.nestArr).split(",") : autoDetectNestArr(f, view);
+ var initializedCMap = {};
+ window['federalBudget_' + viewId] = {};
+
+
+ // get Data
+ if (view.data.jsonClass === "DataEmbedded") {
+     rawdata = [
+         ["Sales", "John 1", "2014-01-20", "A", "John", 2000, 30, 52],
+         ["Sales", "John 1", "2014-01-19", "A", "John", 2000, 30, 52],
+         ["Sales", "John 1", "2014-02-20", "A", "John", 2000, 30, 52],
+         ["Sales", "Gary 1", "2014-02-20", "A", "Gary", 3000, 30, 52],
+         ["Sales", "Gary 1", "2014-01-20", "A", "Gary", 2500, 90, 41],
+         ["Sales", "Jim 1", "2014-01-20", "B", "Jim", 2000, 30, 40],
+         ["Sales", "Jim 1", "2014-02-20", "B", "Jim", 1790, 30, 40],
+         ["Sales", "Tooi 1", "2014-02-20", "B", "Tooi", 4000, 58, 79],
+         ["Driver", "Fope 1", "2014-01-20", "J", "Fope", 1000, 90, 0],
+         ["Driver", "Fope 1", "2014-01-19", "J", "Fope", 1000, 90, 0],
+         ["Driver", "Fope 1", "2014-02-20", "J", "Fope", 1000, 90, 0],
+         ["Driver", "Goot 1", "2014-02-20", "J", "Goot", 1000, 90, 0],
+         ["Driver", "Goot 1", "2014-01-20", "J", "Goot", 1000, 90, 0],
+         ["Driver", "Bill 1", "2014-01-20", "K", "Bill", 1000, 90, 0],
+         ["Driver", "Bill 1", "2014-02-20", "K", "Bill", 1000, 90, 0],
+         ["Driver", "Bill 1", "2014-02-20", "K", "Bill", 1000, 90, 0]
+     ];
+
+     var extendedArr = rawdata;
+     var reduceCToggleArr = extendedArr;
+ } else {
+     rawdata = $ {
+         data
+     };
+     var extendedArr = extendArr(rawdata, f, view);
+ }
+ console.log("rawdata", JSON.stringify(rawdata));
  var data1 = arrToHex1(extendedArr, f, view);
- var legendKey='lastGroupby_op';
- var formatLegendCast="";
-  var data2 = hexToModel1(data1, legendKey,formatLegendCast,view);
-  var groupCount=0;
-chartPreGen(modelData,groupCount);
-  initializeToolTipandNavBar(f,view,nestArr,groupCount);
-	
+ var legendKey = 'lastGroupby_op';
+ var formatLegendCast = "";
 
-d3select(w,h,m,viewId);
-  
+  var reduceCToggle, extendArr, arrToHex1, hexToModel1;
+ debugFn();
+ var data2 = hexToModel1(data1, legendKey, formatLegendCast, view);
+ var groupCount = 0;
+ chartPreGen(modelData, groupCount);
+ initializeToolTipandNavBar(f, view, nestArr, groupCount);
  
-  
-  initialize();
-  setup();
-  window.alreadySummed=true;
-         togglesetup(); 
-   function debugFn(){
-     extendArr=function(data,f,view){
-			//used when you want to use the same columns in operables
-		//obtain uniq columnNames
-		var colNameMap={};
-		var uniqColName=[];
-		var fieldsArr=getArr(f,'name',view);
-		  //if(view.typeinfo.cToggleKey=='default') fieldsArr=_.rest(fieldsArr);
-		var n=0;  //n is the index of unextended Arr
-		for(var i=0;i< _.size(fieldsArr);i++){
-		var colAsProperty =fieldsArr[i];
+ var d3select,togglesetup,initialize,setup;
+ federalBudgetChart();
+ d3select(w, h, m, viewId);
 
-		//Obtaining colNameMap
-		if (_.size(uniqColName)==0) {
-		uniqColName.push(colAsProperty);
-		colNameMap[colAsProperty]=i;
-		n=n+1;
-		} else {
-			var colAsPropertyArr=[colAsProperty];
-			var intersectArr=_.intersection(colAsPropertyArr,uniqColName);
-			if (_.size(intersectArr)==0){
-				uniqColName.push(colAsProperty);
-				colNameMap[colAsProperty]=i;
-				n=n+1;
-				}
-			}
-		}
+ initialize(groupCount);
+ setup(groupCount);
+ window.alreadySummed = true;
+ togglesetup(view, groupCount);
 
-		//using colNameMap to extendArr
-		var extendedArr=[];
-		_.each(data ,function(k,l){
-		//eg of k:[asd,34,34]
-		var localArr=[];
-			_.each(fieldsArr,function(o,p){
-			var indexToChoose=colNameMap[o];
-			localArr.push(k[indexToChoose]);
-			});
-			extendedArr.push(localArr);
-		});
-		return extendedArr;
-	
-	};
+ function debugFn() {
+         extendArr = function(data, f, view) {
+             //used when you want to use the same columns in operables
+             //obtain uniq columnNames
+             var colNameMap = {};
+             var uniqColName = [];
+             var fieldsArr = getArr(f, 'name', view);
+             //if(view.typeinfo.cToggleKey=='default') fieldsArr=_.rest(fieldsArr);
+             var n = 0; //n is the index of unextended Arr
+             for (var i = 0; i < _.size(fieldsArr); i++) {
+                 var colAsProperty = fieldsArr[i];
 
-  	 
-  arrToHex1 = function(data, f,view,initializedCMap){
-	  var keyLength = f.keys.length;
-      var nameArr = getArr(f, 'name',view);
-      var opArr = getArr(f, 'op',view);
-      var idArr = getArr(f, 'id',view);
-	  var cFieldsObj={'cToggle':{cKey:'cToggleEnabled',cKeyField:view.typeinfo.cToggleKey,cDataField:view.typeinfo.data.cToggleTypeCol[0].name,
-			cType:'majority'
-	  },
-	  'cDescription':{cKey:'cDescriptionEnabled',cKeyField:view.typeinfo.cDescriptionKey, cDataField:view.typeinfo.data.cDescriptionCol[0].name,
-	  cType:'uniqToAnotherField'
-	  }};
-  
-	    var propertiesArr = processCFields(keyLength,nameArr,opArr,idArr,cFieldsObj,initializedCMap);
+                 //Obtaining colNameMap
+                 if (_.size(uniqColName) == 0) {
+                     uniqColName.push(colAsProperty);
+                     colNameMap[colAsProperty] = i;
+                     n = n + 1;
+                 } else {
+                     var colAsPropertyArr = [colAsProperty];
+                     var intersectArr = _.intersection(colAsPropertyArr, uniqColName);
+                     if (_.size(intersectArr) == 0) {
+                         uniqColName.push(colAsProperty);
+                         colNameMap[colAsProperty] = i;
+                         n = n + 1;
+                     }
+                 }
+             }
 
-      idArr.forEach(function(d, i) {
-          propertiesArr.push("#[" + d + "]");
-      })
-  
-      var combineArr = [];
-      propertiesArr.forEach(function(d, i) {
-          var obj = nameArr[i] + d;
-          combineArr.push(obj);
-      })
+             //using colNameMap to extendArr
+             var extendedArr = [];
+             _.each(data, function(k, l) {
+                 //eg of k:[asd,34,34]
+                 var localArr = [];
+                 _.each(fieldsArr, function(o, p) {
+                     var indexToChoose = colNameMap[o];
+                     localArr.push(k[indexToChoose]);
+                 });
+                 extendedArr.push(localArr);
+             });
+             return extendedArr;
 
-      var globalArr = [];
-      data.forEach(function(d, i) {
-          var localObj = _.object(combineArr, d);
-          globalArr.push(localObj);
-      })
-      return globalArr;
-  
-  };
-	 
-  
-  	processCFields= function (keyLength,nameArr,opArr,idArr,cFieldsObj,initializedCMap) {
-	var numCFieldObj=0;
-	var cFieldClass={};
-	for (var propertyName in cFieldsObj){
-		if (cFieldsObj[propertyName]['cKeyField']==cFieldsObj[propertyName]['cKey'] && cFieldsObj[propertyName]['cDataField']!=null ) {
-		cFieldClass[numCFieldObj]='#{'+propertyName+'}';
-		numCFieldObj++;
-		//initializing cMap if need be.
-		cTypeClassOutput[cFieldsObj[propertyName]['cType']](data,cfieldsObjName,positionIndex,initializedCMap);
-		}
-	}
-	cFieldClass[numCFieldObj]='#{xaxis}';
-	  var keyArr = _.first(nameArr, keyLength+numCFieldObj);
-      var colArr = _.last(nameArr, nameArr.length - (keyLength+numCFieldObj));
-      var nameArr = _.map(colArr, function(num, i) {
-          return opArr[i] + "(" + num + ")";
-      });
-	   nameArr = keyArr.concat(nameArr);
-      var keyLArr = d3.range(0, keyLength+numCFieldObj);
-	  var propertiesArr=[];
-	    keyLArr.forEach(function(d, i) {
-		var obj=(typeof cFieldClass[i]!='undefined') ? cFieldClass[i] :  '#{groupby' + (i-1) + '}';
-            propertiesArr.push(obj);
-      })
-	  var cTypeClassOutput={
-	'majority': function (data,cfieldsObjName,positionIndex,initializedCMap){
-		var cMaj=[];
-		_.each(data,function(d) {
-		cMaj.push(d[positionIndex]);});
-		var cUniq=_.uniq(cMaj);
-		var cToggleCount=  _.countBy(cMaj,function(types) {
-			var Ttype;
-			_.each(cUniq,function(m){
-			if (types == m) Ttype=m;
-			});
-			return Ttype;
-		  });
-		console.info("cToggleCount Type",cToggleCount);
-		for (var propertyName in cToggleCount) {
-			initializedCMap[cfieldsObjName]= (typeof initializedCMap['cToggleType']=='undefined')? 
-			propertyName:(initializedCMap[cfieldsObjName][cToggleType] >initializedCMap[cfieldsObjName][propertyName]) ? initializedCMap[cfieldsObjName]:propertyName;
-			}
-		
-			},
-	'uniqToAnotherField': function(data,cfieldsObjName,positionIndex,initializedCMap){
-	
-	}
-	};
-	
-	  return propertiesArr;
-	};
-hexToModel1 = function(data, legendKey,formatLegendCast,view) {
-    var ReadArray, columnNameArray, model_keyArray, objKey;
-    ReadArray = [];
-  
-    objKey = Object.keys(data[0]);
-	model_keyArray = [];
-    columnNameArray = [];
-	var keyArray=[];
-  //legendFormating
-  var formatLegend; //formatLegend should be a class containing the Legend format for each model 
-  if (formatLegendCast==="" && legendKey==="formatLegend")
-   console.info("Enter formatLegend");
-   if (legendKey==="formatLegend" ) {
-  console.info("proceed");
-    eval(formatLegendCast);} 
-     if (view.typeinfo.data.fields.operable.values[0].id==="columnInducedGroupby.L1" 
-  && formatLegendCast==="")
-  {
-  
-  formatLegend={'columnInducedGroupby.L1': function(dataZero) {   return dataZero.columnNameWithoutOp;   } };
-  }
-  
-  //-end legendFormating
-    objKey.forEach(function(key) {
-        var columnNameObj, model_keyObj;
-		if ( (key.contains("|")==false) &&(key.contains("#{")==false)) {
-			keyArray.push(key);
-			} else {
-            return;
-        }
-      
-		
-    });
-	console.log("inside keyArray",JSON.stringify(keyArray));
-    data.forEach(function(d, i) {
-        var Category, ColumnName, GroupNameArr, Model, ReadObj, Value, lastGroupby, propertyName;
-        ReadObj = {};
-        Value = void 0;
-        ColumnName = void 0;
-        Category = void 0;
-        Model = void 0;
-        lastGroupby = void 0;
-        GroupNameArr = [];
-        for (propertyName in d) {
-            if (propertyName.contains("xaxis") === true) {
-                Category = d[propertyName];
-            }
-            if (propertyName.contains("groupby") === true) {
-                lastGroupby = d[propertyName];
-                GroupNameArr.push(lastGroupby);
-            }
-        }
-  		var dataZero=[];
-          keyArray.forEach(function(modelKey,n) {
-            var allGroupby, cName, lastGroupby_op, model_keyObj, model_keyObjArr, model_yAxisObj, objPush;
-            for (propertyName in d) {
-                if (propertyName.contains(modelKey) === true) {
-                    model_keyObj = propertyName.replace(/.*\[|\]/g, "");
-                    model_keyObjArr = model_keyObj.split(".");
-                    model_yAxisObj = (model_keyObjArr.length > 1 ? model_keyObjArr[1] : "L1");
-                    cName = propertyName.replace(/\#.*/, "");
-                  // for taking string in brackets
-                  var regExp = /\(([^)]+)\)/;
-				  var matches=regExp.exec(cName);
-                  columnNameWithoutOp=matches[1];
-                  opName=cName.split("(")[0];
-                  //-end
-                    objPush = {
-                        model: model_keyObjArr[0],
-                        yAxis: model_yAxisObj,
-                        columnName: cName,
-  						columnNameWithoutOp:columnNameWithoutOp,
-  						opName:opName,
-                        value: d[propertyName],
-                        category: Category
-                    };
-                    GroupNameArr.forEach(function(d, m) {
-  					    propertyName = "groupby" + (m + 1);
-                        objPush[propertyName] = d;
-                    });
-  					if (legendKey === "lastGroupby_op") {
-                        lastGroupby_op = lastGroupby + "_" + cName;
-                        objPush["legendKey"] = lastGroupby_op;
-                        ReadArray.push(objPush);
-                    } else if (legendKey === "allGroupby") {
-                        allGroupby = GroupNameArr.join("_");
-                        objPush["legendKey"] = allGroupby;
-                        ReadArray.push(objPush);
-                    } else if (legendKey == "op(ColumnName)") {
-                        objPush["legendKey"] = cName;
-                        ReadArray.push(objPush);
-                      } else if (legendKey=="formatLegend"){
-					  if (i==0) console.log("objPush for Legend",JSON.stringify(objPush));
-                          objPush["legendKey"] = formatLegend[model_keyObj](objPush);
-  						ReadArray.push(objPush);
-                      }
-    						else if (legendKey == "ColumnName") {
-                        var regExp = /\(([^)]+)\)/;
-                        var matches = regExp.exec(cName);
-                        objPush["legendKey"] = matches[1];
-                        ReadArray.push(objPush);
-                    }
-                }
-            }
-        });
-    }); 
-    return ReadArray; 
-};
-	modelToHex=function(modelData,groupByArr){
-	var hexData=[];
-	var nest=d3.nest();
-		_.each(groupByArr,function(m,n){
-			nest.key(function(d) {
-			return d[m];
-			});
-		});
-		nest.rollup(function(d){
-		var uniqModel=_.uniq(_.pluck(d,'model'));
-		var sampleObj=_.clone(d[0]);
-		_.each(uniqModel,function(m){
-		sampleObj[m]=_.pluck(_.where(d,{'model':m}),'value')[0];
-		});
-		//remove fields that won't be needed
-		_.each(['yAxis','value','model'],function(n){
-		delete sampleObj[n];
-		});
-		hexData.push(sampleObj);
-		})
-		return hexData;
-	};
-//--Enhanced Logic for UI to make chart smarter
-autoDetectNestArr=function(f,view){
-	var nameArr=getArr(f.operable.values,'name',view);
-	nameArr= _.map(nameArr,function(d) {
-	return (_.str.include(d,'.')) ? d.split('.')[1]:d;
-	});
-	return nameArr;
-};
+         };
 
-//--End,Enhanced Logic for UI to make chart smarter
+         arrToHex1 = function(data, f, view, initializedCMap) {
+             var keyLength = f.keys.length;
+             var nameArr = getArr(f, 'name', view);
+             var opArr = getArr(f, 'op', view);
+             var idArr = getArr(f, 'id', view);
+             var cFieldsObj = {
+                 'cToggle': {
+                     cKey: 'cToggleEnabled',
+                     cKeyField: view.typeinfo.cToggleKey,
+                     cDataField: view.typeinfo.data.cToggleTypeCol[0].name,
+                     cType: 'majority'
+                 },
+                 'cDescription': {
+                     cKey: 'cDescriptionEnabled',
+                     cKeyField: view.typeinfo.cDescriptionKey,
+                     cDataField: view.typeinfo.data.cDescriptionCol[0].name,
+                     cType: 'uniqToAnotherField'
+                 }
+             };
 
-	groupByFn = function(data, groupByArr,formatClass) {
-		var aggreData, nest;
-		nest = d3.nest();
-		aggreData = [];
-		_.each(groupByArr, function(m, n) {
-		nest.key(function(d) {
-		return d[m];
-		});
-		});
-		var result=[];
-		nest.rollup(function(d) {
-		var sampleObj=_.clone(d[0]);
-		if (typeof safeRead(formatClass,_.pluck(k,'yAxis'),'formatValueOutlook') !='undefined' 
-				&& view.typeinfo.formatClassKey=='formatClassCast') {
-		sampleObj['value']=formatClass[_.pluck(k,'yAxis')]['formatValueByCategory'](_.pluck(k,'value'));
-		} else sampleObj['value']=d3.sum(d, function(g) {return g.value; });
-		if (typeof safeRead(formatClass,_.pluck(k,'yAxis'),'formatValueOutlook') !='undefined' 
-				&& view.typeinfo.formatClassKey=='formatClassCast') {
-				sampleObj['value']=formatClass[_.pluck(k,'yAxis')]['formatValueOutlook'](sampleObj['value']);
-				} else sampleObj['value']=d3.round(sampleObj['value'],2);
-		result.push(sampleObj);
-		}).entries(data);
-		return result;
-	};
+             var propertiesArr = processCFields(keyLength, nameArr, opArr, idArr, cFieldsObj, initializedCMap);
 
-	
-	//$$$
-	chartPreGen=function(modelData,groupCount){
-	//clear the UI and chart
-	$('#body_${id}').empty();
-	
-	for (var property in modelData[0]) {
-	if (_.str.include(property,'groupby')) groupCount++;
-	}
-		groupbyRange=_.map(_.range(1,groupCount+1),function(m){ return 'groupby'+m;});
-		var groupByArr=['model','category','columnName'];
-		var groupByArr=_.union(groupByArr,groupbyRange);
-		
-		var aggregateData=groupByFn(modelData,groupByArr);
-		var modelToHexData=modelToHex(aggregateData,groupByArr);
-	var nest;
-	_.each(groupbyRange,function(m,n){
-	nest.key(function(d,i){
-	return d[m];
-	});
-	});
-	window['federalBudget_'+viewId]['root']={};
-	window['federalBudget_'+viewId]['root']['values']=nest.entries(modelToHexData);
-	
-	    window['federalBudget_'+viewId]['color'] = ["#bd0026","#fecc5c", "#fd8d3c", "#f03b20", "#B02D5D",
-        "#9B2C67", "#982B9A", "#692DA7", "#5725AA", "#4823AF",
-        "#d7b5d8","#dd1c77","#5A0C7A","#5A0C7A"];
-	
-	window['federalBudget_'+viewId]['root']['x0']=h/2;
-	window['federalBudget_'+viewId]['root']['y0']=0;
-    window['federalBudget_'+viewId]['retDes']=function(d) { var ret = d.source_Description;
-		ret =(String(ret).length > 25) ? String(ret).substr(0,22)  + "..." : ret;
-		   return ret;};
-	  window['federalBudget_'+viewId]['Fselect']={};
-	 window['federalBudget_'+viewId]['Fselect']['sourceField']=_.union(['category','description'],groupbyRange);
-	
-	};
-initializeToolTipandNavBar=function(f,view,nestArr,groupCount){
-		var modelYAxisMap=getArr(f.operable,'id',view);
-	  modelYAxisMap=_.map(modelYAxisMap,function(d) {
-		var obj={};
-			var propertyName=d.split('.')[1];
-			obj[propertyName]=d.split(".")[0];
-			return obj;});
-	  
-	 
-	  //Append to ToolTip
-	  var ToolTipContainer=[];
-	  
-	  //if cToggleType matches with formatClass' cToggleAccept then append the model into ToolTipContainer
-	  if (formatClassKey=='formatClassCast') {
-	  for (var propertyName in formatValue) {
-		if (formatClass[propertyName]['cToggleAccept']=='All' || formatClass[propertyName]['cToggleAccept']==cToggleType) {
-		ToolTipContainer.push(modelYAxisMap[propertyName]);
-		  }
-		  }
-	  } else {
-		for (var propertyName in modelYAxisMap) {
-		ToolTipContainer.push(modelYAxisMap[propertyName];
-		}
-		}
-		_.each(ToolTipContainer,function(d,i){
-			var toolTipSel=d3.select('#toolTip_${id} #toolAppend').append("div").attr("id",'toolDiv_${id}_'+(i+1))
-										.style({'width':'135px','left':'0px', 'top':'10px', 'position': 'absolute'});
-			if (i==0) toolTipSel.attr("class",'selected');
-			toolTipSel.append("div").attr("class","header3").append("br").html(d);
-			toolTipSel.append("div").attr("class","header-rule");
-			toolTipSel.append("div").attr("id",'toolSpend_${id}_'+(i+1)).attr("class","header4");
-			
-		//Append To NavigButton
-			var navigButton=d3.select('#nytg-NavBar_${id} .nytg-navigation clearfix').append("li").attr("id",'navigButton_'+(i+1))
-								.html(d);
-			if (i==0) navigButton.attr("class",'selected');
-			});
+             idArr.forEach(function(d, i) {
+                 propertiesArr.push("#[" + d + "]");
+             })
 
-		//Add window Fselect object to source Field in the js file
-		var fSelectNameArr=_.map(nestArr,function(d) { return 'sum_'+d;}); // add 'sum_' infront
-		 window['federalBudget_'+viewId]['Fselect']['spendField']=fSelectNameArr[0];
-		 window['federalBudget_'+viewId]['Fselect']['actField']=fSelectNameArr[0];
-		  window['federalBudget_'+viewId]['Fselect']['sumField']=nestArr;
+             var combineArr = [];
+             propertiesArr.forEach(function(d, i) {
+                 var obj = nameArr[i] + d;
+                 combineArr.push(obj);
+             })
 
-};
+             var globalArr = [];
+             data.forEach(function(d, i) {
+                 var localObj = _.object(combineArr, d);
+                 globalArr.push(localObj);
+             })
+             return globalArr;
 
-	//helper function
-	function monthDiff(firstDate, secondDate) {
-    var months;
-    months = (secondDate.getFullYear() - firstDate.getFullYear()) * 12;
-    months -= firstDate.getMonth();
-    months += secondDate.getMonth();
-    return months <= 0 ? 0 : months;
-}
-	
-function getQuarter(d) {
-  d = d || new Date();
-  var m = Math.floor(d.getMonth()/3) + 1;
-  return m > 4? m - 4 : m;
-}
-	function quarterDiff(firstDate,secondDate){
-	var mDiff=monthDiff(firstDate,secondDate);
-	var qDiff=(mDiff>=12) ? 4:getQuarter(secondDate)-getQuarter(firstDate);
-	return qDiff;
-	}
-	function yearDiff(firstDate,secondDate){
-	return secondDate.getFullYear()-firstDate.getFullYear();
-	}
-	  function getArr(obj, k,view) {   //used on view.typeinfo to get an array of property value of the propertyName 'name'
-      var objects = [];
-      for (var i in obj) {
-          if (!obj.hasOwnProperty(i)) continue;
-          if (typeof obj[i] == 'object') {
-              objects = objects.concat(getArr(obj[i], k,view));
-          } else if (i.contains(k) == true) {
-              if (k == "name") {
-                  objects.push(cutTableName(obj[i],view));
-              } else
-                  objects.push(obj[i]);
-          }
-      }
-      return objects;
-  }
+         };
 
+         processCFields = function(keyLength, nameArr, opArr, idArr, cFieldsObj, initializedCMap) {
+             var numCFieldObj = 0;
+             var cFieldClass = {};
+             for (var propertyName in cFieldsObj) {
+                 if (cFieldsObj[propertyName]['cKeyField'] == cFieldsObj[propertyName]['cKey'] && cFieldsObj[propertyName]['cDataField'] != null) {
+                     cFieldClass[numCFieldObj] = '#{' + propertyName + '}';
+                     numCFieldObj++;
+                     //initializing cMap if need be.
+                     cTypeClassOutput[cFieldsObj[propertyName]['cType']](data, cfieldsObjName, positionIndex, initializedCMap);
+                 }
+             }
+             cFieldClass[numCFieldObj] = '#{xaxis}';
+             var keyArr = _.first(nameArr, keyLength + numCFieldObj);
+             var colArr = _.last(nameArr, nameArr.length - (keyLength + numCFieldObj));
+             var nameArr = _.map(colArr, function(num, i) {
+                 return opArr[i] + "(" + num + ")";
+             });
+             nameArr = keyArr.concat(nameArr);
+             var keyLArr = d3.range(0, keyLength + numCFieldObj);
+             var propertiesArr = [];
+             keyLArr.forEach(function(d, i) {
+                 var obj = (typeof cFieldClass[i] != 'undefined') ? cFieldClass[i] : '#{groupby' + (i - 1) + '}';
+                 propertiesArr.push(obj);
+             })
+             var cTypeClassOutput = {
+                 'majority': function(data, cfieldsObjName, positionIndex, initializedCMap) {
+                     var cMaj = [];
+                     _.each(data, function(d) {
+                         cMaj.push(d[positionIndex]);
+                     });
+                     var cUniq = _.uniq(cMaj);
+                     var cToggleCount = _.countBy(cMaj, function(types) {
+                         var Ttype;
+                         _.each(cUniq, function(m) {
+                             if (types == m) Ttype = m;
+                         });
+                         return Ttype;
+                     });
+                     console.info("cToggleCount Type", cToggleCount);
+                     for (var propertyName in cToggleCount) {
+                         initializedCMap[cfieldsObjName] = (typeof initializedCMap['cToggleType'] == 'undefined') ?
+                             propertyName : (initializedCMap[cfieldsObjName][cToggleType] > initializedCMap[cfieldsObjName][propertyName]) ? initializedCMap[cfieldsObjName] : propertyName;
+                     }
+
+                 },
+                 'uniqToAnotherField': function(data, cfieldsObjName, positionIndex, initializedCMap) {
+
+                 }
+             };
+
+             return propertiesArr;
+         };
+         hexToModel1 = function(data, legendKey, formatLegendCast, view) {
+             var ReadArray, columnNameArray, model_keyArray, objKey;
+             ReadArray = [];
+
+             objKey = Object.keys(data[0]);
+             model_keyArray = [];
+             columnNameArray = [];
+             var keyArray = [];
+             //legendFormating
+             var formatLegend; //formatLegend should be a class containing the Legend format for each model 
+             if (formatLegendCast === "" && legendKey === "formatLegend")
+                 console.info("Enter formatLegend");
+             if (legendKey === "formatLegend") {
+                 console.info("proceed");
+                 eval(formatLegendCast);
+             }
+             if (view.typeinfo.data.fields.operable.values[0].id === "columnInducedGroupby.L1" && formatLegendCast === "") {
+
+                 formatLegend = {
+                     'columnInducedGroupby.L1': function(dataZero) {
+                         return dataZero.columnNameWithoutOp;
+                     }
+                 };
+             }
+
+             //-end legendFormating
+             objKey.forEach(function(key) {
+                 var columnNameObj, model_keyObj;
+                 if ((key.contains("|") == false) && (key.contains("#{") == false)) {
+                     keyArray.push(key);
+                 } else {
+                     return;
+                 }
+
+
+             });
+             console.log("inside keyArray", JSON.stringify(keyArray));
+             data.forEach(function(d, i) {
+                 var Category, ColumnName, GroupNameArr, Model, ReadObj, Value, lastGroupby, propertyName;
+                 ReadObj = {};
+                 Value = void 0;
+                 ColumnName = void 0;
+                 Category = void 0;
+                 Model = void 0;
+                 lastGroupby = void 0;
+                 GroupNameArr = [];
+                 for (propertyName in d) {
+                     if (propertyName.contains("xaxis") === true) {
+                         Category = d[propertyName];
+                     }
+                     if (propertyName.contains("groupby") === true) {
+                         lastGroupby = d[propertyName];
+                         GroupNameArr.push(lastGroupby);
+                     }
+                 }
+                 var dataZero = [];
+                 keyArray.forEach(function(modelKey, n) {
+                     var allGroupby, cName, lastGroupby_op, model_keyObj, model_keyObjArr, model_yAxisObj, objPush;
+                     for (propertyName in d) {
+                         if (propertyName.contains(modelKey) === true) {
+                             model_keyObj = propertyName.replace(/.*\[|\]/g, "");
+                             model_keyObjArr = model_keyObj.split(".");
+                             model_yAxisObj = (model_keyObjArr.length > 1 ? model_keyObjArr[1] : "L1");
+                             cName = propertyName.replace(/\#.*/, "");
+                             // for taking string in brackets
+                             var regExp = /\(([^)]+)\)/;
+                             var matches = regExp.exec(cName);
+                             columnNameWithoutOp = matches[1];
+                             opName = cName.split("(")[0];
+                             //-end
+                             objPush = {
+                                 model: model_keyObjArr[0],
+                                 yAxis: model_yAxisObj,
+                                 columnName: cName,
+                                 columnNameWithoutOp: columnNameWithoutOp,
+                                 opName: opName,
+                                 value: d[propertyName],
+                                 category: Category
+                             };
+                             GroupNameArr.forEach(function(d, m) {
+                                 propertyName = "groupby" + (m + 1);
+                                 objPush[propertyName] = d;
+                             });
+                             if (legendKey === "lastGroupby_op") {
+                                 lastGroupby_op = lastGroupby + "_" + cName;
+                                 objPush["legendKey"] = lastGroupby_op;
+                                 ReadArray.push(objPush);
+                             } else if (legendKey === "allGroupby") {
+                                 allGroupby = GroupNameArr.join("_");
+                                 objPush["legendKey"] = allGroupby;
+                                 ReadArray.push(objPush);
+                             } else if (legendKey == "op(ColumnName)") {
+                                 objPush["legendKey"] = cName;
+                                 ReadArray.push(objPush);
+                             } else if (legendKey == "formatLegend") {
+                                 if (i == 0) console.log("objPush for Legend", JSON.stringify(objPush));
+                                 objPush["legendKey"] = formatLegend[model_keyObj](objPush);
+                                 ReadArray.push(objPush);
+                             } else if (legendKey == "ColumnName") {
+                                 var regExp = /\(([^)]+)\)/;
+                                 var matches = regExp.exec(cName);
+                                 objPush["legendKey"] = matches[1];
+                                 ReadArray.push(objPush);
+                             }
+                         }
+                     }
+                 });
+             });
+             return ReadArray;
+         };
+         modelToHex = function(modelData, groupByArr) {
+             var hexData = [];
+             var nest = d3.nest();
+             _.each(groupByArr, function(m, n) {
+                 nest.key(function(d) {
+                     return d[m];
+                 });
+             });
+             nest.rollup(function(d) {
+                 var uniqModel = _.uniq(_.pluck(d, 'model'));
+                 var sampleObj = _.clone(d[0]);
+                 _.each(uniqModel, function(m) {
+                     sampleObj[m] = _.pluck(_.where(d, {
+                         'model': m
+                     }), 'value')[0];
+                 });
+                 //remove fields that won't be needed
+                 _.each(['yAxis', 'value', 'model'], function(n) {
+                     delete sampleObj[n];
+                 });
+                 hexData.push(sampleObj);
+             })
+             return hexData;
+         };
+         //--Enhanced Logic for UI to make chart smarter
+         autoDetectNestArr = function(f, view) {
+             var nameArr = getArr(f.operable.values, 'name', view);
+             nameArr = _.map(nameArr, function(d) {
+                 return (_.str.include(d, '.')) ? d.split('.')[1] : d;
+             });
+             return nameArr;
+         };
+         //--End,Enhanced Logic for UI to make chart smarter
+         groupByFn = function(data, groupByArr, formatClass) {
+             var aggreData, nest;
+             nest = d3.nest();
+             aggreData = [];
+             _.each(groupByArr, function(m, n) {
+                 nest.key(function(d) {
+                     return d[m];
+                 });
+             });
+             var result = [];
+             nest.rollup(function(d) {
+                 var sampleObj = _.clone(d[0]);
+                 if (typeof safeRead(formatClass, _.pluck(k, 'yAxis'), 'formatValueOutlook') != 'undefined' && view.typeinfo.formatClassKey == 'formatClassCast') {
+                     sampleObj['value'] = formatClass[_.pluck(k, 'yAxis')]['formatValueByCategory'](_.pluck(k, 'value'));
+                 } else sampleObj['value'] = d3.sum(d, function(g) {
+                     return g.value;
+                 });
+                 if (typeof safeRead(formatClass, _.pluck(k, 'yAxis'), 'formatValueOutlook') != 'undefined' && view.typeinfo.formatClassKey == 'formatClassCast') {
+                     sampleObj['value'] = formatClass[_.pluck(k, 'yAxis')]['formatValueOutlook'](sampleObj['value']);
+                 } else sampleObj['value'] = d3.round(sampleObj['value'], 2);
+                 result.push(sampleObj);
+             }).entries(data);
+             return result;
+         };
+         //$$$
+         chartPreGen = function(modelData, groupCount) {
+             //clear the UI and chart
+             $('#body_${id}').empty();
+
+             for (var property in modelData[0]) {
+                 if (_.str.include(property, 'groupby')) groupCount++;
+             }
+             groupbyRange = _.map(_.range(1, groupCount + 1), function(m) {
+                 return 'groupby' + m;
+             });
+             var groupByArr = ['model', 'category', 'columnName'];
+             var groupByArr = _.union(groupByArr, groupbyRange);
+
+             var aggregateData = groupByFn(modelData, groupByArr);
+             var modelToHexData = modelToHex(aggregateData, groupByArr);
+             var nest;
+             _.each(groupbyRange, function(m, n) {
+                 nest.key(function(d, i) {
+                     return d[m];
+                 });
+             });
+             window['federalBudget_' + viewId]['root'] = {};
+             window['federalBudget_' + viewId]['root']['values'] = nest.entries(modelToHexData);
+
+             window['federalBudget_' + viewId]['color'] = ["#bd0026", "#fecc5c", "#fd8d3c", "#f03b20", "#B02D5D",
+                 "#9B2C67", "#982B9A", "#692DA7", "#5725AA", "#4823AF",
+                 "#d7b5d8", "#dd1c77", "#5A0C7A", "#5A0C7A"
+             ];
+
+             window['federalBudget_' + viewId]['root']['x0'] = h / 2;
+             window['federalBudget_' + viewId]['root']['y0'] = 0;
+             window['federalBudget_' + viewId]['retDes'] = function(d) {
+                 var ret = d.source_Description;
+                 ret = (String(ret).length > 25) ? String(ret).substr(0, 22) + "..." : ret;
+                 return ret;
+             };
+             window['federalBudget_' + viewId]['Fselect'] = {};
+             window['federalBudget_' + viewId]['Fselect']['sourceField'] = _.union(['category', 'description'], groupbyRange);
+
+         };
+         initializeToolTipandNavBar = function(f, view, nestArr, groupCount) {
+             var modelYAxisMap = getArr(f.operable, 'id', view);
+             modelYAxisMap = _.map(modelYAxisMap, function(d) {
+                 var obj = {};
+                 var propertyName = d.split('.')[1];
+                 obj[propertyName] = d.split(".")[0];
+                 return obj;
+             });
+
+
+             //Append to ToolTip
+             var ToolTipContainer = [];
+
+             //if cToggleType matches with formatClass' cToggleAccept then append the model into ToolTipContainer
+             if (formatClassKey == 'formatClassCast') {
+                 for (var propertyName in formatValue) {
+                     if (formatClass[propertyName]['cToggleAccept'] == 'All' || formatClass[propertyName]['cToggleAccept'] == cToggleType) {
+                         ToolTipContainer.push(modelYAxisMap[propertyName]);
+                     }
+                 }
+             } else {
+                 for (var propertyName in modelYAxisMap) {
+                     ToolTipContainer.push(modelYAxisMap[propertyName]);
+                 }
+             }
+             _.each(ToolTipContainer, function(d, i) {
+                 var toolTipSel = d3.select('#toolTip_${id} #toolAppend').append("div").attr("id", 'toolDiv_${id}_' + (i + 1))
+                     .style({
+                         'width': '135px',
+                         'left': '0px',
+                         'top': '10px',
+                         'position': 'absolute'
+                     });
+                 if (i == 0) toolTipSel.attr("class", 'selected');
+                 toolTipSel.append("div").attr("class", "header3").append("br").html(d);
+                 toolTipSel.append("div").attr("class", "header-rule");
+                 toolTipSel.append("div").attr("id", 'toolSpend_${id}_' + (i + 1)).attr("class", "header4");
+
+                 //Append To NavigButton
+                 var navigButton = d3.select('#nytg-NavBar_${id} .nytg-navigation clearfix').append("li").attr("id", 'navigButton_' + (i + 1))
+                     .html(d);
+                 if (i == 0) navigButton.attr("class", 'selected');
+             });
+
+             //Add window Fselect object to source Field in the js file
+             var fSelectNameArr = _.map(nestArr, function(d) {
+                 return 'sum_' + d;
+             }); // add 'sum_' infront
+             window['federalBudget_' + viewId]['Fselect']['spendField'] = fSelectNameArr[0];
+             window['federalBudget_' + viewId]['Fselect']['actField'] = fSelectNameArr[0];
+             window['federalBudget_' + viewId]['Fselect']['sumField'] = nestArr;
+
+         };
+     }
+     //helper function
+ function monthDiff(firstDate, secondDate) {
+     var months;
+     months = (secondDate.getFullYear() - firstDate.getFullYear()) * 12;
+     months -= firstDate.getMonth();
+     months += secondDate.getMonth();
+     return months <= 0 ? 0 : months;
+ }
+
+ function getQuarter(d) {
+     d = d || new Date();
+     var m = Math.floor(d.getMonth() / 3) + 1;
+     return m > 4 ? m - 4 : m;
+ }
+
+ function quarterDiff(firstDate, secondDate) {
+     var mDiff = monthDiff(firstDate, secondDate);
+     var qDiff = (mDiff >= 12) ? 4 : getQuarter(secondDate) - getQuarter(firstDate);
+     return qDiff;
+ }
+
+ function yearDiff(firstDate, secondDate) {
+     return secondDate.getFullYear() - firstDate.getFullYear();
+ }
+
+ function getArr(obj, k, view) { //used on view.typeinfo to get an array of property value of the propertyName 'name'
+     var objects = [];
+     for (var i in obj) {
+         if (!obj.hasOwnProperty(i)) continue;
+         if (typeof obj[i] == 'object') {
+             objects = objects.concat(getArr(obj[i], k, view));
+         } else if (i.contains(k) == true) {
+             if (k == "name") {
+                 objects.push(cutTableName(obj[i], view));
+             } else
+                 objects.push(obj[i]);
+         }
+     }
+     return objects;
+ }
 </div>
 ========

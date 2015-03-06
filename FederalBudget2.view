@@ -620,7 +620,7 @@ elx.bundle.type.FederalBudget2 = {
          }
      }
  };
- var nestArr = (cfgoptions.nestArr != null) ? (cfgoptions.nestArr).split(",") : autoDetectNestArr(f, view);
+ 
  var initializedCMap = {};
  window['federalBudget_' + viewId] = {};
 
@@ -654,14 +654,18 @@ elx.bundle.type.FederalBudget2 = {
  }
  console.log("rawdata", JSON.stringify(rawdata));
  //need ** to write a function to deal with Description Column
- var data1 = arrToHex1(extendedArr, f, view);
- var legendKey = 'lastGroupby_op';
- var formatLegendCast = "";
 
  var cTypeClassOutput;
   var  extendArr, arrToHex1, hexToModel1,processCFields,modelToHex,groupByFn,chartPreGen,initializeToolTipandNavBar;
  debugFn();
- var data2 = hexToModel1(data1, legendKey, formatLegendCast, view);
+  var data1 = arrToHex1(extendedArr, f, view);
+ var legendKey = 'lastGroupby_op';
+ var formatLegendCast = "";
+
+ var data2=modelAddCMap(data1,initializedCMap);
+ var data2 = hexToModel1(data2, legendKey, formatLegendCast, view);
+ var nestArr = (cfgoptions.nestArr != null) ? (cfgoptions.nestArr).split(",") : autoDetectNestArr(f, view);
+ 
  var groupCount = 0;
  chartPreGen(modelData, groupCount);
  initializeToolTipandNavBar(f, view, nestArr, groupCount);
@@ -729,7 +733,10 @@ elx.bundle.type.FederalBudget2 = {
                      cKeyField: view.typeinfo.cToggleKey,
                      cDataField: view.typeinfo.data.cToggleTypeCol[0].name,
                      cType: 'majority',
-					 cDefault: cTypeClassOutput['cMapNotDefined'](data, cfieldsObjName, numCFieldObj,groupCount,cFieldsObjSize, initializedCMap)
+					 cDefault: function(data, cfieldsObjName, numCFieldObj,groupCount,cFieldsObjSize,initializedCMap){
+					 var newField="",
+					 return cTypeClassOutput['cMapNotDefined'](data, cfieldsObjName, numCFieldObj,groupCount,cFieldsObjSize,newField, initializedCMap);
+					 }
 						//cDefault is the function to execute with cKey is 'default'
                  },
                  'cDescription': {
@@ -737,7 +744,10 @@ elx.bundle.type.FederalBudget2 = {
                      cKeyField: view.typeinfo.cDescriptionKey,
                      cDataField: view.typeinfo.data.cDescriptionCol[0].name,
                      cType: 'uniqToAnotherField',
-					 cDefault: cTypeClassOutput['equalsToAnotherField'](data, cfieldsObjName, numCFieldObj,groupCount,cFieldsObjSize, initializedCMap)
+					 cDefault:function(data, cfieldsObjName, numCFieldObj,groupCount,cFieldsObjSize, initializedCMap){
+					 var newField='Description';
+					 return  cTypeClassOutput['equalsToAnotherField'](data, cfieldsObjName, numCFieldObj,groupCount,cFieldsObjSize,newField, initializedCMap);
+					 }
                  }
              };
 			
@@ -767,6 +777,7 @@ elx.bundle.type.FederalBudget2 = {
              var cFieldClass = {};
 			 var groupCount=_.size(getArr(view.typeinfo.data.keys,'name',view));
 			 var cFieldsObjSize=_.size(_.keys(cFieldsObj));
+			 initializedCMap['cFieldsObj']=[];
              for (var propertyName in cFieldsObj) {
                  if (cFieldsObj[propertyName]['cKeyField'] == cFieldsObj[propertyName]['cKey'] && cFieldsObj[propertyName]['cDataField'] != null) {
                      cFieldClass[numCFieldObj] = '#{' + propertyName + '}';
@@ -774,6 +785,7 @@ elx.bundle.type.FederalBudget2 = {
                      //initializing cMap if need be.
                      cTypeClassOutput[cFieldsObj[propertyName]['cType']](data, cfieldsObjName, numCFieldObj,groupCount,cFieldsObjSize, initializedCMap);
 					 numCFieldObj++;
+					 initializedCMap['cFieldsObj'].push(cFieldsObj[propertyName]['cType']);
                  }
 				 else {
 				 cTypeClassOutput[cFieldsObj[propertyName]['cDefault']](data, cfieldsObjName, numCFieldObj,groupCount,cFieldsObjSize, initializedCMap);
@@ -797,7 +809,7 @@ elx.bundle.type.FederalBudget2 = {
              return propertiesArr;
          };
 		  cTypeClassOutput = {
-                 'majority': function(data, cfieldsObjName, positionIndex,groupCount,cFieldsObjSize, initializedCMap) {
+                 'majority': function(data, cfieldsObjName, positionIndex,groupCount,cFieldsObjSize,newField, initializedCMap) {
                      var cMaj = [];
                      _.each(data, function(d) {
                          cMaj.push(d[positionIndex]);
@@ -818,7 +830,7 @@ elx.bundle.type.FederalBudget2 = {
                      }
 
                  },
-                 'uniqToAnotherField': function(data, cfieldsObjName, positionIndex,groupCount,cFieldsObjSize, initializedCMap) {
+                 'uniqToAnotherField': function(data, cfieldsObjName, positionIndex,groupCount,cFieldsObjSize,newField, initializedCMap) {
 					
 					//positionIndex is the positionIndex is position of the cfield in JSON-array
 					var uniqDescription=[];
@@ -838,12 +850,14 @@ elx.bundle.type.FederalBudget2 = {
 						uniqMap[pegName]=desName;
 						}
 						});
-						initializedCMap[cfieldsObjName]=uniqMap;
+						initializedCMap[cfieldsObjName]={};
+						initializedCMap[cfieldsObjName]['lookup']='groupby'+groupCount;
+						initializedCMap[cfieldsObjName]['map']=uniqMap;
                  },
-				 'cMapNotDefined': function(data, cfieldsObjName, positionIndex,groupCount,cFieldsObjSize, initializedCMap) {
-				 initializedCMap[cfieldsObjName]=null;
+				 'cMapNotDefined': function(data, cfieldsObjName, positionIndex,groupCount,cFieldsObjSize,newField, initializedCMap) {
+				 
 				 },
-				 'equalsToAnotherField':function(data, cfieldsObjName, positionIndex,groupCount,cFieldsObjSize, initializedCMap) {
+				 'equalsToAnotherField':function(data, cfieldsObjName, positionIndex,groupCount,cFieldsObjSize,newField, initializedCMap) {
 				var uniqDescription=[];
 					var uniqMap={};
 					_.each(data,function(d,i) {//JSON with only two fields
@@ -861,7 +875,10 @@ elx.bundle.type.FederalBudget2 = {
 						uniqMap[pegName]=desName;
 						}
 						});
-						initializedCMap[cfieldsObjName]=uniqMap;
+						initializedCMap[cfieldsObjName]={};
+						initializedCMap[cfieldsObjName]['lookup']='groupby'+groupCount;
+						initializedCMap[cfieldsObjName]['map']=uniqMap;
+						initializedCMap[cfieldsObjName]['newField']=newField;
 				 },
              };
          hexToModel1 = function(data, legendKey, formatLegendCast, view) {
@@ -974,7 +991,27 @@ elx.bundle.type.FederalBudget2 = {
              });
              return ReadArray;
          };
-         modelToHex = function(modelData, groupByArr) {
+         modelAddCMap=function(modelData,initializedCMap){
+			
+		 for (var propertyName in initializedCMap){
+		  if(typeof initializedCMap[propertyName]['lookup'] !='undefined') {
+		  		var lookUpProperty;
+				for (var pName in modelData[0]){
+				if (_.str.include(modelData[0][pName],initializedCMap[propertyName]['lookup']))
+				lookUpProperty=modelData[0][pName];
+				}
+			 }
+		 }
+		var	result=_.map(modelData,function(d,i){
+				var sampleObj=_.clone(d);
+				var newFieldValue=initializedCMap[propertyName]['map'][lookUpProperty];
+				var newFieldName=initializedCMap[propertyName]['newField'];
+				sampleObj[newFieldName]=newFieldValue;
+				return sampleObj;
+			});
+		 return result;
+		 };
+		 modelToHex = function(modelData, groupByArr) {
              var hexData = [];
              var nest = d3.nest();
              _.each(groupByArr, function(m, n) {
@@ -1127,30 +1164,7 @@ elx.bundle.type.FederalBudget2 = {
          };
      }
      //helper function
- function monthDiff(firstDate, secondDate) {
-     var months;
-     months = (secondDate.getFullYear() - firstDate.getFullYear()) * 12;
-     months -= firstDate.getMonth();
-     months += secondDate.getMonth();
-     return months <= 0 ? 0 : months;
- }
-
- function getQuarter(d) {
-     d = d || new Date();
-     var m = Math.floor(d.getMonth() / 3) + 1;
-     return m > 4 ? m - 4 : m;
- }
-
- function quarterDiff(firstDate, secondDate) {
-     var mDiff = monthDiff(firstDate, secondDate);
-     var qDiff = (mDiff >= 12) ? 4 : getQuarter(secondDate) - getQuarter(firstDate);
-     return qDiff;
- }
-
- function yearDiff(firstDate, secondDate) {
-     return secondDate.getFullYear() - firstDate.getFullYear();
- }
-
+ 
  function getArr(obj, k, view) { //used on view.typeinfo to get an array of property value of the propertyName 'name'
      var objects = [];
      for (var i in obj) {

@@ -86,7 +86,7 @@ function federalBudgetChart() {
                 window['federalBudget_' + viewId][d + '_Max']['sum_' + window['federalBudget_' + viewId].Fselect.sumField[i]] = 0;
             });
         }
-        sumNodes(window['federalBudget_' + viewId].root.children);
+        sumNodes(window['federalBudget_' + viewId].root.children,groupCount);
     };
 
     setup = function(groupCount) {
@@ -131,11 +131,11 @@ function setSourceFields(child, parent) {
 }
 
 
-function sumNodes(nodes, groupCount) {
+function sumNodes(sumNodesnodes, groupCount) {
     for (var y = 0; y < nodes.length; y++) {
         var node = nodes[y];
         if (node.children) {
-            sumNodes(node.children);
+            sumNodes(node.children,groupCount);
             for (var z = 0; z < node.children.length; z++) {
                 var child = node.children[z];
                 for (var i = 0; i < window['federalBudget_' + viewId].Fselect.sumField.length; i++) {

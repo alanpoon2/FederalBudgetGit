@@ -1113,7 +1113,7 @@ console.log("data Hex",data1[0]);
                  return ret;
              };
              window['federalBudget_' + viewId]['Fselect'] = {};
-             window['federalBudget_' + viewId]['Fselect']['sourceField'] = _.union(['category', 'description'], groupbyRange);
+             window['federalBudget_' + viewId]['Fselect']['sourceField'] = _.union(['description'], groupbyRange);
 
          };
          initializeToolTipandNavBar = function(f, view, nestArr, groupCount) {

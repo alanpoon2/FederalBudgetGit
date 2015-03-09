@@ -1,108 +1,194 @@
-!function(){
+function federalChart(){
+	// configurable chart options
+		var viewId='preview';
+		var width=500;
+		var height=450;
+		var margin=[0,30,170,20];
+		var root={'values':[]};
+		var groupCount=2;
+		var ToolTipContainer_w;
+		var holding={};
+		var  retDes=function(d) {
+                 var ret = d.source_Description;
+                 ret = (String(ret).length > 25) ? String(ret).substr(0, 22) + "..." : ret;
+                 return ret;
+             };
+		var toolTip_w=1;
+		var header_w=1;
+		var header1_w=1; var header2_w;
+		var ToolTipContainer_Div_w={};
+		var ToolTipContainer_But_w={};
+		var ToolTipContainer_Spend_w={};
+		var tree;
+		var diagonal;
+		var vis;
+		var Fselect={};
+	function chart(selection) {
+		selection.each(function(data) {
+	
+	console.log("Fselect",Fselect);
 
-
-    d3select = function(w, h, m, viewId) {
-        window['federalBudget_' + viewId]['toolTip'] = d3.select("#toolTip_" + viewId);
-        window['federalBudget_' + viewId]['header'] = d3.select("#toolTip_" + viewId + " head");
-        window['federalBudget_' + viewId]['header1'] = d3.select("#toolTip_" + viewId + " header1");
-        window['federalBudget_' + viewId]['header2'] = d3.select("#toolTip_" + viewId + " header2");
-        window['federalBudget_' + viewId]['ToolTipContainer_Div'] = {};
-        window['federalBudget_' + viewId]['ToolTipContainer_But'] = {};
-        window['federalBudget_' + viewId]['ToolTipContainer_Spend'] = {};
-
-        _.each(window['federalBudget_' + viewId]['ToolTipContainer'], function(d, i) {
-            var pushObjDiv = d3.select("#toolTip_" + viewId + ' #toolAppend' + ' toolDiv_' + viewId + '_' + (i + 1));
-            window['federalBudget_' + viewId]['ToolTipContainer_Div'][d] = pushObjDiv;
+		
+		debugFn2();
+		d3select();
+		
+		initialize(groupCount);
+		setup();
+		togglesetup();
+		});
+		}	
+	chart.viewId = function(value) {
+		if (!arguments.length) return viewId;
+		viewId = value;
+		return chart;
+	};	
+	chart.width = function(value) {
+		if (!arguments.length) return width;
+		width = value;
+		return chart;
+	};	
+	chart.height = function(value) {
+		if (!arguments.length) return height;
+		height = value;
+		return chart;
+	};	
+	chart.margin = function(value) {
+		if (!arguments.length) return margin;
+		margin = value;
+		return chart;
+	};
+	chart.root = function(value) {
+		if (!arguments.length) return root;
+		root = value;
+		return chart;
+	};
+	chart.groupCount = function(value) {
+		if (!arguments.length) return groupCount;
+		groupCount = value;
+		return chart;
+		};
+	chart.ToolTipContainer_w = function(value){
+		if (!arguments.length) return ToolTipContainer_w;
+		ToolTipContainer_w = value;
+		return chart;
+	};
+		chart.retDes = function(value){
+		if (!arguments.length) return retDes;
+		retDes = value;
+		return chart;
+	};
+	chart.Fselect = function(value){
+		if (!arguments.length) return Fselect;
+		Fselect = value;
+		return chart;
+	};
+	return chart;
+	function debugFn2(){
+    d3select = function() {
+	toolTip_w=d3.select("#toolTip_" + viewId);
+	header_w= d3.select("#toolTip_" + viewId + " #head");
+	header1_w=d3.select("#toolTip_" + viewId + " #header1");
+	header2_w= d3.select("#toolTip_" + viewId + " #header2");
+        console.log("d3select ToolTipContainer_w",ToolTipContainer_w,'viewId',viewId);
+console.log("d3select header_w",header_w);
+        _.each(_.keys(ToolTipContainer_w), function(d, i) {
+		console.log("op d",d);
+            var pushObjDiv = d3.select("#toolTip_" + viewId + ' #toolAppend' + ' #toolDiv_' + viewId + '_' + (i + 1));
+        	ToolTipContainer_Div_w[d]=pushObjDiv;
             var pushObjBut = d3.select("#navigButton_" + (i + 1));
-            window['federalBudget_' + viewId]['ToolTipContainer_But'][d] = pushObjBut;
+        	ToolTipContainer_But_w[d]=pushObjBut;
             var pushObjSpend = d3.select("#toolSpend_" + viewId + '_' + (i + 1));
-            window['federalBudget_' + viewId]['ToolTipContainer_Spend'][d] = pushObjSpend;
-        })
+        	ToolTipContainer_Spend_w[d]=pushObjSpend;
+        });
 
         tree = d3.layout.tree();
 
         tree.children(function(d) {
+		console.log("tree d",d.values);
             return d.values;
         });
-        tree.size([h, w]);
-        window['federalBudget_' + viewId]['diagonal'] = d3.svg.diagonal()
+        tree.size([height, width]);
+        diagonal = d3.svg.diagonal()
             .projection(function(d) {
                 return [d.y, d.x];
             });
 
-        window['federalBudget_' + viewId]['vis'] = d3.select("#body_" + viewId).append("svg:svg")
-            .attr("width", w + m[1] + m[3])
-            .attr("height", h + m[0] + m[2])
+        vis = d3.select("#body_" + viewId).append("svg:svg")
+            .attr("width", width + parseInt(margin[1]) + parseInt(margin[3]))
+            .attr("height", height + parseInt(margin[0]) + parseInt(margin[2]))
             .append("svg:g")
-            .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+            .attr("transform", "translate(" + parseInt(margin[3]) + "," + parseInt(margin[0]) + ")");
 
 
     };
-    togglesetup = function(viewId, groupCount,viewId) {
-        window['federalBudget_' + viewId].root.values.forEach(toggleAll);
-        toggle(window['federalBudget_' + viewId].root.values[2]);
+	
+    togglesetup = function() {
+        root.values.forEach(toggleAll);
+        toggle(root.values[2]);
+		console.log("toggleSetup ToolTipContainer_But_w",ToolTipContainer_But_w);
+		console.log("toggleSetup header1_w",header1_w)
+        for (var propertyName in ToolTipContainer_But_w) {
 
-        for (var propertyName in window['federalBudget_' + viewId]['ToolTipContainer_But']) {
-
-            var localButtonArr = _.keys(window['federalBudget_' + viewId]['ToolTipContainer_But']);
+            var localButtonArr = _.keys(ToolTipContainer_But_w);
             var restlocalButtonArr = _.reject(localButtonArr, function(num) {
                 return num == propertyName;
             });
-            window['federalBudget_' + viewId]['ToolTipContainer_But'][propertyName].on("click", function(d) {
-                window['federalBudget_' + viewId]['ToolTipContainer_But'][propertyName].attr("class", "selected");
-                window['federalBudget_' + viewId]['ToolTipContainer_Div'][propertyName].attr("class", "selected");
-                window['federalBudget_' + viewId]['Fselect']['spendField'] = 'sum_' + propertyName;
-                window['federalBudget_' + viewId]['Fselect']['actField'] = 'sum_' + propertyName;
+            ToolTipContainer_But_w[propertyName].on("click", function(d) {
+                ToolTipContainer_But_w[propertyName].attr("class", "selected");
+                ToolTipContainer_But_w[propertyName].attr("class", "selected");
+                Fselect['spendField'] = 'sum_' + propertyName;
+                Fselect['actField'] = 'sum_' + propertyName;
                 _.each(restlocalButtonArr, function(m) {
-                    window['federalBudget_' + viewId]['ToolTipContainer_But'][m].attr("class", null);
-                    window['federalBudget_' + viewId]['ToolTipContainer_Div'][m].attr("class", null);
+                    ToolTipContainer_But_w[m].attr("class", null);
+                    ToolTipContainer_Div_w[m].attr("class", null);
                 });
                 setup(groupCount,viewId);
-                update(window['federalBudget_' + viewId]['root'], groupCount,viewId);
+                update(root, groupCount,viewId);
             });
         }
 
 
     };
-    initialize = function(groupCount,viewId) {
+    initialize = function(groupCount) {
         var groupbyRange = _.map(_.range(1, groupCount + 1), function(m) {
             return 'groupby' + m;
         });
+		console.log("groupbyRange",groupbyRange, 'groupCount: ',groupCount);
         _.each(groupbyRange, function(d, i) {
-            window['federalBudget_' + viewId][d + '_Max'] = {};
-            window['federalBudget_' + viewId][d + '_Radius'] = {};
+           holding[d + '_Max'] = {};
+            holding[d + '_Radius'] = {};
         });
-        window['federalBudget_' + viewId]['alreadySummed'] = false;
-        window['federalBudget_' + viewId]['data_i'] = 0;
+       alreadySummed = false;
+        data_i = 0;
 
-        var nodes = tree.nodes(window['federalBudget_' + viewId].root).reverse();
+        var nodes = tree.nodes(root).reverse();
 
         tree.children(function(d) {
             return d.children;
         });
 
-        for (var i = 0; i < window['federalBudget_' + viewId].Fselect.sumField.length; i++) {
+        for (var i = 0; i < Fselect.sumField.length; i++) {
             _.each(groupbyRange, function(d, i) {
-                window['federalBudget_' + viewId][d + '_Max']['sum_' + window['federalBudget_' + viewId].Fselect.sumField[i]] = 0;
+                holding[d + '_Max']['sum_' + Fselect.sumField[i]] = 0;
             });
         }
-        sumNodes(window['federalBudget_' + viewId].root.children,groupCount,viewId);
+        sumNodes(root.children,groupCount,viewId);
     };
 
-    setup = function(groupCount,viewId) {
+    setup = function() {
         var groupbyRange = _.map(_.range(1, groupCount + 1), function(m) {
             return 'groupby' + m;
         });
         _.each(groupbyRange, function(d, i) {
-            window['federalBudget_' + viewId][d + '_Radius'] = d3.scale.sqrt()
-                .domain([0, window['federalBudget_' + viewId][d + '_Max'][window['federalBudget_' + viewId].Fselect.spendField]])
+            holding[d + '_Radius'] = d3.scale.sqrt()
+                .domain([0, Fselect.spendField])
                 .range([1, 50]);
 
         });
 
     };
-
-
+	} //end debug2Fn()
+	
 
 function toggleAll(d) {
     if (d.values && d.values.actuals) {
@@ -117,8 +203,8 @@ function toggleAll(d) {
 function setSourceFields(child, parent,viewId) {
     if (parent) {
 
-        for (var i = 0; i < window['federalBudget_' + viewId].Fselect.sourceField.length; i++) {
-            var sourceField = window['federalBudget_' + viewId].Fselect.sourceField[i];
+        for (var i = 0; i < Fselect.sourceField.length; i++) {
+            var sourceField = Fselect.sourceField[i];
 
             if (child[sourceField] != undefined) {
                 child["source_" + sourceField] = child[sourceField];
@@ -138,15 +224,15 @@ function sumNodes(nodes, groupCount,viewId) {
             sumNodes(node.children,groupCount,viewId);
             for (var z = 0; z < node.children.length; z++) {
                 var child = node.children[z];
-                for (var i = 0; i < window['federalBudget_' + viewId].Fselect.sumField.length; i++) {
-                    if (isNaN(node["sum_" + window['federalBudget_' + viewId].Fselect.sumField[i]])) node["sum_" + window['federalBudget_' + viewId].Fselect.sumField[i]] = 0;
-                    node["sum_" + window['federalBudget_' + viewId].Fselect.sumField[i]] += Number(child["sum_" + window['federalBudget_' + viewId].Fselect.sumField[i]]);
+                for (var i = 0; i < Fselect.sumField.length; i++) {
+                    if (isNaN(node["sum_" + Fselect.sumField[i]])) node["sum_" + Fselect.sumField[i]] = 0;
+                    node["sum_" + Fselect.sumField[i]] += Number(child["sum_" + Fselect.sumField[i]]);
 
                     //Set scales;
                     if ((node.parent)) {
                         for (var i = 1; i <= groupCount; i++) {
                             if (node.depth == i) {
-                                window['federalBudget_' + viewId][d + '_Max']["sum_" + window['federalBudget_' + viewId].Fselect.sumField[i]] = Math.max(window['federalBudget_' + viewId][d + '_Max']["sum_" + window.Fselect.sumField[i]], Number(node["sum_" + window['federalBudget_' + viewId].Fselect.sumField[i]]));
+                                holding['groupby'+i + '_Max']["sum_" + Fselect.sumField[i]] = Math.max(holding['groupby'+i + '_Max']["sum_" + Fselect.sumField[i]], Number(node["sum_" + Fselect.sumField[i]]));
                             }
                         }
                         setSourceFields(node, node.parent,viewId);
@@ -154,10 +240,10 @@ function sumNodes(nodes, groupCount,viewId) {
                 }
             }
         } else {
-            for (var i = 0; i < window['federalBudget_' + viewId].Fselect.sumField.length; i++) {
-                node["sum_" + window['federalBudget_' + viewId].Fselect.sumField[i]] = Number(node[window['federalBudget_' + viewId].Fselect.sumField[i]]);
-                if (isNaN(node["sum_" + window['federalBudget_' + viewId].Fselect.sumField[i]])) {
-                    node["sum_" + window['federalBudget_' + viewId].Fselect.sumField[i]] = 0;
+            for (var i = 0; i < Fselect.sumField.length; i++) {
+                node["sum_" + Fselect.sumField[i]] = Number(node[Fselect.sumField[i]]);
+                if (isNaN(node["sum_" + Fselect.sumField[i]])) {
+                    node["sum_" + Fselect.sumField[i]] = 0;
                 }
             }
         }
@@ -170,7 +256,7 @@ function update(source, groupCount,viewId) {
 
     var duration = d3.event && d3.event.altKey ? 5000 : 500;
 
-    var nodes = tree.nodes(window['federalBudget_' + viewId].root).reverse();
+    var nodes = tree.nodes(root).reverse();
 
     var depthCounter = 0;
 
@@ -180,7 +266,7 @@ function update(source, groupCount,viewId) {
         d.numChildren = (d.children) ? d.children.length : 0;
 
         if (d.depth == 1) {
-            d.linkColor = window['federalBudget_' + viewId].colors[(depthCounter % (window['federalBudget_' + viewId].colors.length - 1))];
+            d.linkColor = colors[(depthCounter % (colors.length - 1))];
             depthCounter++;
         }
 
@@ -201,9 +287,9 @@ function update(source, groupCount,viewId) {
     });
 
     // Update the nodes…
-    var node = window['federalBudget_' + viewId].vis.selectAll("g.node")
+    var node = vis.selectAll("g.node")
         .data(nodes, function(d) {
-            return d.id || (d.id = ++window['federalBudget_' + viewId].data_i);
+            return d.id || (d.id = ++data_i);
         });
 
     // Enter any new nodes at the parent's previous position.
@@ -227,7 +313,7 @@ function update(source, groupCount,viewId) {
             node_onMouseOver(d, groupCount,viewId);
         })
         .on("mouseout", function(d) { // when the mouse leaves a circle, do the following
-            window.toolTip.transition() // declare the transition properties to fade-out the div
+            toolTip_w.transition() // declare the transition properties to fade-out the div
                 .duration(500) // it shall take 500ms
                 .style("opacity", "0"); // and go all the way to an opacity of nil
         })
@@ -292,7 +378,7 @@ function update(source, groupCount,viewId) {
             }
             _.each(groupbyRange, function(m, n) {
                 if (d.depth == (n + 1)) {
-                    var ret = window['federalBudget_' + viewId][m + '_Radius'](d[window['federalBudget_' + viewId].Fselect.spendField]);
+                    var ret = holding[m + '_Radius'](d[Fselect.spendField]);
                     rSize = (isNaN(ret) ? 2 : ret);
                 }
             });
@@ -324,7 +410,7 @@ function update(source, groupCount,viewId) {
         .style("fill-opacity", 1e-6);
 
     // Update the links…
-    var link = window['federalBudget_' + viewId].vis.selectAll("path.link")
+    var link = vis.selectAll("path.link")
         .data(tree.links(nodes), function(d) {
             return d.target.id;
         });
@@ -335,7 +421,7 @@ function update(source, groupCount,viewId) {
     link.enter().insert("svg:path", "g")
         .attr("class", "link")
         .attr("d", function(d) {
-            if (Number(d.target[window['federalBudget_' + viewId].Fselect.spendField]) > 0) {
+            if (Number(d.target[Fselect.spendField]) > 0) {
                 var o = {
                     x: source.x0,
                     y: source.y0
@@ -366,7 +452,7 @@ function update(source, groupCount,viewId) {
             var strokeSize;
             _.each(groupbyRange, function(m, n) {
                 if (d.source.depth == n) {
-                    var ret = window['federalBudget_' + viewId][m + '_Radius'](d.target[window['federalBudget_' + viewId].Fselect.spendField]) * 2;
+                    var ret = holding[m + '_Radius'](d.target[Fselect.spendField]) * 2;
                     strokeSize = (isNaN(ret) ? 4 : ret);
                 }
             });
@@ -374,7 +460,7 @@ function update(source, groupCount,viewId) {
         })
         .style("stroke-opacity", function(d) {
             var ret = ((d.source.depth + 1) / 4.5)
-            if (d.target[window['federalBudget_' + viewId].Fselect.spendField] <= 0) ret = .1;
+            if (d.target[Fselect.spendField] <= 0) ret = .1;
             return ret;
         })
         .style("stroke-linecap", "round")
@@ -396,19 +482,16 @@ function update(source, groupCount,viewId) {
             var strokeSize;
             _.each(groupbyRange, function(m, n) {
                 if (d.source.depth == 0) {
-                    var ret = window['federalBudget_' + viewId][m + '_Radius'](Number(d.target[window['federalBudget_' + viewId].Fselect.spendField])) * 2;
+                    var ret = holding[m + '_Radius'](Number(d.target[Fselect.spendField])) * 2;
                     strokeSize = (isNaN(ret) ? 4 : ret);
                 }
             });
             return strokeSize;
         })
-        //    .style("stroke-dasharray", function(d) {
-        //       var ret=(d.target[window.Fselect.spendField] > 0) ? "" : "5,8";
-        //       return ret;
-        //    })
+     
         .style("stroke-opacity", function(d) {
             var ret = ((d.source.depth + 1) / 4.5)
-            if (d.target[window['federalBudget_' + viewId].Fselect.spendField] <= 0) ret = .1;
+            if (d.target[Fselect.spendField] <= 0) ret = .1;
             return ret;
         })
 
@@ -428,25 +511,26 @@ function update(source, groupCount,viewId) {
 }
 
 function node_onMouseOver(d, groupCount,viewId) {
-    window['federalBudget_' + viewId]['toolTip'].transition().duration(200).style("opacity", ".9");
-    window['federalBudget_' + viewId]['header'].text(window['federalBudget_' + viewId].retDes(d));
+    toolTip.transition().duration(200).style("opacity", ".9");
+    header.text(retDes(d));
     var groupbyRange = _.map(_.range(1, groupCount + 1), function(m) {
         return 'groupby' + m;
     });
 
     _.each(groupbyRange, function(m, n) {
         if (d.depth == (n + 1)) {
-            window['federalBudget_' + viewId]['header1'].text(d['source_' + m]);
-        } else window['federalBudget_' + viewId]['header1'].text("");
+		
+            header1_w.text(d['source_' + m]);
+        } else header1_w.text("");
     });
 
     var formatNumber = d3.format(",.3f");
     var formatCurrency = function(d) {
         return formatNumber(d)
     };
-    for (var propertyName in window['federalBudget_' + viewId]['ToolTipContainer_Spend']) {
-        window['federalBudget_' + viewId]['ToolTipContainer_Spend'][propertyName].text(formatCurrency(d['sum_' + propertyName]));
-        window['federalBudget_' + viewId]['toolTip'].style("left", (d3.event.pageX) + "px")
+    for (var propertyName in ToolTipContainer_Spend_w) {
+        ToolTipContainer_Spend_w[propertyName].text(formatCurrency(d['sum_' + propertyName]));
+        toolTip_w.style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY) + "px");
     }
 
@@ -454,15 +538,15 @@ function node_onMouseOver(d, groupCount,viewId) {
 
 function toggleButton(button,viewId) {
     button.attr("class", "selected");
-    for (var propertyName in window['federalBudget_' + viewId]['ToolTipContainer_But']) {
+    for (var propertyName in ToolTipContainer_But_w) {
 
-        var localButtonArr = _.keys(window['federalBudget_' + viewId]['ToolTipContainer_But']);
+        var localButtonArr = _.keys(ToolTipContainer_But_w);
         var restlocalButtonArr = _.reject(localButtonArr, function(num) {
             return num == propertyName;
         });
-        if (button == window['federalBudget_' + viewId]['ToolTipContainer_But'][propertyName]) {
+        if (button == ToolTipContainer_But_w[propertyName]) {
             _.each(restlocalButtonArr, function(m) {
-                window['federalBudget_' + viewId]['ToolTipContainer_But'][m].attr("class", "unselected");
+				ToolTipContainer_But_w[m].attr("class", "unselected");
 
             });
         }
@@ -481,4 +565,5 @@ function toggle(d) {
         d._children = null;
     }
 }
-}();
+
+}

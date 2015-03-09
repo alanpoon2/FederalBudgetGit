@@ -1107,7 +1107,7 @@ console.log("data Hex",data1[0]);
 
              window['federalBudget_' + viewId]['root']['x0'] = h / 2;
              window['federalBudget_' + viewId]['root']['y0'] = 0;
-             window['federalBudget_' + viewId]['retDes'] = function(d) {
+             retDes = function(d) {
                  var ret = d.source_Description;
                  ret = (String(ret).length > 25) ? String(ret).substr(0, 22) + "..." : ret;
                  return ret;

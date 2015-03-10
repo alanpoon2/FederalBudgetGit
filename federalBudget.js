@@ -6,23 +6,27 @@ function federalChart(){
 		var margin=[0,30,170,20];
 		var root={'values':[]};
 		var groupCount=2;
-		var ToolTipContainer_w;
+		var ToolTipContainer;
 		var holding={};
 		var  retDes=function(d) {
                  var ret = d.source_description;
                  ret = (String(ret).length > 25) ? String(ret).substr(0, 22) + "..." : ret;
                  return ret;
              };
-		var toolTip_w=1;
-		var header_w=1;
-		var header1_w=1; var header2_w;
-		var ToolTipContainer_Div_w={};
-		var ToolTipContainer_But_w={};
-		var ToolTipContainer_Spend_w={};
+		var toolTip=1;
+		var header=1;
+		var header1=1; var header2;
+		var ToolTipContainer_Div={};
+		var ToolTipContainer_But={};
+
+		var ToolTipContainer_Spend={};
 		var tree;
 		var diagonal;
 		var vis;
 		var Fselect={};
+		var colors=["#bd0026","#fecc5c", "#fd8d3c", "#f03b20", "#B02D5D",
+        "#9B2C67", "#982B9A", "#692DA7", "#5725AA", "#4823AF",
+        "#d7b5d8","#dd1c77","#5A0C7A","#5A0C7A"];
 	function chart(selection) {
 		selection.each(function(data) {
 	
@@ -67,9 +71,9 @@ function federalChart(){
 		groupCount = value;
 		return chart;
 		};
-	chart.ToolTipContainer_w = function(value){
-		if (!arguments.length) return ToolTipContainer_w;
-		ToolTipContainer_w = value;
+	chart.ToolTipContainer = function(value){
+		if (!arguments.length) return ToolTipContainer;
+		ToolTipContainer = value;
 		return chart;
 	};
 		chart.retDes = function(value){
@@ -82,29 +86,35 @@ function federalChart(){
 		Fselect = value;
 		return chart;
 	};
+	chart.colors = function(value){
+		if (!arguments.length) return colors;
+		colors = value;
+		return chart;
+	};
+
 	return chart;
 	function debugFn2(){
     d3select = function() {
-	toolTip_w=d3.select("#toolTip_" + viewId);
-	header_w= d3.select("#toolTip_" + viewId + " #head");
-	header1_w=d3.select("#toolTip_" + viewId + " #header1");
-	header2_w= d3.select("#toolTip_" + viewId + " #header2");
-        console.log("d3select ToolTipContainer_w",ToolTipContainer_w,'viewId',viewId);
-console.log("d3select header_w",header_w);
-        _.each(_.keys(ToolTipContainer_w), function(d, i) {
-		console.log("op d",d);
-            var pushObjDiv = d3.select("#toolTip_" + viewId + ' #toolAppend' + ' #toolDiv_' + viewId + '_' + (i + 1));
-        	ToolTipContainer_Div_w[d]=pushObjDiv;
+	toolTip=d3.select("#toolTip_" + viewId);
+	header= d3.select("#toolTip_" + viewId + " #head");
+	header1=d3.select("#toolTip_" + viewId + " #header1");
+	header2= d3.select("#toolTip_" + viewId + " #header2");
+        console.log("d3select ToolTipContainer",ToolTipContainer,'viewId',viewId);
+console.log("d3select ToolTipContainer",ToolTipContainer);
+        _.each(_.keys(ToolTipContainer), function(d, i) {
+		var divLeft=i*140+'px';
+            var pushObjDiv = d3.select("#toolTip_" + viewId + ' #toolAppend' + ' #toolDiv_' + viewId + '_' + (i + 1))
+					.style({'width':'125px','left':divLeft ,'top':'10px','position':'absolute'});
+        	ToolTipContainer_Div[d]=pushObjDiv;
             var pushObjBut = d3.select("#navigButton_" + (i + 1));
-        	ToolTipContainer_But_w[d]=pushObjBut;
+        	ToolTipContainer_But[d]=pushObjBut;
             var pushObjSpend = d3.select("#toolSpend_" + viewId + '_' + (i + 1));
-        	ToolTipContainer_Spend_w[d]=pushObjSpend;
+        	ToolTipContainer_Spend[d]=pushObjSpend;
         });
 
         tree = d3.layout.tree();
 
         tree.children(function(d) {
-		console.log("tree d",d.values);
             return d.values;
         });
         tree.size([height, width]);
@@ -117,43 +127,45 @@ console.log("d3select header_w",header_w);
             .attr("width", width + parseInt(margin[1]) + parseInt(margin[3]))
             .attr("height", height + parseInt(margin[0]) + parseInt(margin[2]))
             .append("svg:g")
-            .attr("transform", "translate(" + parseInt(margin[3]) + "," + parseInt(margin[0]) + ")");
+            .attr("transform", "translate(" + parseInt(margin[3]) + "," + parseInt(margin[2]) + ")");
 
 
     };
 	
     togglesetup = function() {
         root.values.forEach(toggleAll);
+		console.log("root.values[2]",root.values[2]);
         toggle(root.values[2]);
-		console.log("toggleSetup ToolTipContainer_But_w",ToolTipContainer_But_w);
-		console.log("toggleSetup header1_w",header1_w)
-        for (var propertyName in ToolTipContainer_But_w) {
 
-            var localButtonArr = _.keys(ToolTipContainer_But_w);
-            var restlocalButtonArr = _.reject(localButtonArr, function(num) {
+        for (var propertyName in ToolTipContainer_But) {
+
+            var localButtonArr = _.keys(ToolTipContainer_But);
+       
+            d3.select("#navigButton_" + (propertyName + 1)).on("click", function(d) {
+                d3.select("#navigButton_" + (propertyName + 1)).attr("class", "selected");
+              
+			       var restlocalButtonArr = _.reject(localButtonArr, function(num) {
                 return num == propertyName;
             });
-            ToolTipContainer_But_w[propertyName].on("click", function(d) {
-                ToolTipContainer_But_w[propertyName].attr("class", "selected");
-                ToolTipContainer_But_w[propertyName].attr("class", "selected");
-                Fselect['spendField'] = 'sum_' + propertyName;
-                Fselect['actField'] = 'sum_' + propertyName;
+                Fselect['spendField'] = 'sum_' + ToolTipContainer[propertyName];
+                Fselect['actField'] = 'sum_' + ToolTipContainer[propertyName];
                 _.each(restlocalButtonArr, function(m) {
-                    ToolTipContainer_But_w[m].attr("class", null);
-                    ToolTipContainer_Div_w[m].attr("class", null);
+                    ToolTipContainer_But[m].attr("class", null);
+                    ToolTipContainer_Div[m].attr("class", null);
                 });
                 setup();
                 update(root, groupCount,viewId);
             });
         }
+		
 
+		update(root, groupCount,viewId);
 
     };
     initialize = function(groupCount) {
         var groupbyRange = _.map(_.range(1, groupCount + 1), function(m) {
             return 'groupby' + m;
         });
-		console.log("groupbyRange",groupbyRange, 'groupCount: ',groupCount);
         _.each(groupbyRange, function(d, i) {
            holding[d + '_Max'] = {};
             holding[d + '_Radius'] = {};
@@ -162,27 +174,29 @@ console.log("d3select header_w",header_w);
         data_i = 0;
 
         var nodes = tree.nodes(root).reverse();
-
+		console.log("nodes..",nodes);
         tree.children(function(d) {
             return d.children;
         });
 	
         for (var i = 0; i < Fselect.sumField.length; i++) {
-            _.each(groupbyRange, function(d, i) {
+            _.each(groupbyRange, function(d) {
                 holding[d + '_Max']['sum_' + Fselect.sumField[i]] = 0;
+				
             });
         }
+
         sumNodes(root.children,groupCount,viewId);
     };
 
     setup = function() {
-	console.log("--Fselect.spendField",Fselect.spendField);
+
         var groupbyRange = _.map(_.range(1, groupCount + 1), function(m) {
             return 'groupby' + m;
         });
         _.each(groupbyRange, function(d, i) {
             holding[d + '_Radius'] = d3.scale.sqrt()
-                .domain([0,Fselect.spendField])
+                .domain([0,holding[d+'_Max'][Fselect.spendField]])
                 .range([1, 50]);
 
         });
@@ -231,9 +245,10 @@ function sumNodes(nodes, groupCount,viewId) {
 
                     //Set scales;
                     if ((node.parent)) {
-                        for (var i = 1; i <= groupCount; i++) {
-                            if (node.depth == i) {
-                                holding['groupby'+i + '_Max']["sum_" + Fselect.sumField[i]] = Math.max(holding['groupby'+i + '_Max']["sum_" + Fselect.sumField[i]], Number(node["sum_" + Fselect.sumField[i]]));
+                        for (var n = 1; n <= groupCount; n++) {
+                            if (node.depth == n) {
+                                holding['groupby'+n + '_Max']["sum_" + Fselect.sumField[i]] = Math.max(parseInt(holding['groupby'+n + '_Max']["sum_" + Fselect.sumField[i]]), Number(node["sum_" + Fselect.sumField[i]]));
+							
                             }
                         }
                         setSourceFields(node, node.parent,viewId);
@@ -314,7 +329,7 @@ function update(source, groupCount,viewId) {
             node_onMouseOver(d, groupCount,viewId);
         })
         .on("mouseout", function(d) { // when the mouse leaves a circle, do the following
-            toolTip_w.transition() // declare the transition properties to fade-out the div
+            toolTip.transition() // declare the transition properties to fade-out the div
                 .duration(500) // it shall take 500ms
                 .style("opacity", "0"); // and go all the way to an opacity of nil
         })
@@ -453,6 +468,7 @@ function update(source, groupCount,viewId) {
             var strokeSize;
             _.each(groupbyRange, function(m, n) {
                 if (d.source.depth == n) {
+			
                     var ret = holding[m + '_Radius'](d.target[Fselect.spendField]) * 2;
                     strokeSize = (isNaN(ret) ? 4 : ret);
                 }
@@ -482,7 +498,7 @@ function update(source, groupCount,viewId) {
             });
             var strokeSize;
             _.each(groupbyRange, function(m, n) {
-                if (d.source.depth == 0) {
+                if (d.source.depth == n) {
                     var ret = holding[m + '_Radius'](Number(d.target[Fselect.spendField])) * 2;
                     strokeSize = (isNaN(ret) ? 4 : ret);
                 }
@@ -520,18 +536,18 @@ function node_onMouseOver(d, groupCount,viewId) {
 
     _.each(groupbyRange, function(m, n) {
         if (d.depth == (n + 1)) {
-		
-            header1_w.text(d['source_' + m]);
-        } else header1_w.text("");
+		//	header2.html(d['source_' + m]);
+            header1.text(d['source_' + m]);
+        } else header1.text("");
     });
 
-    var formatNumber = d3.format(",.3f");
+    var formatNumber = d3.format(",^ $");
     var formatCurrency = function(d) {
         return formatNumber(d)
     };
-    for (var propertyName in ToolTipContainer_Spend_w) {
-        ToolTipContainer_Spend_w[propertyName].text(formatCurrency(d['sum_' + propertyName]));
-        toolTip_w.style("left", (d3.event.pageX) + "px")
+    for (var propertyName in ToolTipContainer) {
+        ToolTipContainer_Spend[propertyName].text(formatCurrency(d['sum_' + ToolTipContainer[propertyName]]));
+        toolTip.style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY) + "px");
     }
 
@@ -539,15 +555,15 @@ function node_onMouseOver(d, groupCount,viewId) {
 
 function toggleButton(button,viewId) {
     button.attr("class", "selected");
-    for (var propertyName in ToolTipContainer_But_w) {
+    for (var propertyName in ToolTipContainer_But) {
 
-        var localButtonArr = _.keys(ToolTipContainer_But_w);
+        var localButtonArr = _.keys(ToolTipContainer_But);
         var restlocalButtonArr = _.reject(localButtonArr, function(num) {
             return num == propertyName;
         });
-        if (button == ToolTipContainer_But_w[propertyName]) {
+        if (button == ToolTipContainer_But[propertyName]) {
             _.each(restlocalButtonArr, function(m) {
-				ToolTipContainer_But_w[m].attr("class", "unselected");
+				ToolTipContainer_But[m].attr("class", "unselected");
 
             });
         }

@@ -23,9 +23,9 @@
  <script src="federalBudget.js" charset="UTF-8"></script>
 
 <script src="underscore.js" ></script>
-<script src="../FederalBudget_JqueryUI/jquery-1.7.1.js" ></script>
+<!--script src="../FederalBudget_JqueryUI/jquery-1.7.1.js" ></script-->
 
-<script src="../FederalBudget_JqueryUI/ui/jquery-ui.js"></script>
+<!--script src="../FederalBudget_JqueryUI/ui/jquery-ui.js"></script-->
 <script type="text/javascript"> 
 var view={"jsonClass":"View","elxType":"View","vtype":"bundle","state":"visible","isContainer":false,"position":{"jsonClass":"Position","elxType":"Position","height":"420","width":"670","zIndex":"auto","x":35,"y":25},"data":{"jsonClass":"DataEmbedded","datasource":{"jsonClass":"DataSource","name":"initData","stype":"Data","desc":"default data","schema":{"jsonClass":"Schema","caseSensitive":false,"columns":[{"jsonClass":"SchemaColumn","name":"Department","dtype":"String","attrs":[]},{"jsonClass":"SchemaColumn","name":"Team","dtype":"String","attrs":[]},{"jsonClass":"SchemaColumn","name":"Employee","dtype":"String","attrs":[]},{"jsonClass":"SchemaColumn","name":"Employee Description","dtype":"String","attrs":[]},{"jsonClass":"SchemaColumn","name":"Salary","dtype":"Double","attrs":[]},{"jsonClass":"SchemaColumn","name":"Profit","dtype":"Double","attrs":[]},{"jsonClass":"SchemaColumn","name":"Sales Target","dtype":"Double","attrs":[]}]},"data":{"jsonClass":"DataRecords","records":[{"jsonClass":"Record","fields":[{"jsonClass":"Field","value":"Sales"},{"jsonClass":"Field","value":"Team A"},{"jsonClass":"Field","value":"Employee A"},{"jsonClass":"Field","value":"Employee A Description"},{"jsonClass":"Field","value":"2000"},{"jsonClass":"Field","value":"13000"},{"jsonClass":"Field","value":"9000"}]}]}},"hint":"directive-data-array","directive":"ZnVuY3Rpb24gZGF0YSgpew0KdmFyIGNUb2dnbGVUeXBlPXZpZXcudHlwZWluZm8uZGF0YS5jVG9nZ2xlVHlwZUNvbDsNCnZhciBjRGVzY3JpcHRpb249dmlldy50eXBlaW5mby5kYXRhLmNEZXNjcmlwdGlvbkNvbDsNCiAgICB2YXIgdD12aWV3LnR5cGVpbmZvLmRhdGEub3BlcmFibGUudmFsdWVzOw0KICAJdmFyIGs9dmlldy50eXBlaW5mby5kYXRhLmtleXM7DQoNCiAgdmFyIGNvbHVtbnM9W107IHZhciBvcGVyYXRpb25zPVtdOyB2YXIga2V5cz1bXTsNCiBpZihjVG9nZ2xlVHlwZVswXS5uYW1lICE9bnVsbCAmJiB2aWV3LnR5cGVpbmZvLmNUb2dnbGVLZXkhPSdkZWZhdWx0JykNCiB7a2V5cy5wdXNoKGNUb2dnbGVUeXBlWzBdLm5hbWUpO30NCiAgaWYoY0Rlc2NyaXB0aW9uWzBdLm5hbWUgIT1udWxsICYmIHZpZXcudHlwZWluZm8uY0Rlc2NyaXB0aW9uS2V5IT0nZGVmYXVsdCcpDQoge2tleXMucHVzaChjRGVzY3JpcHRpb25bMF0ubmFtZSk7fQ0KICB0LmZvckVhY2goZnVuY3Rpb24oZCxpKSB7DQogIGNvbHVtbnMucHVzaChkLm5hbWUpOw0KICAgIG9wZXJhdGlvbnMucHVzaChkLm9wKTsNCiAgfSkNCiAgay5mb3JFYWNoKGZ1bmN0aW9uKGQsaSkgew0KICAgIGtleXMucHVzaChkLm5hbWUpO30pDQogICByZXR1cm4gcm93cy5ncm91cEJ5KGtleXMsY29sdW1ucywgb3BlcmF0aW9ucyk7DQp9DQpkYXRhKCk7"},"typeinfo":{"jsonClass":"Bundle","type":"FederalBudget2","data":{"cToggleTypeCol":[{"name":"Department"}],"cDescriptionCol":[{"name":"Employee Description"}],"keys":[{"name":"Team","id":"|"},{"name":"Employee","id":"|"}],"operable":{"values":[{"id":"Salary.1","name":"Salary","op":"sum"},{"id":"Profit.2","name":"Profit","op":"sum"},{"id":"Sales Target.3","name":"Sales Target","op":"sum"}]}},"formatClassKey":"","cToggleKey":"cToggleEnabled","cDescriptionKey":"cDescriptionEnabled","formatClassCast":"","formatPrefixCast":"","nestArr":"Team,Employee","width":"500","height":"610","marginB":"0","marginT":"30","marginL":"170","marginR":"20"},"id":"preview","name":"Preview"};
  var viewId = view.id;
@@ -403,13 +403,14 @@ console.log("initializeToolTipandNavBar....ToolTipContainer_w",JSON.stringify(To
              });
              console.log("inside keyArray", JSON.stringify(keyArray));
              data.forEach(function(d, i) {
-                 var Category, ColumnName, GroupNameArr, Model, ReadObj, Value, lastGroupby, propertyName;
+                 var Category, ColumnName, GroupNameArr, Model, ReadObj, Value, lastGroupby, propertyName,Description;
                  ReadObj = {};
                  Value = void 0;
                  ColumnName = void 0;
                  Category = void 0;
                  Model = void 0;
                  lastGroupby = void 0;
+				 Description= void 0;
                  GroupNameArr = [];
                  for (propertyName in d) {
                      if (propertyName.contains("xaxis") === true) {
@@ -418,6 +419,9 @@ console.log("initializeToolTipandNavBar....ToolTipContainer_w",JSON.stringify(To
                      if (propertyName.contains("groupby") === true) {
                          lastGroupby = d[propertyName];
                          GroupNameArr.push(lastGroupby);
+                     }
+					      if (propertyName.contains("Description") === true) {
+                         Description = d[propertyName];
                      }
                  }
                  var dataZero = [];
@@ -433,7 +437,8 @@ console.log("initializeToolTipandNavBar....ToolTipContainer_w",JSON.stringify(To
                                  model: model_keyObjArr[0],
                                  yAxis: model_yAxisObj,                                                    
                                  value: d[propertyName],
-                                 category: Category
+                                 category: Category,
+								 description: Description
                              };
                              GroupNameArr.forEach(function(d, m) {
                                  propertyName = "groupby" + (m + 1);
@@ -483,10 +488,8 @@ console.log("initializeToolTipandNavBar....ToolTipContainer_w",JSON.stringify(To
 			sampleObj[newFieldName]=newFieldValue;
 			return sampleObj;
 			});
-
 			}
 		 }
-	
 		 return result;
 		 };
 		 modelToHex = function(modelData, groupByArr) {

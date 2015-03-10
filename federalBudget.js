@@ -9,7 +9,7 @@ function federalChart(){
 		var ToolTipContainer_w;
 		var holding={};
 		var  retDes=function(d) {
-                 var ret = d.source_Description;
+                 var ret = d.source_description;
                  ret = (String(ret).length > 25) ? String(ret).substr(0, 22) + "..." : ret;
                  return ret;
              };
@@ -142,7 +142,7 @@ console.log("d3select header_w",header_w);
                     ToolTipContainer_But_w[m].attr("class", null);
                     ToolTipContainer_Div_w[m].attr("class", null);
                 });
-                setup(groupCount,viewId);
+                setup();
                 update(root, groupCount,viewId);
             });
         }
@@ -166,7 +166,7 @@ console.log("d3select header_w",header_w);
         tree.children(function(d) {
             return d.children;
         });
-
+	
         for (var i = 0; i < Fselect.sumField.length; i++) {
             _.each(groupbyRange, function(d, i) {
                 holding[d + '_Max']['sum_' + Fselect.sumField[i]] = 0;
@@ -176,12 +176,13 @@ console.log("d3select header_w",header_w);
     };
 
     setup = function() {
+	console.log("--Fselect.spendField",Fselect.spendField);
         var groupbyRange = _.map(_.range(1, groupCount + 1), function(m) {
             return 'groupby' + m;
         });
         _.each(groupbyRange, function(d, i) {
             holding[d + '_Radius'] = d3.scale.sqrt()
-                .domain([0, Fselect.spendField])
+                .domain([0,Fselect.spendField])
                 .range([1, 50]);
 
         });
@@ -303,7 +304,7 @@ function update(source, groupCount,viewId) {
                 alert(d.key + " has too many departments (" + d.numChildren + ") to view at once.");
             } else {
                 toggle(d);
-                update(d,viewId);
+                update(d,groupCount,viewId);
             }
         });
 
